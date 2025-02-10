@@ -1,9 +1,9 @@
 import React from 'react'
-
+import { Registeration } from "../pages/Registeration";
 export  function MainLayout() {
   return (
-    <div>
-      mainlayouttttt
-    </div>
+    <>
+    <Registeration/>
+    </>
   )
 }
