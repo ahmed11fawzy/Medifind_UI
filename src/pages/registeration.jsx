@@ -8,7 +8,7 @@ export  function Registeration() {
     <>
         <Container className="d-flex justify-content-center align-items-center vh-100" >
 
-      <Card style={{ backgroundColor: "#d6d2d2", maxWidth: "100%", width: "400px", borderRadius: "10px" }} className="p-4 w-100 w-md-75 w-lg-50 w-xs-25">
+      <Card style={{ backgroundColor: "#d6d2d2", maxWidth: "100%", width: "400px", borderRadius: "10px" }} className="p-4 w-md-75 w-lg-50 w-xs-25">
         <h3 className="text-center mb-4 fw-bold">Registration</h3>
 
         <Form>
