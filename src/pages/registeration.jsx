@@ -89,7 +89,7 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    const response = await fetch("http://localhost:7777/user", {  // Add API endpoint here
+    const response = await fetch("http://localhost:7777/register", {  // Add API endpoint here
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

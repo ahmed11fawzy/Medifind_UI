@@ -39,7 +39,7 @@ export function Login() {
 
       try {
         // const response = await fetch("http://localhost:7777/login", {  // Add API endpoint here
-        const response = await fetch("https://dd72-156-198-221-8.ngrok-free.app/login", {  // Add API endpoint here
+        const response = await fetch("http://localhost:7777/login", {  // Add API endpoint here
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
