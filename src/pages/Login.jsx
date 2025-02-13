@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 
+
+
 export function Login() {
 
   const navigate=useNavigate();
@@ -59,6 +61,7 @@ export function Login() {
     }
 
     console.log('succeded');
+    goToHome();
     
     //Add Routing to home Page//// 
 
