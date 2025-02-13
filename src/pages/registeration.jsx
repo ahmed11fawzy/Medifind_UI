@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import{faCheck,faTimes,faInfoCircle} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "../styles/registerStyle.css";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -39,9 +40,12 @@ const[errormsg,seterrormsg] = useState('') ;
 const[success,setSuccess] = useState(false) ;
 
 const[error,setError] = useState('') ;
-
-
+const navigate=useNavigate();
   
+const handleClick=()=>{
+  navigate("/login");
+}
+
 useEffect(() => {
   if (inputRef.current) {
     inputRef.current.focus();
@@ -99,13 +103,16 @@ const handleSubmit = async (e) => {
       }),
     });
 
-    const data = await response.json();
-    
     if (!response.ok) {
       throw new Error(data.message || "Something went wrong!");
     }
 
+    const data = await response.json();
+    console.log(data)
     setSuccess(true);
+    handleClick();
+ 
+    
 } catch (error) {
     seterrormsg(error.message);
 }
@@ -226,6 +233,7 @@ const handleSubmit = async (e) => {
 
           <div className="text-center">
             <Button 
+            
             type="submit"
             className="w-100" 
             style={{backgroundColor: "#00796b",border: "none",borderRadius: "5px", }}
@@ -237,7 +245,6 @@ const handleSubmit = async (e) => {
           <p>
             already have an account? <br />
             {/* <a href="" >login</a> */}
-            <Link to="/login">Login</Link>
           </p>
         </Form>
       </Card>
