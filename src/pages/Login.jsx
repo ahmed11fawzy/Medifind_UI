@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import { Button, Form, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+// import jwt
+
+
 
 export function Login() {
+
+  const navigate=useNavigate();
+  const goToHome=()=>{
+    navigate("/home")
+  }
+
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
@@ -22,15 +33,43 @@ export function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Handle form submission
-      console.log('Form submitted successfully');
-      // You can add your API call or further logic here
-    } else {
-      console.log('Form has errors');
+
+      try {
+        // const response = await fetch("http://localhost:7777/login", {  // Add API endpoint here
+        const response = await fetch("https://dd72-156-198-221-8.ngrok-free.app/login", {  // Add API endpoint here
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+          email: email,
+          password: password,
+          }),
+        });
+    
+      const data = await response.json();
+      const token= await response.headers.get('x-auth-token');
+      localStorage.setItem('token',token);
+
+      console.log(token);
+    
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong!");
     }
+
+    console.log('succeded');
+    
+    //Add Routing to home Page//// 
+
+
+} catch (error) {
+    console.log(error.message);
+}
+
+}
+
+
   };
 
   return (
@@ -74,6 +113,7 @@ export function Login() {
           </div>
 
           <Button 
+
             type="submit" 
             className="w-100" 
             style={{ 
