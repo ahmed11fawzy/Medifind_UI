@@ -1,0 +1,121 @@
+.App {
+  font-family: sans-serif;
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black !important;
+  border: none;
+  padding: 0px 10px 10px 10px;
+  margin: 20px 0;
+}
+
+.card:nth-child(even) {
+}
+
+.card-text {
+  font-size: 28px;
+}
+
+.title {
+  position: relative;
+}
+.title::after {
+  content: "";
+  display: block;
+  width: 50%;
+  height: 2px;
+  position: absolute;
+  background-color: #1e9694;
+  top: 120%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.slogan {
+  position: relative;
+  margin-top: 20px;
+}
+
+.slogan::after {
+  content: "";
+  animation-name: typing;
+  animation-duration: 10s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  color: #1e9694;
+}
+
+@keyframes typing {
+  0% {
+    content: "|";
+  }
+  0% {
+    content: " |";
+  }
+  0% {
+    content: "  |";
+  }
+  0% {
+    content: "   |";
+  }
+  10% {
+    content: "   |";
+  }
+  20% {
+    content: "    Do|";
+  }
+  25% {
+    content: "    Dona|";
+  }
+  30% {
+    content: "    Donate|";
+  }
+  35% {
+    content: "    Donate |";
+  }
+  40% {
+    content: "    Donate Med|";
+  }
+  50% {
+    content: "    Donate Medicine|";
+  }
+  55% {
+    content: "    Donate Medicine |";
+  }
+  60% {
+    content: "    donate |";
+  }
+  65% {
+    content: "    , Spr |";
+  }
+  70% {
+    content: "    , Spreed |";
+  }
+  75% {
+    content: "    , Spreed Ho|";
+  }
+  80% {
+    content: "    , Spreed Hope |";
+  }
+  85% {
+    content: "    , Spreed Hope |";
+  }
+  90% {
+    content: "    |";
+  }
+  95% {
+    content: "    Donate Medicine  |";
+  }
+  100% {
+    content: "    Donate Medicine , Spreed Hope |";
+  }
+}
