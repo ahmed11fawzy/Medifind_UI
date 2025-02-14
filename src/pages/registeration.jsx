@@ -244,7 +244,7 @@ const handleSubmit = async (e) => {
           </div>
           <p>
             already have an account? <br />
-            {/* <a href="" >login</a> */}
+            <a href="/login" >login</a>
           </p>
         </Form>
       </Card>
