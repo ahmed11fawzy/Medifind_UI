@@ -3,10 +3,6 @@ import { Button, Form, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 // import jwt
 
-
-
-
-
 export function Login() {
 
   const navigate=useNavigate();
