@@ -36,8 +36,8 @@ export const NavBar = () => {
             <Dropdown className="ms-auto">
               <Dropdown.Toggle style={{ backgroundColor: "#1E9694", border: "none" }}>Add</Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => navigate("/request-medicine")}>Request Medicine</Dropdown.Item>
-                <Dropdown.Item onClick={() => navigate("/add-medicine")}>Add Medicine</Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate("/requestMedicine")}>Request Medicine</Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate("/addMedicine")}>Add Medicine</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Nav>
