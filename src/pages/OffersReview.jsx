@@ -4,7 +4,6 @@ import MedicineCard from "../components/customComponents/MedicineCard"; // Ensur
 // import { NavBar } from "../components/sharedComponents/MyNavbar";
 // import { Footer } from "../components/sharedComponents/MyFooter";
 import { useState } from "react";
-
 import image1 from "../assets/img1.jpg";
 import image2 from "../assets/img2.jpg";
 import image3 from "../assets/img3.jpg";
@@ -13,25 +12,25 @@ export const OffersReview = () => {
 
   const[medicines,setMedicines]=useState([]);
 
-  useEffect(() => {
-    const fetchMedicines = async () => {
+  // useEffect(() => {
+//     const fetchMedicines = async () => {
  
-      try {
-        const response = await fetch("http://localhost:7777/getAllMedicine");
-        console.log(response);
-        if (!response.ok) {
-          throw new Error(`Server error: ${response.status} - ${response.statusText}`);
-        }
+//       try {
+//         const response = await fetch("http://localhost:7777/getAllMedicine");
+//         console.log(response);
+//         if (!response.ok) {
+//           throw new Error(`Server error: ${response.status} - ${response.statusText}`);
+//         }
       
-        const data = await response.json();
-        console.log("Fetched Medicines:", data);
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
+//         const data = await response.json();
+//         console.log("Fetched Medicines:", data);
+//       } catch (error) {
+//         console.error("Fetch error:", error);
+//       }
       
-    fetchMedicines();
-};}
-  , []);
+//     fetchMedicines();
+// };}
+  // , []);
   
   return (
     <>
