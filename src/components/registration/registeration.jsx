@@ -1,17 +1,17 @@
-import {React,useEffect,useRef,useState} from "react";
+import {useEffect,useRef,useState} from "react";
 import { Container, Card, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+
 import{faCheck,faTimes,faInfoCircle} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import "../styles/registerStyle.css";
-import { useNavigate } from "react-router-dom";
+import "../../styles/registerStyle.css";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
 const nameRegex = /^[A-z][A-z0-9-_]{3,23}$/;
 const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-export function Registeration() {
+export function Registration() {
 
   const inputRef = useRef(null);   // for focus on name
   const errorRef = useRef(null);
@@ -39,7 +39,7 @@ const[matchpwdFocus,setmatchpwdFocus] = useState(false) ;
 const[errormsg,seterrormsg] = useState('') ;
 const[success,setSuccess] = useState(false) ;
 
-const[error,setError] = useState('') ;
+
 const navigate=useNavigate();
   
 const handleClick=()=>{
@@ -121,23 +121,23 @@ const handleSubmit = async (e) => {
 
   return (
     <>
-        <Container className="d-flex justify-content-center align-items-center vh-100" >
+        <Container className="d-flex  w-100  align-items-center  " >
           <p ref={errorRef} className={errormsg?"errmsg":'offscreen'} aria-live="assertive"> {errormsg}</p>
           {success && <p className="success-msg">{success}</p>}
 
-      <Card style={{ width: "400px", borderRadius: "10px" }} className="p-4">
-        <h3 className="text-center mb-4">Registration</h3>
+      <Card  className="p-4 border border-0 w-75 mx-auto ">
+        {/* <h3 className="text-center mb-4">Registration</h3> */}
 
         <Form onSubmit={handleSubmit}>
            <Form.Group className="mb-3" controlId="formName">
-            <Form.Label >Enter your name :
+            <Form.Label > Name :
                <span className={validName ? "valid" : "hide"}>
                 <FontAwesomeIcon icon={faCheck} /></span> 
                 <span className={validName || !user ? "hide" : "invalid"}><FontAwesomeIcon icon={faTimes} />
                 </span> 
                 </Form.Label>
             <Form.Control type="text"
-             placeholder="Enter your name" 
+             placeholder=" name" 
              className="form-control"
               ref={inputRef}
               onChange={(e) => setUser(e.target.value)}
@@ -156,7 +156,7 @@ const handleSubmit = async (e) => {
               </Form.Group>
 
           <Form.Group className="mb-3" controlId="formEmail">
-            <Form.Label>Enter your email:
+            <Form.Label> Email:
               <span className={validMail ? "valid" : "hide"}>
                 <FontAwesomeIcon icon={faCheck} /></span>
               <span className={validMail || !mail ? "hide" : "invalid"}>
@@ -164,7 +164,7 @@ const handleSubmit = async (e) => {
             </Form.Label>
             <Form.Control
              type="email"
-             placeholder="Enter your email" 
+             placeholder=" email" 
              className="form-control"
              onChange={(e) => setmail(e.target.value)}
              required
@@ -181,7 +181,7 @@ const handleSubmit = async (e) => {
              </Form.Group>
 
           <Form.Group className="mb-3" controlId="formPassword">
-            <Form.Label>Enter your Password:
+            <Form.Label> Password:
               <span className={validpwd ? "valid" : "hide"}>
                 <FontAwesomeIcon icon={faCheck} /></span>
               <span className={validpwd || !pwd ? "hide" : "invalid"}>
@@ -189,7 +189,7 @@ const handleSubmit = async (e) => {
             </Form.Label>
             <Form.Control 
             type="password" 
-            placeholder="Enter your Password" 
+            placeholder=" Password" 
             className="form-control"
             onChange={(e) => setpwd(e.target.value)}
             required
@@ -207,7 +207,7 @@ const handleSubmit = async (e) => {
             </Form.Group>
 
           <Form.Group className="mb-3" controlId="formConfirmPassword">
-            <Form.Label>Confirm your password:
+            <Form.Label>Confirm  password:
               <span className={validmatchpwd && matchpwd ? "valid" : "hide"}>
                 <FontAwesomeIcon icon={faCheck} /></span>
                 <span className={validmatchpwd || !matchpwd ? "hide" : "invalid"}>
@@ -215,7 +215,7 @@ const handleSubmit = async (e) => {
                             </Form.Label>
             <Form.Control
              type="password" 
-             placeholder="Confirm your password" 
+             placeholder=" Confirm Password" 
              className="form-control" 
              onChange={(e) => setmatchpwd(e.target.value)}
              required
@@ -242,9 +242,9 @@ const handleSubmit = async (e) => {
               Submit
             </Button>
           </div>
-          <p>
-            already have an account? <br />
-            <a href="/login" >login</a>
+          <p className="mt-2">
+            Already have an account? 
+            <Link className="ms-2 text-decoration-none" to="/login" >login</Link>
           </p>
         </Form>
       </Card>

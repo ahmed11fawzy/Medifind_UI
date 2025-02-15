@@ -1,8 +1,8 @@
-import React from "react";
-import { Navbar, Nav, Container, Dropdown, Form, Button, InputGroup } from "react-bootstrap";
+
+import { Navbar, Nav, Container, Dropdown, Form, InputGroup } from "react-bootstrap";
 import { IoSearchOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom"; 
-import logo from "../../assets/logo.png";
+import logo from "../../assets/loge.jpeg";
 
 export const NavBar = () => {
   const navigate = useNavigate(); 
