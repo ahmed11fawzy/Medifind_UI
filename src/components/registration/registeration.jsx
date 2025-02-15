@@ -1,10 +1,11 @@
 import {useEffect,useRef,useState} from "react";
-import { Container, Card, Form, Button } from "react-bootstrap";
+import { Container, Card, Form  } from "react-bootstrap";
 
 import{faCheck,faTimes,faInfoCircle} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "../../styles/registerStyle.css";
 import { Link, useNavigate } from "react-router-dom";
+import { AddBtn } from "../customComponents/Addbtn";
 
 
 
@@ -125,7 +126,7 @@ const handleSubmit = async (e) => {
           <p ref={errorRef} className={errormsg?"errmsg":'offscreen'} aria-live="assertive"> {errormsg}</p>
           {success && <p className="success-msg">{success}</p>}
 
-      <Card  className="p-4 border border-0 w-75 mx-auto ">
+      <Card   className="p-4 border border-0 w-75 mx-auto  ">
         {/* <h3 className="text-center mb-4">Registration</h3> */}
 
         <Form onSubmit={handleSubmit}>
@@ -231,21 +232,14 @@ const handleSubmit = async (e) => {
              </p>
              </Form.Group>
 
-          <div className="text-center">
-            <Button 
+          
             
-            type="submit"
-            className="w-100" 
-            style={{backgroundColor: "#00796b",border: "none",borderRadius: "5px", }}
-            // disabled={!(validName && validMail && validpwd && validmatchpwd)}
-                >
-              Submit
-            </Button>
-          </div>
+          
           <p className="mt-2">
             Already have an account? 
             <Link className="ms-2 text-decoration-none" to="/login" >login</Link>
           </p>
+          <AddBtn className="ms-auto d-block" >Register</AddBtn>
         </Form>
       </Card>
     </Container>
