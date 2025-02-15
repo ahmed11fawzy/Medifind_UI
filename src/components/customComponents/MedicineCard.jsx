@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import { AddBtn } from "./Addbtn";
-
+ 
 const MedicineCard = ({ image, name, expireDate }) => {
   return (
     <Card className="p-3 shadow-sm" style={{ width: "90%", maxWidth: "500px", backgroundColor: "#D2F3F0", borderRadius: "10px" }}>
