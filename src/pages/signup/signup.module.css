@@ -27,6 +27,11 @@
 
 .title {
   position: relative;
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: #01b3bd;
 }
 .title::after {
   content: "";
@@ -34,7 +39,8 @@
   width: 50%;
   height: 2px;
   position: absolute;
-  background-color: #1e9694;
+  border: solid 2px #01b3bd;
+  border-radius: 30% 70% 70% 30% / 39% 47% 53% 61%;
   top: 120%;
   left: 50%;
   transform: translate(-50%, 0%);
@@ -43,6 +49,10 @@
 .slogan {
   position: relative;
   margin-top: 20px;
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .slogan::after {
@@ -51,7 +61,8 @@
   animation-duration: 10s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  color: #1e9694;
+  transition: all 0.3s ease;
+  color: #01b3bd;
 }
 
 @keyframes typing {

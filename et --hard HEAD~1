@@ -1,0 +1,126 @@
+[33mcommit 5a4ac2cf4476288e72709e5db65946adb2b1d0a1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mtest[m[33m, [m[1;31morigin/test[m[33m)[m
+Author: ziadakram18 <ziadakram313@gmail.com>
+Date:   Thu Feb 13 18:48:57 2025 +0200
+
+    creat offerview page
+
+[33mcommit 55817b7fb20021e84dbfb4ee00d3ca70cca8d8de[m
+Author: Aya27ashour <yoyo.ashour27@gmail.com>
+Date:   Thu Feb 13 17:40:54 2025 +0200
+
+    solve an error
+
+[33mcommit b7aa293d3d37d5673ae71214614dbd22ecfca0cc[m
+Author: Aya27ashour <yoyo.ashour27@gmail.com>
+Date:   Thu Feb 13 17:20:37 2025 +0200
+
+    adding custom hook
+
+[33mcommit 165f3f067b38ec124c8394130ce71e83270c1da8[m
+Author: Aya27ashour <yoyo.ashour27@gmail.com>
+Date:   Thu Feb 13 15:18:11 2025 +0200
+
+    handel files
+
+[33mcommit 317edfc33e603fb3da6bd87d9251d17b16cbbdad[m
+Author: Aya27ashour <yoyo.ashour27@gmail.com>
+Date:   Thu Feb 13 14:31:42 2025 +0200
+
+    change register design
+
+[33mcommit 943afca6d9dc8545aa40acc6bfa6c63ec804f340[m
+Author: Aya27ashour <yoyo.ashour27@gmail.com>
+Date:   Thu Feb 13 12:51:49 2025 +0200
+
+    create request page
+
+[33mcommit a434afbc7da8aefd4e7511be17184360f2d63f3f[m
+Author: ziadakram18 <ziadakram313@gmail.com>
+Date:   Thu Feb 13 12:40:26 2025 +0200
+
+    5yart shoyat 7agat
+
+[33mcommit 42c11dad5c97cd576c9d8f401b75ae8a82c994de[m
+Author: HebaElgohary <hebasamir535@gmial.com>
+Date:   Tue Feb 11 21:51:54 2025 +0200
+
+    register validation
+
+[33mcommit 0fd12ec07d02e253e512706a57fdd429ef33cd58[m
+Merge: 866b9ca b05cf2a
+Author: HebaElgohary <hebasamir535@gmial.com>
+Date:   Tue Feb 11 21:17:25 2025 +0200
+
+    Merge branch 'test' of https://github.com/ahmed11fawzy/Medifind_UI into test
+
+[33mcommit 866b9ca00cafb3167893eb5d248942db3b7cfc0a[m
+Author: HebaElgohary <hebasamir535@gmial.com>
+Date:   Tue Feb 11 20:53:42 2025 +0200
+
+    save local changes
+
+[33mcommit b05cf2a320a1baf0b1fa5cfca6e285c324a5e75a[m
+Author: Aya27ashour <yoyo.ashour27@gmail.com>
+Date:   Tue Feb 11 09:36:32 2025 +0200
+
+    change style in registration page
+
+[33mcommit 57dbb0a034524dab23d172e0ba3ce3548b100a9c[m
+Author: Aya27ashour <yoyo.ashour27@gmail.com>
+Date:   Tue Feb 11 09:31:55 2025 +0200
+
+    change style in registration page
+
+[33mcommit 15cf52f61ed941179d41344dcfe95bd978eb5c89[m
+Author: ziadakram18 <ziadakram313@gmail.com>
+Date:   Tue Feb 11 08:46:40 2025 +0200
+
+    creat login page
+
+[33mcommit bc73d7744984a73f0a54b5aede1b5b32c06fbb7b[m
+Author: reus <af6394158@gmail.com>
+Date:   Tue Feb 11 00:04:06 2025 +0200
+
+    initial commit
+
+[33mcommit 7b36b3ddd365ef2dba30ee09440e3905d159db90[m
+Author: Aya27ashour <yoyo.ashour27@gmail.com>
+Date:   Mon Feb 10 22:58:18 2025 +0200
+
+    creat registration page
+
+[33mcommit e12b9b37858523dbb600d398f03d5fcb84cdfdb2[m
+Author: Aya27ashour <yoyo.ashour27@gmail.com>
+Date:   Mon Feb 10 21:54:20 2025 +0200
+
+    download bootstrap
+
+[33mcommit 364911ce1f9edd522b6ae4c26525f9969f60e86f[m
+Author: Aya27ashour <yoyo.ashour27@gmail.com>
+Date:   Mon Feb 10 21:42:48 2025 +0200
+
+    create regester page
+
+[33mcommit 573550d2de97a4996d580509b46a772dddf87d34[m
+Author: ziadakram18 <ziadakram313@gmail.com>
+Date:   Mon Feb 10 21:01:12 2025 +0200
+
+    t
+
+[33mcommit 534ff94c1d9abc294b00d44a03962a57571220f0[m
+Author: ziadakram18 <ziadakram313@gmail.com>
+Date:   Mon Feb 10 20:45:54 2025 +0200
+
+    creat elproject ya gd3an
+
+[33mcommit cd10a727695ccbc8ae892231f55267235cff751f[m
+Author: reus <af6394158@gmail.com>
+Date:   Mon Feb 10 20:12:22 2025 +0200
+
+    intial commit
+
+[33mcommit e368395ae42b2d83d595807e17e62e9d76a32621[m
+Author: Ahmed fawzi <93847476+ahmed11fawzy@users.noreply.github.com>
+Date:   Mon Feb 10 20:08:41 2025 +0200
+
+    Initial commit

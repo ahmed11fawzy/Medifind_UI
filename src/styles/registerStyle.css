@@ -60,7 +60,7 @@ input::placeholder {
 }
 
 .form-control:focus {
-  border-color: #1e9694 !important;
+  border-color: #01b3bd !important;
   box-shadow: none !important;
 }
 .form-label {
