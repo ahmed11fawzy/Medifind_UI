@@ -20,7 +20,8 @@ useEffect(() => {
         throw new Error(`Server error: ${response.status} - ${response.statusText}`);
       }
     
-      const data = await response.json();
+      const result = await response.json();
+      const data = result.data;
       setMedicines(data); 
       console.log("Fetched Medicines:", data);
     } catch (error) {
