@@ -1,17 +1,32 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
-export const AddBtn = styled.button `
-  width: 40%;
-  height: 35px;
-  background-color:#01b3bd !important; 
+export const StyledButton = styled(motion.button)`
+   padding: 12px 20px;
+  font-family: "sofia-pro", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  color: #fff;
   border: none;
-  border-radius: 5px;
-  color: white;
-  transition: all 0.3s ease;
+  background-color:#01B3BD;
+  cursor: pointer;
+  border-radius: 8px;
+  width: 160px;
+  transition: transform 0.2s;
 
   &:hover {
-    
-    color: white;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
   }
-`
+
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+export const AddBtn = ({ onClick, children }) => {
+  return (
+    <StyledButton onClick={onClick} whileTap={{ scale: 0.95 }}>
+      {children}
+    </StyledButton>
+  );
+};
