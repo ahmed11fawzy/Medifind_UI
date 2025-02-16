@@ -28,6 +28,11 @@
   .sidebar a:hover {
     color: #01b3bd !important;;
   }
+
+  .sidebar .active-link {
+    color: #01b3bd !important;
+    font-weight: bold;
+  }
  
    .progress-container {
     padding-bottom: 10px;

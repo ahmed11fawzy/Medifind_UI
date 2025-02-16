@@ -1,12 +1,11 @@
 import "../../styles/sidebar.css";
-import { Button, ProgressBar } from "react-bootstrap";
-// import { Container, Row, Col, ProgressBar } from "react-bootstrap";
-import { AddBtn } from "../customComponents/Addbtn";
+import { Button, ProgressBar } from "react-bootstrap"
+import { NavLink} from "react-router-dom";
 
 export const MySideBar = () => {
   return (
     <div className="sidebar d-flex flex-column p-4" >
-      <a href="#" >Home</a>
+        <NavLink to="/home" className={({ isActive }) => isActive ? "active-link" : ""}>Home</NavLink>
 
       <div className="progress-container">
         <p>Complete your profile</p>
@@ -16,11 +15,11 @@ export const MySideBar = () => {
 
       </div>
 
-      <a href="#">Profile</a>
-      <a href="#">Needs</a>
-      <a href="#">Settings</a>
-      <a href="#">Help Center</a>
-      <a href="#">Contact Us</a>
+      <NavLink to="/needs" className={({ isActive }) => isActive ? "active-link" : ""}>Needs</NavLink>
+      <NavLink to="/profile" className={({ isActive }) => isActive ? "active-link" : ""}>Profile</NavLink>
+      <NavLink to="/settings" className={({ isActive }) => isActive ? "active-link" : ""}>Settings</NavLink>
+      <NavLink to="/help-center" className={({ isActive }) => isActive ? "active-link" : ""}>Help Center</NavLink>
+      <NavLink to="/contact-us" className={({ isActive }) => isActive ? "active-link" : ""}>Contact Us</NavLink>
        
       <Button>Logout</Button>
     </div>

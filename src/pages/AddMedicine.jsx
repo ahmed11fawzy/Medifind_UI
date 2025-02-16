@@ -141,7 +141,7 @@ export const AddMedicine = () => {
               </div>
             </div>
             
-             <div className="text-center d-flex justify-content-end">
+             <div className="text-center d-flex justify-content-end w-25 ms-auto">
               <AddBtn type="submit">Add</AddBtn>
             </div>
           </Form>
