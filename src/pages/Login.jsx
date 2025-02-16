@@ -111,10 +111,11 @@ export function Login() {
             </Form.Group>
             <span className='text-primary text-info' style={{ cursor: 'pointer' }}>Forget Password?</span>
           </div>
-
+          
           <AddBtn type="submit" className="w-100">
             Log In
           </AddBtn>
+          
         </Form>
       </div>
     </div>

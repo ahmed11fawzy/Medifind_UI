@@ -14,9 +14,11 @@ export const StyledButton = styled(motion.button)`
   border-radius: 8px;
   width: 160px;
   transition: transform 0.2s;
+  width: 100%;
 
   &:hover {
     transform: scale(1.05);
+    background-color: #42ced5;
   }
 
   &:active {

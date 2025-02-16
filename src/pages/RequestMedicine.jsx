@@ -145,7 +145,7 @@ export const RequestMedicine = () => {
                   <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
                 </Form.Group>
 
-                <div className="mt-4 d-flex justify-content-end">
+                <div className="mt-4 d-flex justify-content-end w-25 ms-auto">
                   <AddBtn type="submit">Add Medicine</AddBtn>
                 </div>
               </Form>
