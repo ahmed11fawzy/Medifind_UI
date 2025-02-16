@@ -8,7 +8,7 @@ import { AddMedicine } from '../pages/AddMedicine';
 import { RequestMedicine } from '../pages/RequestMedicine';
 import SharedLayout from './SharedLayout';
 import { SignUp } from '../pages/signup/SignUp';
-
+import { CardPage } from '../pages/CardPage';
 export function MainLayout() {
   return (
     <BrowserRouter>
