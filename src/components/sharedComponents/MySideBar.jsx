@@ -4,6 +4,7 @@ import { NavLink} from "react-router-dom";
 
 export const MySideBar = () => {
   return (
+
     <div className="sidebar d-flex flex-column p-4" >
         <NavLink to="/home" className={({ isActive }) => isActive ? "active-link" : ""}>Home</NavLink>
 
@@ -12,6 +13,7 @@ export const MySideBar = () => {
         <p className="label">completement:</p>
 
     <ProgressBar now={75} label={`${75}%`} style={{ height: "10px", borderRadius: "5px", width: "100%"}} />
+
 
       </div>
 
