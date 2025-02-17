@@ -19,9 +19,37 @@ export const RequestMedicine = () => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if (validateForm()) {
+
+      
+      try {
+        const response = await fetch("http://localhost:7777/request", {  // Add API endpoint here
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+      
+        req_name: formData.name,
+        req_description: formData.description,
+        // prescription_img: { type: 'string' },
+        // status: { type: 'boolean' },
+        // req_date: { type: 'string' },
+        // doctor_id: { type: 'string' },
+        // user_id: { type: 'string' },
+          }),
+        });
+        console.log('req sent')
+    
+        if (!response.ok) {
+          throw new Error(data.message || "Something went wrong!");
+          console.log('resp not ok')
+        }
+        const data = await response.json();
+        console.log(data)
+
+
+
       setShowModal(true);
       setFormData({
         name: "",
@@ -29,14 +57,22 @@ export const RequestMedicine = () => {
         image: null,
       });
     }
-  };
+          
+   catch (error) {
+    console.log(error.message);
+}
+
+}
+
+}
+  
 
   return (
     <>
-      <Container style={{ marginTop: "80px" }}>
-        <Card className="shadow-sm" style={{ padding: "30px 40px 40px 0px" }}>
+      <Container style={{ marginTop: "50px"}} >
+        <Card className="shadow-sm " style={{padding:"25px 20px",margin:"50px 0px"}} >
           <h3 className="text-center mb-4">Request Medicine</h3>
-          <Row className="align-items-center">
+          <Row >
             <Col md={3} className="d-flex justify-content-center">
               <div
                 onDragOver={(e) => e.preventDefault()}
@@ -109,7 +145,7 @@ export const RequestMedicine = () => {
                   <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
                 </Form.Group>
 
-                <div className="mt-4 d-flex justify-content-end">
+                <div className="mt-4 d-flex justify-content-end w-25 ms-auto">
                   <AddBtn type="submit">Add Medicine</AddBtn>
                 </div>
               </Form>

@@ -11,7 +11,7 @@ export const AddMedicine = () => {
     numPieces,
     expireDate,
     concentration,
-    image,
+    // image,
     errors,
     setMedicineName,
     setNumPieces,
@@ -22,23 +22,55 @@ export const AddMedicine = () => {
   } = useAddMedicineForm();  
 
   const [showModal, setShowModal] = useState(false);
+ 
 
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if (validateForm()) {
-      setShowModal(true);
-      setMedicineName("");
-      setNumPieces("");
-      setExpireDate("");
-      setConcentration("");
-      setImage(null);
-      document.getElementById("imageInput").value = "";
+
+      try {
+        const response = await fetch("http://localhost:7777/medicine", {  // Add API endpoint here
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+      
+            name: medicineName,
+            quantity:  Number(numPieces),
+            concentration: concentration,
+            expire_date:expireDate,
+          //  user_id: { type: 'string' },
+          }),
+        });
+        console.log('req sent')
+    
+        if (!response.ok) {
+          throw new Error(data.message || "Something went wrong!");
+          console.log('resp not ok')
+        }
+    
+        const data = await response.json();
+        console.log(data)
+        setShowModal(true);
+        setMedicineName("");
+        setNumPieces("");
+        setExpireDate("");
+        setConcentration("");
+        setImage(null);
+        document.getElementById("imageInput").value = "";
+     
+        
+    } catch (error) {
+        console.log(error.message);
     }
-  };
+    
+  }
+   
+    }
 
   return (
     <>
-      <Container style={{ marginTop: "60px" }}>
+      <Container style={{ marginTop: "50px" }}>
         <Card className="p-4 shadow-sm">
           <h3 className="text-center mb-4">Add Medicine</h3>
           <Form onSubmit={handleSubmit}>
@@ -108,8 +140,8 @@ export const AddMedicine = () => {
                 </Form.Group>
               </div>
             </div>
-
-            <div className="text-center d-flex justify-content-end">
+            
+             <div className="text-center d-flex justify-content-end w-25 ms-auto">
               <AddBtn type="submit">Add</AddBtn>
             </div>
           </Form>
