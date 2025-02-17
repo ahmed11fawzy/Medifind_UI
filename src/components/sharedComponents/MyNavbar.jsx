@@ -14,7 +14,7 @@ export const NavBar = () => {
   return (
     <Navbar bg="light" expand="lg" className="shadow-sm">
       <Container>
-        <Navbar.Brand onClick={() => navigate("/")} className="fw-bold  d-flex align-items-center me-auto" style={{ cursor: "pointer" , color: "#1E9694"}}>
+        <Navbar.Brand onClick={() => navigate("/")} className="d-flex align-items-center me-auto text-brand" style={{ cursor: "pointer" , color: "var(--main-color)"}}>
           <img
             src={logo}
             alt="MediFind Logo"
