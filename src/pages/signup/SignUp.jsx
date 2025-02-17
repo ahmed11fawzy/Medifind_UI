@@ -13,10 +13,10 @@ export  function SignUp() {
   return (
     <div className={` container mx-auto  row align-items-center vh-100 `}>
         <header className="">
-          <h1 className={ ` ${styles.title} fw-bold text-center`}  >Medi 
+          <h1 className={ ` ${styles.title}  text-center`}  >Medi 
             <span><img src={loge} alt="" style={{width:"50px" , height:"50px"}} className="img-fluid  rounded rounded-circle "/></span>
              find</h1>
-          <h5 className={` ${styles.slogan} mx-auto `} >Join the Fight: </h5> 
+          <h5 className={` ${styles.slogan} mx-auto w-50 text-center `} >Join the Fight: </h5> 
         </header>
       {items.map((item, i) => (
         // eslint-disable-next-line react/jsx-key
