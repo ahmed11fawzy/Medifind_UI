@@ -1,0 +1,75 @@
+.sidebar {
+    min-height: 50vh;
+    text-align: left;
+    position: relative;
+  }
+  
+  .sidebar::before {
+    content: "";
+    position: absolute;
+    top: 5px;  
+    bottom: 5px; 
+    left: 0;
+    width: 1px;
+    height: 450px;
+    background-color: rgba(0, 0, 0, 0.1);;
+  }
+
+  .sidebar a {
+    text-decoration: none;
+    color:#030303 !important;
+    padding-bottom: 10px;
+    display: block;
+    margin-bottom: 15px;
+    transition: color 0.3s;
+    
+  }
+  
+  .sidebar a:hover {
+    color: #01b3bd !important;;
+  }
+
+  .sidebar .active-link {
+    color: #01b3bd !important;
+    font-weight: bold;
+  }
+ 
+   .progress-container {
+    padding-bottom: 10px;
+  }
+  
+  .progress-container p {
+    margin-bottom: 5px;
+    color: black;
+    
+  }
+  
+  .progress-container .label {
+    font-size: 12px;
+    color: gray;
+    margin-bottom: 3px;
+   
+
+  }
+  .progress-bar{
+    background-color: #01b3bd !important;
+    border-radius: 5px  !important;
+  }
+  
+  .sidebar button {
+    background-color: #e9edee00;
+    color: #01b3bd;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    text-align: center;
+    margin-right: 100px;
+  }
+  
+  .sidebar button:hover {
+    color: red;
+    background-color: #e9edee00 ;
+  }
