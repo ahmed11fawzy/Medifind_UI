@@ -14,7 +14,7 @@ export const OffersReview = () => {
 useEffect(() => {
   const fetchMedicines = async () => {
     try {
-      const response = await fetch("http://localhost:7777/getAllMedicine");
+      const response = await fetch("http://localhost:7777/medicine");
       console.log(response);
       if (!response.ok) {
         throw new Error(`Server error: ${response.status} - ${response.statusText}`);
