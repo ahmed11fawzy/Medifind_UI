@@ -9,11 +9,11 @@ export default function SharedLayout() {
    <NavBar/>
    <div className="container mt-5 ">
   <div className="row ">
-   <div className="col-3 d-none d-lg-block  mt-5">
-   <MySideBar style={{'backgroundColor':'#bcb8b8ed'}} ></MySideBar>
-   </div>
-   <div className='col-sm-12 col-lg-8 '>
+   <div className='col-sm-12 col-lg-10'>
    <Outlet/>
+   </div>
+   <div className="col-2 d-none d-lg-block  mt-5">
+   <MySideBar style={{'backgroundColor':'#bcb8b8ed'}} ></MySideBar>
    </div>
    </div>
   

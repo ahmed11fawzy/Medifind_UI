@@ -69,10 +69,10 @@ export const RequestMedicine = () => {
 
   return (
     <>
-      <Container style={{ marginTop: "150px"}} >
+      <Container style={{ marginTop: "50px"}} >
         <Card className="shadow-sm " style={{padding:"25px 20px",margin:"50px 0px"}} >
           <h3 className="text-center mb-4">Request Medicine</h3>
-          <Row className="align-items-center">
+          <Row >
             <Col md={3} className="d-flex justify-content-center">
               <div
                 onDragOver={(e) => e.preventDefault()}

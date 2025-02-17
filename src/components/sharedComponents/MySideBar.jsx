@@ -8,7 +8,7 @@ export const MySideBar = () => {
         <NavLink to="/home" className={({ isActive }) => isActive ? "active-link" : ""}>Home</NavLink>
 
       <div className="progress-container">
-        <p>Complete your profile</p>
+        <p>Complete profile</p>
         <p className="label">completement:</p>
 
     <ProgressBar now={75} label={`${75}%`} style={{ height: "10px", borderRadius: "5px", width: "100%"}} />
