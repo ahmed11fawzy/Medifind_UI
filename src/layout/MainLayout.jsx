@@ -2,7 +2,7 @@
 import { BrowserRouter , Routes, Route,  } from "react-router-dom";
 import { Login } from '../pages/Login';
 // import { Home } from '../pages/Home';
-import {Home} from "../pages/Home";
+import {Home} from "../pages/Home/Home";
 import {OffersReview} from "../pages/OffersReview"
 import { AddMedicine } from '../pages/AddMedicine';
 import { RequestMedicine } from '../pages/RequestMedicine';

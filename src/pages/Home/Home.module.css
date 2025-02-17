@@ -1,0 +1,11 @@
+.heroSection {
+  min-height: 60vh;
+}
+
+.title {
+  margin-top: 10rem !important;
+  width: 40%;
+  line-height: 1.5 !important;
+  word-spacing: 2px !important;
+  font-family: "Inter", serif;
+}
