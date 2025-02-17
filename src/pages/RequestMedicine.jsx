@@ -69,10 +69,10 @@ export const RequestMedicine = () => {
 
   return (
     <>
-      <Container >
+      <Container style={{ marginTop: "50px"}} >
         <Card className="shadow-sm " style={{padding:"25px 20px",margin:"50px 0px"}} >
           <h3 className="text-center mb-4">Request Medicine</h3>
-          <Row className="align-items-center">
+          <Row >
             <Col md={3} className="d-flex justify-content-center">
               <div
                 onDragOver={(e) => e.preventDefault()}
@@ -145,7 +145,7 @@ export const RequestMedicine = () => {
                   <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
                 </Form.Group>
 
-                <div className="mt-4 d-flex justify-content-end">
+                <div className="mt-4 d-flex justify-content-end w-25 ms-auto">
                   <AddBtn type="submit">Add Medicine</AddBtn>
                 </div>
               </Form>

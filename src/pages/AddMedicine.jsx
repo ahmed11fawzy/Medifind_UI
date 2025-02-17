@@ -23,6 +23,7 @@ export const AddMedicine = () => {
 
   const [showModal, setShowModal] = useState(false);
  
+
   
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -69,7 +70,7 @@ export const AddMedicine = () => {
 
   return (
     <>
-      <Container style={{ marginTop: "60px" }}>
+      <Container style={{ marginTop: "50px" }}>
         <Card className="p-4 shadow-sm">
           <h3 className="text-center mb-4">Add Medicine</h3>
           <Form onSubmit={handleSubmit}>
@@ -139,8 +140,8 @@ export const AddMedicine = () => {
                 </Form.Group>
               </div>
             </div>
-
-            <div className="text-center d-flex justify-content-end">
+            
+             <div className="text-center d-flex justify-content-end w-25 ms-auto">
               <AddBtn type="submit">Add</AddBtn>
             </div>
           </Form>

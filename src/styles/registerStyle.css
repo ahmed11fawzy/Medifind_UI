@@ -50,7 +50,6 @@
   margin-bottom: 10px;
 }
 a {
-  color: rgb(36, 106, 65) !important;
   font-size: larger;
 }
 
@@ -60,7 +59,7 @@ input::placeholder {
 }
 
 .form-control:focus {
-  border-color: #1e9694 !important;
+  border-color: #01b3bd !important;
   box-shadow: none !important;
 }
 .form-label {
