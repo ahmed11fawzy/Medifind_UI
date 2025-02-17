@@ -3,7 +3,7 @@ import { FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
 
 export const Footer = () => {
   return (
-    <footer className="fixed-bottom" style={{ backgroundColor: "#1E252B", padding: "20px 0" }}>
+    <footer className=" mb-0 bottom-0 " style={{ backgroundColor: "#1E252B", padding: "20px 0" }}>
       <Container>
         <Row className="text-white">
           {/* Brand Name */}
