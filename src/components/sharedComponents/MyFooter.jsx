@@ -3,7 +3,7 @@ import { FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
 
 export const Footer = () => {
   return (
-    <footer className="mt-auto py-3" style={{ backgroundColor: "2E3A3F", position: "relative" }}>
+    <footer className="mt-auto py-3" style={{ backgroundColor: "#2E3A3F", position: "relative" }}>
       <Container>
         <Row className="text-white text-center text-md-start position-relative">
           {/* Brand Name */}
