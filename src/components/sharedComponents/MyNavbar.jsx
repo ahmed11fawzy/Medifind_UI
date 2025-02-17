@@ -3,7 +3,7 @@ import { Navbar, Nav, Container, Dropdown, Form, InputGroup } from "react-bootst
 import { IoSearchOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom"; 
 import logo from "../../assets/loge.jpeg";
-import { AddBtn } from "../customComponents/Addbtn";
+import { Styledbtn } from "../customComponents/Styledbtn";
 import { useState } from "react";
 
 export const NavBar = () => {
@@ -39,7 +39,7 @@ export const NavBar = () => {
 
 
             <div className="App">
-      <AddBtn onClick={() => setOpen(!open)}>Add🤝</AddBtn>
+      <Styledbtn onClick={() => setOpen(!open)}>Add🤝</Styledbtn>
       <ul style={{ overflow: "hidden", transition: "height 0.3s", height: open ? "50px" : "0px" }}>
       <li onClick={() => navigate("/AddMedicine")} style={{ cursor: "pointer" }}>Add Medicine</li>
       <li onClick={() => navigate("/RequestMedicine")} style={{ cursor: "pointer" }}>Request Medicine</li>
