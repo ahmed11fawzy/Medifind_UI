@@ -61,7 +61,7 @@ export const Footer = () => {
       </Container>
 
       {/* Vertical Line Styling */}
-      <style jsx>{`
+      {/* <style jsx>{`
         .vertical-line {
           position: absolute;
           top: 0;
@@ -72,7 +72,7 @@ export const Footer = () => {
           background-color: rgba(255, 255, 255, 0.082);
           transform: translateX(50%);
         }
-      `}</style>
+      `}</style> */}
     </footer>
   );
 };
