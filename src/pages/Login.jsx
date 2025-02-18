@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { AddBtn } from '../components/customComponents/Addbtn';
 // import jwt
 
 export function Login() {
@@ -45,19 +46,24 @@ export function Login() {
           password: password,
           }),
         });
-    
+        if (!response.ok) {
+          throw new Error(data.message || "Something went wrong!");
+        }
+
       const data = await response.json();
-      const token= await response.headers.get('x-auth-token');
-      localStorage.setItem('token',token);
+      
+        const token = response.headers.get('x-auth-token');
+        localStorage.setItem('token',token);
+        
 
-      console.log(token);
+
+      console.log(data)
+      
+      goToHome();    
     
-    if (!response.ok) {
-      throw new Error(data.message || "Something went wrong!");
-    }
 
-    console.log('succeded');
-    goToHome();
+    
+    
     
     //Add Routing to home Page//// 
 
@@ -108,22 +114,13 @@ export function Login() {
             <Form.Group controlId="formBasicCheckbox">
               <Form.Check type="checkbox" label="Remember Me" />
             </Form.Group>
-            <span className='text-primary' style={{ cursor: 'pointer' }}>Forget Password?</span>
+            <span className='text-primary text-info' style={{ cursor: 'pointer' }}>Forget Password?</span>
           </div>
-
-          <Button 
-
-            type="submit" 
-            className="w-100" 
-            style={{ 
-              backgroundColor: "#00796b", 
-              border: "none", 
-              borderRadius: "5px", 
-              padding: '10px' 
-            }}
-          >
+          
+          <AddBtn type="submit" className="w-100">
             Log In
-          </Button>
+          </AddBtn>
+          
         </Form>
       </div>
     </div>
