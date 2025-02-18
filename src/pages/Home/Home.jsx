@@ -10,7 +10,7 @@ export  function Home() {
   };       
   return (
     <> 
-      <main className={`${styles.heroSection} container  mb-1 `}>
+      <main className={`${styles.heroSection}   mb-1 `}>
         <h1 className={`${styles.title}    `}> <span style={{ color: "var(--main-color)" }} >Give</span> the Gift of Health: Donate <span style={{ color: "var(--main-color)" }} >Medicine</span> Today !</h1>
         <p className="w-50" style={{ color: "var(--secondary-color)" , fontFamily: "Inter, serif"}} >
         Every donated pill is a beacon of hope for someone in need. Join us in our mission to provide essential medicines to underserved 

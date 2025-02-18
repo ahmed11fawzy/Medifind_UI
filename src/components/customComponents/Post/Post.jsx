@@ -6,7 +6,7 @@ export function Post(){
     const { data, isLoading, serverError } = useFetch('http://localhost:7777/medicine');  
     console.log(data);
     return (
-        <div className="row gy-md-5 ">
+        <div className="row gap-4 gx-5 gy-md-5 ">
             {data ? (
                 data.map((Medicine) => (
                     <div className="col-12 col-md-4" key={Medicine.id}>
