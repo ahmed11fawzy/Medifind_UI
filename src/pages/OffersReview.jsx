@@ -40,8 +40,11 @@ useEffect(() => {
         {/* <h3 className="text-center mb-4">Offers Review</h3> */}
         <div className="d-flex flex-column align-items-center gap-4">
         {Array.isArray(medicines) && medicines.map((med, index) => (
-
         <MedicineCard
+        medicines={medicines}
+        setMedicines={setMedicines}
+        examine={med.examine}
+        id={med._id}
         key={index}
         image={med.image_path ? med.image_path : image1} 
         name={med.name}

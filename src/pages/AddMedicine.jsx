@@ -39,7 +39,7 @@ export const AddMedicine = () => {
             quantity:  Number(numPieces),
             concentration: concentration,
             expire_date:expireDate,
-          //  user_id: { type: 'string' },
+            //  user_id: { type: 'string' },
           }),
         });
         console.log('req sent')

@@ -101,7 +101,11 @@ export const RequestsReview = () => {
 
                                 <AddBtn
                                     onClick={() => handleAccept(request._id)}
-                                    style={{ width: "30%", marginTop: "10px" }}
+                                    style={{ width: "30%", marginTop: "10px",
+                                        backgroundColor: "#28c742",
+
+                                     }}
+                                    
                                 >
                                     Accept
                                 </AddBtn>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const AddBtn = styled.button`
   width: 100px;
   height: 40px;
-  background-color: ${(props) => props.bgColor || "var(--main-color)"};
+  background-color: "var(--main-color)";
   border: none;
   border-radius: 5px;
   color: white;
