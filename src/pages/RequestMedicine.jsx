@@ -139,14 +139,14 @@ export const RequestMedicine = () => {
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
-                    style={{ backgroundColor: "#fff" }}
+                    style={{ backgroundColor: "#ffffff" }}
                     isInvalid={!!errors.description}
                   />
                   <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
                 </Form.Group>
 
                 <div className="mt-4 d-flex justify-content-end w-25 ms-auto">
-                  <AddBtn type="submit">Add Medicine</AddBtn>
+                  <AddBtn style={{ backgroundColor: "var(--main-color)" }} type="submit">Add Medicine</AddBtn>
                 </div>
               </Form>
             </Col>
