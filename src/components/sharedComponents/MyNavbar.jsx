@@ -3,14 +3,18 @@ import { Navbar, Nav, Container, Dropdown, Form, InputGroup } from "react-bootst
 import { IoSearchOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom"; 
 import logo from "../../assets/loge.jpeg";
+import { Styledbtn } from "../customComponents/Styledbtn";
+import { useState } from "react";
 
 export const NavBar = () => {
   const navigate = useNavigate(); 
+  const [open, setOpen] = useState(false);
+  const items = ["Add Medicine", "Request Medicine"];
 
   return (
     <Navbar bg="light" expand="lg" className="shadow-sm">
       <Container>
-        <Navbar.Brand onClick={() => navigate("/")} className="fw-bold  d-flex align-items-center me-auto" style={{ cursor: "pointer" , color: "#1E9694"}}>
+        <Navbar.Brand onClick={() => navigate("/")} className="d-flex align-items-center me-auto text-brand" style={{ cursor: "pointer" , color: "var(--main-color)"}}>
           <img
             src={logo}
             alt="MediFind Logo"
@@ -33,13 +37,25 @@ export const NavBar = () => {
               </InputGroup>
             </Form>
 
-            <Dropdown className="ms-auto">
+
+            <div className="App">
+      <Styledbtn onClick={() => setOpen(!open)}>Add🤝</Styledbtn>
+      <ul style={{ overflow: "hidden", transition: "height 0.3s", height: open ? "50px" : "0px" }}>
+      <li onClick={() => navigate("/AddMedicine")} style={{ cursor: "pointer" }}>Add Medicine</li>
+      <li onClick={() => navigate("/RequestMedicine")} style={{ cursor: "pointer" }}>Request Medicine</li>
+          {items.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+          </ul>
+         </div>
+
+            {/* <Dropdown className="ms-auto">
               <Dropdown.Toggle style={{ backgroundColor: "#1E9694", border: "none" }}>Add</Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => navigate("/requestMedicine")}>Request Medicine</Dropdown.Item>
                 <Dropdown.Item onClick={() => navigate("/addMedicine")}>Add Medicine</Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
           </Nav>
         </Navbar.Collapse>
       </Container>
