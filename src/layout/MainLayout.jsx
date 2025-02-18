@@ -18,14 +18,14 @@ export function MainLayout() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
 
-        <Route  element={<SharedLayout />}>
-             <Route path="/home" element={<Home />} />
-             <Route path="/offersReview" element={<OffersReview />} />
-             <Route path="/AddMedicine" element={<AddMedicine />} />
-             <Route path="/RequestMedicine" element={<RequestMedicine />} />
-           
+          <Route  element={<SharedLayout />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/offersReview" element={<OffersReview />} />
+              <Route path="/AddMedicine" element={<AddMedicine />} />
+              <Route path="/RequestMedicine" element={<RequestMedicine />} />
+            
 
-        </Route>
+          </Route>
         
       </Routes>
     </BrowserRouter>
