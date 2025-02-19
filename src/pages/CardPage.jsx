@@ -1,54 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col} from "react-bootstrap";
 import { CardComponent } from "../components/customComponents/CardComponent";
 import { AddBtn } from "../components/customComponents/Addbtn";
 import { useNavigate } from "react-router-dom";
-import { useFetch } from "../customHooks/useFetch";
 import { useDecoded } from "../customHooks/useDecode";
-
-
+import { useGet } from "../customHooks/useGet.js";
+import {useDelete} from "../customHooks/useDelete";
 export const CardPage = () => {
   const navigate = useNavigate();
   const goToRequestMedicine = () => navigate("/RequestMedicine");
   const decodedToken = useDecoded();
-  // Move the fetch hook before any conditional returns
-  const { data, isLoading, serverError } = useFetch(
-    decodedToken ? `http://localhost:7777/request/${decodedToken.id}` : null
+  const baseUrl = 'http://localhost:7777/request';
+  
+  const { data, isLoading, serverError, getRequest } = useGet(
+    decodedToken ? `${baseUrl}/${decodedToken.id}` : null
   );
-  console.log(data)
-  const handleIncrease = (id) => {
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item))
-    );
+  useEffect(() => {
+    if (decodedToken) {
+      getRequest();
+    }
+  }, [decodedToken]); // Add getRequest as dependency if needed
+  
+  const { isLoading: deleteLoading, serverError: deleteError, deleteRequest } = useDelete('http://localhost:7777/request/');
+  
+  const handleRemove = async (req_id) => {
+    try {
+      await deleteRequest(req_id);
+      await getRequest();
+      console.log(data)
+      console.log("Request deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete request:", error);
+    }
   };
-
-  const handleDecrease = (id) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
-      )
-    );
-  };
-
-  const handleRemove = (id) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
   return (
       <>
       <Row>
         {data ? data.map((item) => (
-          <Col key={item.id} xs={12} md={6} lg={5} className="mb-3">
+          <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
             <CardComponent
               image={item.medicine.image_path}
               name={item.medicine.name}
               quantity={item.medicine.concentration}
               /* onIncrease={() => handleIncrease(item.id)}
-              onDecrease={() => handleDecrease(item.id)}
-              onRemove= {() => handleRemove(item.id)} */
+              onDecrease={() => handleDecrease(item.id)}*/
+              onRemove= {() => handleRemove(item._id)} 
             />
           </Col>
-        )) : null 
+        )) : <div> no thing  </div> 
       }
       </Row>
       <div className="text-center mt-3 ">
