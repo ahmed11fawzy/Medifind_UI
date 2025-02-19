@@ -4,6 +4,7 @@ import { NavLink} from "react-router-dom";
 
 export const MySideBar = () => {
   return (
+
     <div className="sidebar d-flex flex-column p-4" >
         <NavLink to="/home" className={({ isActive }) => isActive ? "active-link" : ""}>Home</NavLink>
 
@@ -13,9 +14,10 @@ export const MySideBar = () => {
 
     <ProgressBar now={75} label={`${75}%`} style={{ height: "10px", borderRadius: "5px", width: "100%"}} />
 
+
       </div>
 
-      <NavLink to="/needs" className={({ isActive }) => isActive ? "active-link" : ""}>Needs</NavLink>
+      <NavLink to="/need" className={({ isActive }) => isActive ? "active-link" : ""}>Needs</NavLink>
       <NavLink to="/profile" className={({ isActive }) => isActive ? "active-link" : ""}>Profile</NavLink>
       <NavLink to="/settings" className={({ isActive }) => isActive ? "active-link" : ""}>Settings</NavLink>
       <NavLink to="/help-center" className={({ isActive }) => isActive ? "active-link" : ""}>Help Center</NavLink>
