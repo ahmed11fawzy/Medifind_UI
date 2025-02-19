@@ -34,21 +34,9 @@ export const CardComponent = ({ image, name, quantity, onIncrease, onDecrease, o
               Name :- {name}
             </Card.Title>
             <div className="d-flex align-items-center  mt-2">
-              <Button
-                variant="light"
-                style={{ border: "none", background: "none" }}
-                onClick={onDecrease}
-              >
-                <FaMinusCircle style={{ fontSize: "20px", color: "red" }} />
-              </Button>
+              
               <span style={{ fontSize: "16px", fontWeight: "bold", color: "#000" }}>{quantity}</span>
-              <Button
-                variant="light"
-                style={{ border: "none", background: "none" }}
-                onClick={onIncrease}
-              >
-                <FaPlusCircle style={{ fontSize: "20px", color: "green" }} />
-              </Button>
+              
             </div>
             <AddBtn onClick={onRemove} style={{ backgroundColor: "#1E9694", border: "none", width: "60%", marginTop: "10px" }}>Remove</AddBtn>
             
