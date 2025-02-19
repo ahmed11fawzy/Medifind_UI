@@ -60,6 +60,7 @@ const decodedToken=useDecoded()
     if (validateForm()) {
 
       try {
+
           if(img_path && decodedToken){
             const response = await fetch("http://localhost:7777/medicine", {  // Add API endpoint here
               method: "POST",
@@ -74,6 +75,7 @@ const decodedToken=useDecoded()
               }),
             });
             console.log('req sent')
+
     
             if (!response.ok) {
               throw new Error(data.message || "Something went wrong!");
