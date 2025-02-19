@@ -8,6 +8,7 @@ import { RequestsReview } from '../pages/RequestsReview';
 import SharedLayout from './SharedLayout';
 import { SignUp } from '../pages/signup/SignUp';
 import ProtectedRoute from '../pages/ProtectedRoute'; // Import the ProtectedRoute component
+import { CardPage } from "../pages/CardPage";
 
 export function MainLayout() {
   const token = localStorage.getItem('token'); // Check for token in local storage
@@ -28,6 +29,7 @@ export function MainLayout() {
             <Route path="/AddMedicine" element={<AddMedicine />} />
             <Route path="/RequestMedicine" element={<RequestMedicine />} />
             <Route path="/RequestsReview" element={<RequestsReview />} />
+            <Route path="/need" element={<CardPage  />} />
           </Route>
         </Route>
       </Routes>
