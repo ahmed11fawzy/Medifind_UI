@@ -17,7 +17,7 @@ export const MySideBar = () => {
 
       </div>
 
-      <NavLink to="/needs" className={({ isActive }) => isActive ? "active-link" : ""}>Needs</NavLink>
+      <NavLink to="/need" className={({ isActive }) => isActive ? "active-link" : ""}>Needs</NavLink>
       <NavLink to="/profile" className={({ isActive }) => isActive ? "active-link" : ""}>Profile</NavLink>
       <NavLink to="/settings" className={({ isActive }) => isActive ? "active-link" : ""}>Settings</NavLink>
       <NavLink to="/help-center" className={({ isActive }) => isActive ? "active-link" : ""}>Help Center</NavLink>

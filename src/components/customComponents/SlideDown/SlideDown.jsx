@@ -4,18 +4,33 @@ import styles  from "../Post/Post.module.css"
 import loge from "../../../assets/loge.jpeg";
 import { AddBtn } from "../Addbtn";
 import { useNavigate } from "react-router-dom";
+import { usePost } from "../../../customHooks/usePost";
+import { useDecoded } from "../../../customHooks/useDecode";
 
-// eslint-disable-next-line react/prop-types
+
 export function SlideDown({Medicine}) {
+  const decodedToken = useDecoded();
   const navigate = useNavigate();
-  const goRequestMedicine = () => {
-    navigate("/RequestMedicine");
-  }
+  const { sendRequest, isLoading } = usePost('http://localhost:7777/request');
+  const handleRequest = async () => {
+    if (!decodedToken) return;
+    
+    try {
+      const requestData = {
+        user_id: decodedToken.id,
+        medicine: Medicine._id,
+      };
+      
+      await sendRequest(requestData);
+      navigate("/need");
+    } catch (error) {
+      console.error("Failed to send request:", error);
+    }
+  };
   const { scrollYProgress } = useScroll();
   // eslint-disable-next-line no-unused-vars
   const y = useTransform(scrollYProgress, [0, 1], [-100, 0]);
   
-
   return (
     <motion.div
     initial={{
@@ -34,8 +49,6 @@ export function SlideDown({Medicine}) {
         
         <>
         <main className={`${styles.post} position-relative px-4 py-3 `}>
-
-
           <header className="position-absolute top-0 start-50  translate-middle  ">
             <img src={loge} width={"50px"} height={"50px"} className=" rounded rounded-circle" alt="" />
           </header>
@@ -43,10 +56,15 @@ export function SlideDown({Medicine}) {
           <h5>Name :<span className=" fw-midium fs-5 ">{Medicine.name.toUpperCase()}</span> <span className="fw-light fs-6">{Medicine.concentration}</span></h5>
           <p ><span className="fw-bold" >Expire date :</span> {Medicine.expire_date.split("-").slice(0,2).join("-") } </p>
             
-            <AddBtn style={{ width: "100px" }} onClick={goRequestMedicine} className=" mt-2 d-block  ms-auto" >Pick</AddBtn>
-        </main>
-            
-        
+            <AddBtn 
+              style={{ width: "100px" }} 
+              onClick={handleRequest} 
+              className=" mt-2 d-block  ms-auto"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Processing...' : 'Pick'}
+            </AddBtn>
+          </main>
         </>
         
       }
