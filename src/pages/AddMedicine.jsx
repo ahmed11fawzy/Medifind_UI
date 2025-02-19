@@ -1,11 +1,41 @@
-import React, { useState } from "react";
+import {  useState } from "react";
 import { Container, Card, Form, Modal, Button } from "react-bootstrap";
-import { NavBar } from "../components/sharedComponents/MyNavbar";
-import { Footer } from "../components/sharedComponents/MyFooter";
 import { AddBtn } from "../components/customComponents/Addbtn";
 import {useAddMedicineForm} from "../customHooks/AddMedicine";  
-
+import {useDecoded} from "../customHooks/useDecode"
+import axios from "axios";
 export const AddMedicine = () => {
+  const [img_path,setPath]=useState('')
+  const handleUpload = async (e) => {
+    const file =e.target.files[0] ;
+    console.log(file)
+    if(!file) return;
+    const formData = new FormData();
+    formData.append("file", file     );
+    formData.append("upload_preset", "medifined"); // Replace with your Cloudinary Upload Preset
+    formData.append("cloud_name", "doxyvufkz"); // Replace with your Cloudinary Cloud Name
+    
+
+    try {
+        const response = await axios.post(
+            "https://api.cloudinary.com/v1_1/doxyvufkz/image/upload",
+            formData
+        );
+        
+        
+        console.log(response.data.secure_url);
+        setPath(response.data.secure_url)
+      // Pass image URL to parent component
+    } catch (error) {
+        console.error("Upload failed:", error);
+        
+    }
+};
+
+const decodedToken=useDecoded()
+  
+  console.log(decodedToken);
+  
   const {
     medicineName,
     numPieces,
@@ -24,42 +54,46 @@ export const AddMedicine = () => {
   const [showModal, setShowModal] = useState(false);
  
 
-  
+  // Handle submit  
   const handleSubmit = async(e) => {
     e.preventDefault();
     if (validateForm()) {
 
       try {
-        const response = await fetch("http://localhost:7777/medicine", {  // Add API endpoint here
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-      
-            name: medicineName,
-            quantity:  Number(numPieces),
-            concentration: concentration,
-            expire_date:expireDate,
-          //  user_id: { type: 'string' },
-          }),
-        });
-        console.log('req sent')
+
+          if(img_path && decodedToken){
+            const response = await fetch("http://localhost:7777/medicine", {  // Add API endpoint here
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                name: medicineName,
+                quantity:  Number(numPieces),
+                concentration: concentration,
+                expire_date:expireDate,
+                image_path:img_path,
+                user_id:decodedToken.id,
+              }),
+            });
+            console.log('req sent')
+
     
-        if (!response.ok) {
-          throw new Error(data.message || "Something went wrong!");
-          console.log('resp not ok')
-        }
-    
-        const data = await response.json();
-        console.log(data)
-        setShowModal(true);
-        setMedicineName("");
-        setNumPieces("");
-        setExpireDate("");
-        setConcentration("");
-        setImage(null);
-        document.getElementById("imageInput").value = "";
-     
+            if (!response.ok) {
+              throw new Error(data.message || "Something went wrong!");
+            }
         
+            const data = await response.json();
+            console.log(data)
+            setShowModal(true);
+            setMedicineName("");
+            setNumPieces("");
+            setExpireDate("");
+            setConcentration("");
+            setImage(null);
+            document.getElementById("imageInput").value = "";
+          }
+          else{
+            console.log('something wrong')
+          }
     } catch (error) {
         console.log(error.message);
     }
@@ -133,7 +167,8 @@ export const AddMedicine = () => {
                   <Form.Control
                     id="imageInput"
                     type="file"
-                    onChange={(e) => setImage(e.target.files[0])}
+                    accept="image/png, image/jpeg"
+                    onChange={handleUpload}
                     isInvalid={!!errors.image}
                   />
                   <Form.Control.Feedback type="invalid">{errors.image}</Form.Control.Feedback>
@@ -142,7 +177,7 @@ export const AddMedicine = () => {
             </div>
             
              <div className="text-center d-flex justify-content-end w-25 ms-auto">
-              <AddBtn type="submit">Add</AddBtn>
+              <AddBtn type="submit" disabled={!img_path} >Add</AddBtn>
             </div>
           </Form>
         </Card>

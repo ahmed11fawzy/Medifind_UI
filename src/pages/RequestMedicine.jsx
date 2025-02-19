@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { Container, Row, Col, Form, Modal, Button, Card } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
-import { NavBar } from "../components/sharedComponents/MyNavbar";
-import { Footer } from "../components/sharedComponents/MyFooter";
 import { AddBtn } from "../components/customComponents/Addbtn";
 import useMedicineForm from "../customHooks/RequestMedicine";  
-
+import axios from "axios";
 export const RequestMedicine = () => {
   const {
     formData,
     errors,
     handleChange,
-    handleImageUpload,
+    handleUpload,
     handleDrop,
     validateForm,
     setFormData,
@@ -110,7 +108,7 @@ export const RequestMedicine = () => {
                   type="file"
                   id="fileInput"
                   accept="image/*"
-                  onChange={handleImageUpload}
+                  onChange={handleUpload}
                   hidden
                 />
               </div>
@@ -139,14 +137,14 @@ export const RequestMedicine = () => {
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
-                    style={{ backgroundColor: "#fff" }}
+                    style={{ backgroundColor: "#ffffff" }}
                     isInvalid={!!errors.description}
                   />
                   <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
                 </Form.Group>
 
                 <div className="mt-4 d-flex justify-content-end w-25 ms-auto">
-                  <AddBtn type="submit">Add Medicine</AddBtn>
+                  <AddBtn style={{ backgroundColor: "var(--main-color)" }} type="submit">Add Medicine</AddBtn>
                 </div>
               </Form>
             </Col>
