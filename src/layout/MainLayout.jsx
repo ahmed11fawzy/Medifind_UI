@@ -9,8 +9,14 @@ import SharedLayout from './SharedLayout';
 import { SignUp } from '../pages/signup/SignUp';
 import ProtectedRoute from '../pages/ProtectedRoute';
 import { CardPage } from "../pages/CardPage";
+
+import { CompleteProfile } from "../pages/Home/CompleteProfile";
+import { DonorPage } from "../pages/DonerPage";
+
+
 import { useDecoded } from "../customHooks/useDecode";
 import { useEffect, useState, useMemo } from 'react';
+
 export function MainLayout() {
   const token = localStorage.getItem('token');
   const isAuthenticated = !!token;
@@ -89,10 +95,15 @@ export function MainLayout() {
             <Route path="/AddMedicine" element={<AddMedicine />} />
             <Route path="/RequestMedicine" element={<RequestMedicine />} />
             <Route path="/RequestMedicine/:id" element={<RequestMedicine />} />
-            <Route path="/need" element={<CardPage />} />
+
+            <Route path="/need" element={<CardPage  />} />
+            <Route path="/profile" element={<CompleteProfile  />} />
+            <Route path="/donate" element={<DonorPage  />} />
+
             
             {/* Shared Routes */}
             <Route path="/home" element={<Home />} />
+
           </Route>
         </Route>
       </Routes>

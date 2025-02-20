@@ -1,3 +1,6 @@
+
+
+
 import React, { useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +21,7 @@ import { AddBtn } from "./Addbtn";
       });
     };
     // ... rest of the component remains the same
+
   return (
     <Card
       style={{
@@ -49,7 +53,7 @@ import { AddBtn } from "./Addbtn";
             </Card.Title>
             <div className="d-flex align-items-center  mt-2">
               
-              <span style={{ fontSize: "16px", fontWeight: "bold", color: "#000" }}>{quantity}</span>
+              <span style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}>Conc :- {quantity}</span>
               
             </div>
            { !(requested&&status)&& <AddBtn onClick={goToRequestMedicine} className="ms-auto d-block" style={{ backgroundColor: "#109d89", border: "none", fontSize: "18px",width:"60%" ,marginRight:"150px",marginTop:"10px"}}>Check out</AddBtn>     
