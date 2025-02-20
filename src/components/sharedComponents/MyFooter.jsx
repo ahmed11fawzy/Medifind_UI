@@ -4,7 +4,7 @@ import { FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
 export const Footer = () => {
   return (
 
-    <footer className=" mb-0 bottom-0 " style={{ backgroundColor: "#1E252B", padding: "20px 0" }}>
+    <footer className=" mb-0 bottom-0  " style={{ backgroundColor: "#1E252B", padding: "20px 0" }}>
 
       <Container>
         <Row className="text-white text-center text-md-start position-relative">
@@ -21,7 +21,7 @@ export const Footer = () => {
           {/* About Links */}
           <Col 
             md={3} 
-            className="mb-3 mb-md-0" 
+            className="mb-3 mb-md-0 " 
             style={{ paddingRight: "20px", paddingLeft: "20px", position: "relative" }}
           >
             <ul className="list-unstyled">

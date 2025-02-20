@@ -10,14 +10,13 @@ import image2 from "../assets/img2.jpg";
 import image3 from "../assets/img3.jpg";
 import image4 from "../assets/img4.jpg";
 
-const initialItems = [
+export  const initialItems = [
   { id: 1, name: "Alphintern", image: image1, quantity: 1 },
   { id: 2, name: "Mebo", image: image2, quantity: 1 },
   { id: 3, name: "Moov", image: image3, quantity: 1 },
   { id: 4, name: "Panadol", image: image4, quantity: 1 },
 ];
-
-export const CardPage = () => {
+ const CardPage = () => {
   const [items, setItems] = useState(initialItems);
 
   const handleIncrease = (id) => {
@@ -70,4 +69,5 @@ export const CardPage = () => {
     </Container>
   );
 };
+
 

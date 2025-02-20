@@ -1,14 +1,16 @@
 .sidebar {
-    min-height: 50vh;
+    height: 70vh;
     text-align: left;
-    position: relative;
+    position: fixed;
+    top: 110px;
+   
   }
   
   .sidebar::before {
     content: "";
     position: absolute;
     top: 5px;  
-    bottom: 5px; 
+    bottom: 0; 
     left: 0;
     width: 1px;
     height: 450px;
@@ -20,7 +22,7 @@
     color:#030303 !important;
     padding-bottom: 10px;
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     transition: color 0.3s;
     
   }
@@ -58,18 +60,18 @@
   
   .sidebar button {
     background-color: #e9edee00;
-    color: #01b3bd;
+    color: #0c0c0c;
     border: none;
-    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    font-weight: bold;
     text-align: center;
-    margin-right: 100px;
+    font-size: large;
+    margin: 0%;
+    padding: 0%;
+    margin-right: 50px;
   }
   
   .sidebar button:hover {
     color: red;
-    background-color: #e9edee00 ;
+    background-color:white ;
   }

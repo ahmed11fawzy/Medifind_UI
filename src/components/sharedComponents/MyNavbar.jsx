@@ -1,20 +1,32 @@
-
-import { Navbar, Nav, Container, Dropdown, Form, InputGroup } from "react-bootstrap";
+import { Navbar, Nav, Container, Form, InputGroup, Spinner } from "react-bootstrap";
 import { IoSearchOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom"; 
 import logo from "../../assets/loge.jpeg";
 import { Styledbtn } from "../customComponents/Styledbtn";
 import { useState } from "react";
+import { useFetch } from "../../customHooks/useFetch"; 
+import "../../styles/navstyle.css";
 
 export const NavBar = () => {
   const navigate = useNavigate(); 
   const [open, setOpen] = useState(false);
-  const items = ["Add Medicine", "Request Medicine"];
+
+  const { data: user, isLoading, serverError } = useFetch("http://localhost:7777/user/:id"); // ضع رابط API الصحيح هنا
+  const userInitial = user?.name ? user.name.charAt(0).toUpperCase() : "U"; 
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    setOpen(false);
+  };
 
   return (
-    <Navbar bg="light" expand="lg" className="shadow-sm">
+    <Navbar bg="light" expand="lg" className="shadow-sm ">
       <Container>
-        <Navbar.Brand onClick={() => navigate("/")} className="d-flex align-items-center me-auto text-brand" style={{ cursor: "pointer" , color: "var(--main-color)"}}>
+        <Navbar.Brand 
+          onClick={() => navigate("/")} 
+          className="d-flex align-items-center me-auto text-brand" 
+          style={{ cursor: "pointer", color: "var(--main-color)" }}
+        >
           <img
             src={logo}
             alt="MediFind Logo"
@@ -37,25 +49,30 @@ export const NavBar = () => {
               </InputGroup>
             </Form>
 
+            <div className="App d-flex align-items-center">
+              <Styledbtn onClick={() => setOpen(!open)}>Add🤝</Styledbtn>
+              <ul className={open ? "show" : ""}>
+                <li onClick={() => handleNavigation("/AddMedicine")}>Add Medicine</li>
+                <li onClick={() => handleNavigation("/RequestMedicine")}>Request Medicine</li>
+              </ul>
+              <div 
+                className="user-icon ms-3 d-flex align-items-center justify-content-center" 
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  backgroundColor: "#007bff0",
+                  color: "#0e0d0d",
+                  borderRadius: "50%",
+                  fontSize: "1.2rem",
+                  fontWeight: "bold",
+                  cursor: "pointer"
+                }}
+                onClick={() => navigate("/profile")}
+              >
+                {isLoading ? <Spinner animation="border" size="sm" /> : serverError ? "!" : userInitial}
+              </div>
 
-            <div className="App">
-      <Styledbtn onClick={() => setOpen(!open)}>Add🤝</Styledbtn>
-      <ul style={{ overflow: "hidden", transition: "height 0.3s", height: open ? "50px" : "0px" }}>
-      <li onClick={() => navigate("/AddMedicine")} style={{ cursor: "pointer" }}>Add Medicine</li>
-      <li onClick={() => navigate("/RequestMedicine")} style={{ cursor: "pointer" }}>Request Medicine</li>
-          {items.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-          </ul>
-         </div>
-
-            {/* <Dropdown className="ms-auto">
-              <Dropdown.Toggle style={{ backgroundColor: "#1E9694", border: "none" }}>Add</Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => navigate("/requestMedicine")}>Request Medicine</Dropdown.Item>
-                <Dropdown.Item onClick={() => navigate("/addMedicine")}>Add Medicine</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown> */}
+            </div>
           </Nav>
         </Navbar.Collapse>
       </Container>

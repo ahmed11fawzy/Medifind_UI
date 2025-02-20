@@ -173,7 +173,7 @@ export function Registration() {
             <Link className="ms-2 text-decoration-none text-info" to="/login" >login</Link>
           </p>
           
-          <AddBtn className="ms-auto d-block">Register</AddBtn>
+          <AddBtn type="submit" className="ms-auto d-block">Register</AddBtn>
         </Form>
       </Card>
     </Container>

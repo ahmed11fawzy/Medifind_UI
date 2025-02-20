@@ -2,7 +2,8 @@ import { useState,useEffect } from "react";
 import { Form } from "react-bootstrap";
 import img1 from "../assets/prescription.png"
 import { AddBtn } from "../components/customComponents/Addbtn";
-export const RequestsReview = () => {
+
+export  const RequestsReview = () => {
  
     const [requests, setRequests] = useState([]);    
     useEffect(() => {
