@@ -1,9 +1,8 @@
 import React from "react";
-import { Card, Button } from "react-bootstrap";
-import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
+import { Card } from "react-bootstrap";
 import { AddBtn } from "./Addbtn";
 
-export const CardComponent = ({ image, name, quantity, onIncrease, onDecrease, onRemove }) => {
+export const CardComponent = ({ image, name, quantity, onRemove }) => {
   return (
     <Card
       style={{
@@ -35,7 +34,7 @@ export const CardComponent = ({ image, name, quantity, onIncrease, onDecrease, o
             </Card.Title>
             <div className="d-flex align-items-center  mt-2">
               
-              <span style={{ fontSize: "16px", fontWeight: "bold", color: "#000" }}>{quantity}</span>
+              <span style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}>Conc :- {quantity}</span>
               
             </div>
             <AddBtn onClick={onRemove} style={{ backgroundColor: "#1E9694", border: "none", width: "60%", marginTop: "10px" }}>Remove</AddBtn>
