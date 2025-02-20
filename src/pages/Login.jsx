@@ -47,7 +47,7 @@ export function Login() {
           }),
         });
         if (!response.ok) {
-          throw new Error(data.message || "Something went wrong!");
+          throw new Error("Something went wrong!");
         }
 
       const data = await response.json();

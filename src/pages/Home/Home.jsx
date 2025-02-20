@@ -3,6 +3,8 @@ import styles from "./home.module.css"
 import {AddBtn} from "../../components/customComponents/Addbtn"
 
 import { Post } from "../../components/customComponents/Post/Post";
+
+
 export  function Home() {
   const navigate = useNavigate();
   const goToAddMedicine = () => {
