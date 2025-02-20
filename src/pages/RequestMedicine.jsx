@@ -69,7 +69,7 @@ export const RequestMedicine = () => {
 
   return (
     <>
-      <Container style={{ marginTop: "50px", marginBottom: "70px"}} >
+      <Container style={{ marginTop: "50px", marginBottom: "70px", marginLeft: "100px"}} >
         <Card className="shadow-sm " style={{padding:"25px 20px",margin:"50px 0px"}} >
           <h3 className="text-center mb-4">Request Medicine</h3>
           <Row >

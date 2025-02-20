@@ -24,9 +24,9 @@ const Toast = () => {
           animate="visible"
           exit="exit"
           style={{
-            zIndex: 1050, // لضمان ظهوره فوق الفوتر
-            top: "80px", // تعديل الموضع لجعله فوق الفوتر
-            right: "20px", // يظل في الجانب الأيمن
+            zIndex: 1050,
+            top: "80px", 
+            right: "20px", 
           }}
         >
           <div className="toast-header">
