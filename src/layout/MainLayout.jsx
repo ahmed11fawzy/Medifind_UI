@@ -7,34 +7,103 @@ import { RequestMedicine } from '../pages/RequestMedicine';
 import { RequestsReview } from '../pages/RequestsReview';
 import SharedLayout from './SharedLayout';
 import { SignUp } from '../pages/signup/SignUp';
-import ProtectedRoute from '../pages/ProtectedRoute'; // Import the ProtectedRoute component
+import ProtectedRoute from '../pages/ProtectedRoute';
 import { CardPage } from "../pages/CardPage";
+
 import { CompleteProfile } from "../pages/Home/CompleteProfile";
 import { DonorPage } from "../pages/DonerPage";
 
-export function MainLayout() {
-  const token = localStorage.getItem('token'); // Check for token in local storage
-  const isAuthenticated = !!token; // Determine if user is authenticated
 
+import { useDecoded } from "../customHooks/useDecode";
+import { useEffect, useState, useMemo } from 'react';
+
+export function MainLayout() {
+  const token = localStorage.getItem('token');
+  const isAuthenticated = !!token;
+  const decodedToken = useDecoded();
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Add immediate role update when token changes
+  useEffect(() => {
+    const handleTokenChange = () => {
+      setIsLoading(true);
+      if (decodedToken !== null) {
+        setIsLoading(false);
+      }
+    };
+
+    handleTokenChange();
+    window.addEventListener('storage', handleTokenChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleTokenChange);
+    };
+  }, [decodedToken, token]);
+  const userRole = useMemo(() => {
+    if (!decodedToken) return 'guest';
+    return decodedToken.role?.toLowerCase() || 'guest';
+  }, [decodedToken]);
+  
+  // Don't render routes until token is decoded
+  if (isLoading && isAuthenticated) {
+    return <div>Loading...</div>;
+  }
+  
+  const roleAccess = {
+    doctor: ['/home', '/offersReview', '/RequestsReview'],
+    user: ['/home', '/AddMedicine', '/RequestMedicine', '/need'],
+    guest: ['/', '/login', '/signup']
+  };
+  
+  const isAllowedRoute = (path, role) => {
+    if (!role || !roleAccess[role]) {
+      console.log('Invalid role:', { role, decodedRole: decodedToken?.role });
+      return false;
+    }
+  const normalizedPath = path.endsWith('/') ? path.slice(0, -1) : path;
+    const hasAccess = roleAccess[role].some(route => {
+      return normalizedPath === route || 
+             normalizedPath.startsWith(`${route}/`);
+    });
+  console.log('Access check:', { 
+      path: normalizedPath, 
+      role,
+      allowedRoutes: roleAccess[role],
+      hasAccess 
+    });
+  return hasAccess;
+  };
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<SignUp />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        
         <Route element={<SharedLayout />}>
-          {/* Wrap protected routes with ProtectedRoute */}
-          <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
-            <Route path="/home" element={<Home />} />
+          <Route element={
+            <ProtectedRoute 
+              isAuthenticated={isAuthenticated} 
+              isAllowed={isAllowedRoute}
+              userRole={userRole}
+            />
+          }>
+            {/* doctor Routes */}
             <Route path="/offersReview" element={<OffersReview />} />
+            <Route path="/RequestsReview" element={<RequestsReview />} />
+            
+            {/* User Routes */}
             <Route path="/AddMedicine" element={<AddMedicine />} />
             <Route path="/RequestMedicine" element={<RequestMedicine />} />
             <Route path="/RequestMedicine/:id" element={<RequestMedicine />} />
-            <Route path="/RequestsReview" element={<RequestsReview />} />
+
             <Route path="/need" element={<CardPage  />} />
             <Route path="/profile" element={<CompleteProfile  />} />
             <Route path="/donate" element={<DonorPage  />} />
+
+            
+            {/* Shared Routes */}
+            <Route path="/home" element={<Home />} />
+
           </Route>
         </Route>
       </Routes>
