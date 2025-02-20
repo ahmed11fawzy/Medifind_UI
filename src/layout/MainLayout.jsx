@@ -29,6 +29,7 @@ export function MainLayout() {
             <Route path="/offersReview" element={<OffersReview />} />
             <Route path="/AddMedicine" element={<AddMedicine />} />
             <Route path="/RequestMedicine" element={<RequestMedicine />} />
+            <Route path="/RequestMedicine/:id" element={<RequestMedicine />} />
             <Route path="/RequestsReview" element={<RequestsReview />} />
             <Route path="/need" element={<CardPage  />} />
             <Route path="/profile" element={<CompleteProfile  />} />

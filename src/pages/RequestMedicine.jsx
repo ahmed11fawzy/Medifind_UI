@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { Container, Row, Col, Form, Modal, Button, Card } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
-import { NavBar } from "../components/sharedComponents/MyNavbar";
-import { Footer } from "../components/sharedComponents/MyFooter";
 import { AddBtn } from "../components/customComponents/Addbtn";
 import useMedicineForm from "../customHooks/RequestMedicine";  
-
+import axios from "axios";
 export const RequestMedicine = () => {
   const {
     formData,
     errors,
     handleChange,
-    handleImageUpload,
+    handleUpload,
     handleDrop,
     validateForm,
     setFormData,
@@ -110,7 +108,7 @@ export const RequestMedicine = () => {
                   type="file"
                   id="fileInput"
                   accept="image/*"
-                  onChange={handleImageUpload}
+                  onChange={handleUpload}
                   hidden
                 />
               </div>
