@@ -4,7 +4,15 @@ import { FaPlus } from "react-icons/fa";
 import { AddBtn } from "../components/customComponents/Addbtn";
 import useMedicineForm from "../customHooks/RequestMedicine";  
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDecoded } from "../customHooks/useDecode";
+
 export const RequestMedicine = () => {
+  const { state } = useLocation();
+  const { medicineName, medicine_id ,request_id} = state || {};
+  const navigate = useNavigate();
+  const decodedToken = useDecoded();
+  
   const {
     formData,
     errors,
@@ -17,52 +25,79 @@ export const RequestMedicine = () => {
 
   const [showModal, setShowModal] = useState(false);
 
+  useState(() => {
+    if (medicineName) {
+      setFormData(prev => ({
+        ...prev,
+        name: medicineName
+      }));
+    }
+  }, [medicineName]);
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     if (validateForm()) {
-
-      
-      try {
-        const response = await fetch("http://localhost:7777/request", {  // Add API endpoint here
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-      
+      const requestData = {
         req_name: formData.name,
         req_description: formData.description,
-        // prescription_img: { type: 'string' },
-        // status: { type: 'boolean' },
-        // req_date: { type: 'string' },
-        // doctor_id: { type: 'string' },
-        // user_id: { type: 'string' },
-          }),
+        user_id:decodedToken.id,
+        medicine:medicine_id?medicine_id:"",
+        prescription_img:formData.image,
+        status: false,
+        examined: false
+      };
+   if(request_id!==undefined){
+      try {
+        const response = await fetch(`http://localhost:7777/request/${request_id}`, {
+          method: "PATCH",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData)
         });
-        console.log('req sent')
-    
+
         if (!response.ok) {
-          throw new Error(data.message || "Something went wrong!");
-          console.log('resp not ok')
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Something went wrong!");
         }
-        const data = await response.json();
-        console.log(data)
 
-
-
-      setShowModal(true);
-      setFormData({
-        name: "",
-        description: "",
-        image: null,
-      });
+        setShowModal(true);
+        setFormData({
+          name: "",
+          description: "",
+          image: null,
+        });
+        
+        setTimeout(() => {
+          navigate('/need');
+        }, 2000);
+      } catch (error) {
+        console.error("Submit error:", error);
+      }
     }
-          
-   catch (error) {
-    console.log(error.message);
-}
+    else{
+      try {
+        const response = await fetch("http://localhost:7777/orders", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData)
+        });
 
-}
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error( "Something went wrong!");
+        }
 
-}
+        setShowModal(true);
+        setFormData({ name: "", description: "", image: null });
+      } catch (error) {
+        console.error("Submit error:", error);
+      }
+    }
+    }
+};
   
 
   return (
@@ -93,7 +128,7 @@ export const RequestMedicine = () => {
               >
                 {formData.image ? (
                   <img
-                    src={formData.image}
+                    src={typeof formData.image === 'string' ? formData.image : URL.createObjectURL(formData.image)}
                     alt="Preview"
                     style={{
                       width: "100%",
@@ -124,7 +159,8 @@ export const RequestMedicine = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    style={{ backgroundColor: "#fff" }}
+                    disabled={medicine_id}
+                    style={{ backgroundColor: medicine_id ? "#f8f9fa" : "#fff" }}
                     isInvalid={!!errors.name}
                   />
                   <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
@@ -144,7 +180,9 @@ export const RequestMedicine = () => {
                 </Form.Group>
 
                 <div className="mt-4 d-flex justify-content-end w-25 ms-auto">
-                  <AddBtn style={{ backgroundColor: "var(--main-color)" }} type="submit">Add Medicine</AddBtn>
+                  <AddBtn style={{ backgroundColor: "var(--main-color)" }} type="submit">
+                    {medicine_id ? 'Update Request' : 'Add Request'}
+                  </AddBtn>
                 </div>
               </Form>
             </Col>
@@ -156,7 +194,9 @@ export const RequestMedicine = () => {
         <Modal.Header closeButton>
           <Modal.Title>Success</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Medicine added successfully!</Modal.Body>
+        <Modal.Body>
+          {medicine_id ? 'Request updated successfully!' : 'Request added successfully!'}
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Close
