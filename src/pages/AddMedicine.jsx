@@ -4,8 +4,10 @@ import { AddBtn } from "../components/customComponents/Addbtn";
 import {useAddMedicineForm} from "../customHooks/AddMedicine";  
 import {useDecoded} from "../customHooks/useDecode"
 import axios from "axios";
+import { Loader } from "../components/customComponents/Loader/Loader";
 export const AddMedicine = () => {
   const [img_path,setPath]=useState('')
+  const [isUploading,setUploading]=useState(false);
   const handleUpload = async (e) => {
     const file =e.target.files[0] ;
     console.log(file)
@@ -13,18 +15,16 @@ export const AddMedicine = () => {
     const formData = new FormData();
     formData.append("file", file     );
     formData.append("upload_preset", "medifined"); // Replace with your Cloudinary Upload Preset
-    formData.append("cloud_name", "doxyvufkz"); // Replace with your Cloudinary Cloud Name
-    
-
+    formData.append("cloud_name", "doxyvufkz");
+    setUploading(true) // Replace with your Cloudinary Cloud Name
     try {
         const response = await axios.post(
             "https://api.cloudinary.com/v1_1/doxyvufkz/image/upload",
             formData
         );
-        
-        
         console.log(response.data.secure_url);
         setPath(response.data.secure_url)
+        setUploading(false)
       // Pass image URL to parent component
     } catch (error) {
         console.error("Upload failed:", error);
@@ -104,6 +104,7 @@ const decodedToken=useDecoded()
 
   return (
     <>
+      {isUploading && <Loader/>}
       <Container style={{ marginTop: "50px" }}>
         <Card className="p-4 shadow-sm">
           <h3 className="text-center mb-4">Add Medicine</h3>
