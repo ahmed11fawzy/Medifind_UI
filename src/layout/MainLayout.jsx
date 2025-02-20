@@ -1,13 +1,31 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from '../pages/Login';
-import { Home } from "../pages/Home/Home";
-import { OffersReview } from "../pages/OffersReview";
-import { AddMedicine } from '../pages/AddMedicine';
-import { RequestMedicine } from '../pages/RequestMedicine';
-import { RequestsReview } from '../pages/RequestsReview';
-import SharedLayout from './SharedLayout';
 import { SignUp } from '../pages/signup/SignUp';
-import ProtectedRoute from '../pages/ProtectedRoute';
+import { ProtectedRoute } from '../pages/ProtectedRoute';
+import { Suspense, lazy } from 'react';
+import SharedLayout from "../layout/SharedLayout"; 
+
+const Home = lazy(async () => {
+  const module = await import("../pages/Home/Home");
+  return { default: module.Home };
+});
+const OffersReview =  lazy(async () => {
+  const module = await import("../pages/OffersReview");
+  return { default: module.OffersReview };
+});
+const AddMedicine = lazy(async () => {
+  const module = await import("../pages/AddMedicine");
+  return { default: module.AddMedicine };
+});
+const RequestMedicine =  lazy(async () => {
+  const module = await import("../pages/RequestMedicine");
+  return { default: module.RequestMedicine };
+});
+const RequestsReview =  lazy(async () => {
+  const module = await import("../pages/RequestsReview");
+  return { default: module.RequestsReview };
+});
+
 import { CardPage } from "../pages/CardPage";
 
 import { CompleteProfile } from "../pages/Home/CompleteProfile";
@@ -51,7 +69,7 @@ export function MainLayout() {
   
   const roleAccess = {
     doctor: ['/home', '/offersReview', '/RequestsReview'],
-    user: ['/home', '/AddMedicine', '/RequestMedicine', '/need'],
+    user: ['/home', '/AddMedicine', '/RequestMedicine', '/need', '/donate', '/profile',],
     guest: ['/', '/login', '/signup']
   };
   
@@ -75,6 +93,7 @@ export function MainLayout() {
   };
   return (
     <BrowserRouter>
+      <Suspense fallback={<h2 style={{ textAlign: "center" }}>Loading...</h2>}>
       <Routes>
         <Route path="/" element={<SignUp />} />
         <Route path="/signup" element={<SignUp />} />
@@ -107,6 +126,8 @@ export function MainLayout() {
           </Route>
         </Route>
       </Routes>
+      </Suspense>
+      
     </BrowserRouter>
   );
 }
