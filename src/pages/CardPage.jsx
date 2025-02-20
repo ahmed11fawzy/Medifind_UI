@@ -34,26 +34,24 @@ export const CardPage = () => {
     }
   };
   return (
-      <>
+    <>
       <Row>
         {data ? data.map((item) => (
-          <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
-            <CardComponent
-              image={item.medicine.image_path}
-              name={item.medicine.name}
-              quantity={item.medicine.concentration}
-              /* onIncrease={() => handleIncrease(item.id)}
-              onDecrease={() => handleDecrease(item.id)}*/
-              onRemove= {() => handleRemove(item._id)} 
-            />
-          </Col>
-        )) : <div> no thing  </div> 
-      }
+          item.medicine ? (  // Add check for medicine property
+            <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
+              <CardComponent
+                medicine_id={item.medicine?._id}
+                status={item.status}
+                request_id={item._id}
+                image={item.medicine?.image_path || ''}  // Add fallback
+                name={item.medicine?.name || 'No name'}
+                quantity={item.medicine?.concentration || ''}
+                onRemove={() => handleRemovZZZe(item._id)} 
+              />
+            </Col>
+          ) : null
+        )) : <div>Nothing to display</div>}
       </Row>
-      <div className="text-center mt-3 ">
-        
-        <AddBtn onClick={goToRequestMedicine} className="ms-auto d-block" style={{ backgroundColor: "#109d89", border: "none", fontSize: "18px",width:"200px" ,marginRight:"150px"}}>Check out</AddBtn>     
-      </div>
     </>
   );
 };
