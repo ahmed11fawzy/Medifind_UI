@@ -27,4 +27,3 @@ const ProtectedRoute = ({ isAuthenticated, isAllowed, userRole }) => {
   return <Outlet />;
 };
 
-export default ProtectedRoute;
