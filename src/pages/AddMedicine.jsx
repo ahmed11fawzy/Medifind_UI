@@ -100,7 +100,7 @@ export const AddMedicine = () => {
 
   return (
     <>
-      <Container style={{ marginTop: "50px", marginBottom: "50px" }}>
+      <Container style={{ marginTop: "50px", marginBottom: "50px", marginLeft: "100px"}}>
         <Card className="p-4 shadow-sm">
           <h3 className="text-center mb-4">Add Medicine</h3>
           <Form onSubmit={handleSubmit}>
