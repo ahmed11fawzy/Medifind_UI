@@ -1,3 +1,6 @@
+
+
+
 import React, { useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -5,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
 import { AddBtn } from "./Addbtn";
 
-  export const CardComponent = ({ image, name, quantity, onIncrease, onDecrease, onRemove, request_id ,medicine_id,status}) => {
+  export const CardComponent = ({ image, name, quantity,onProceed, onRemove, request_id ,medicine_id,status }) => {
     const[requested,setRequested]=useState(false)
     const navigate = useNavigate();
     const goToRequestMedicine = () => {
@@ -18,6 +21,7 @@ import { AddBtn } from "./Addbtn";
       });
     };
     // ... rest of the component remains the same
+
   return (
     <Card
       style={{
@@ -49,10 +53,11 @@ import { AddBtn } from "./Addbtn";
             </Card.Title>
             <div className="d-flex align-items-center  mt-2">
               
-              <span style={{ fontSize: "16px", fontWeight: "bold", color: "#000" }}>{quantity}</span>
+              <span style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}>Conc :- {quantity}</span>
+              
               
             </div>
-           { !(requested&&status)&& <AddBtn onClick={goToRequestMedicine} className="ms-auto d-block" style={{ backgroundColor: "#109d89", border: "none", fontSize: "18px",width:"60%" ,marginRight:"150px",marginTop:"10px"}}>Check out</AddBtn>     
+           { !(requested&&status)&& <AddBtn onClick={onProceed}  className="ms-auto d-block" style={{ backgroundColor: "#109d89", border: "none", fontSize: "18px",width:"60%" ,marginRight:"150px",marginTop:"10px"}}>Check out</AddBtn>     
               }
           { !(requested&&status)&& <AddBtn onClick={onRemove}
              style={{ backgroundColor: "#ca1e0f", border: "none", width: "60%", marginTop: "10px" }}>Remove</AddBtn>

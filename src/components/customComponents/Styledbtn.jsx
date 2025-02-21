@@ -14,7 +14,7 @@ export const StyledButton = styled(motion.button)`
   border-radius: 8px;
   width: 160px;
   transition: transform 0.2s;
-  width: 100%;
+  height: auto;
 
   &:hover {
     transform: scale(1.05);
