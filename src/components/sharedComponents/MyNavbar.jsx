@@ -43,7 +43,7 @@ export const NavBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
 
-          <Nav className="sidebar mx-auto">
+          {decodedToken?.role == 'user' && <Nav className="sidebar mx-auto">
             <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
               Home
             </NavLink>
@@ -62,20 +62,20 @@ export const NavBar = () => {
             <NavLink to="/donate" className={({ isActive }) => (isActive ? "active-link" : "")}>
               Donation
             </NavLink>
-          </Nav>
+          </Nav>}
 
 
-          {/* <Nav className="ms-auto review ">
-                <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
-                 Home
-              </NavLink>
-              <NavLink to="/offersReview" className={({ isActive }) => (isActive ? "active-link" : "")}>
-                 Request
+          {decodedToken?.role == 'doctor' && <Nav className="ms-auto review ">
+            <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
+              Home
             </NavLink>
-           <NavLink to="/donateReview" className={({ isActive }) => (isActive ? "active-link" : "")}>
-                Donate
-             </NavLink>
-            </Nav> */}
+            <NavLink to="/RequestsReview" className={({ isActive }) => (isActive ? "active-link" : "")}>
+              Request
+            </NavLink>
+            <NavLink to="/offersReview" className={({ isActive }) => (isActive ? "active-link" : "")}>
+              Donate
+            </NavLink>
+          </Nav>}
 
 
 
