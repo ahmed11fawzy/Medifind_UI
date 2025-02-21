@@ -1,83 +1,92 @@
-@media (max-width: 992px) {
-  .sidebar {
-    flex-wrap: wrap; /* السماح للعناصر بالنزول لسطر جديد إذا لم يكن هناك مساحة */
-    justify-content: center;
-    margin-right: 0; /* إزالة الهامش الزائد على اليمين */
-    gap: 10px; /* تقليل المسافة بين العناصر */
-  }
-
-  .sidebar a {
-    font-size: medium; /* تصغير النص قليلاً عند الحاجة */
-    margin-right: 10px; /* تقليل المسافة بين العناصر */
-    padding: 8px 12px;
-  }
-
-  .review {
-    flex-wrap: wrap; /* السماح للعناصر بالنزول لسطر جديد */
-    justify-content: center;
-    margin-right: 0;
-    gap: 10px;
-  }
-
-  .review a {
-    font-size: 14px;
-    padding: 8px 10px;
-  }
-
-  .user-icon {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
-  }
-
-  .logout {
-    margin-left: 5px; /* تقليل المسافة بين زر تسجيل الخروج والعناصر الأخرى */
-  }
-
-  .logout button {
-    font-size: medium;
-  }
+.sidebar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; 
+  gap: 15px;
+  margin-right: 20px;
 }
 
-@media (max-width: 576px) {
-  .sidebar {
-    flex-direction: column; /* جعل العناصر عمودية على الشاشات الصغيرة */
-    align-items: center;
-    gap: 5px;
-  }
-
-  .sidebar a {
-    font-size: small;
-    padding: 6px 10px;
-    text-align: center;
-  }
-
-  .review {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .review a {
-    font-size: small;
-  }
-
-  .user-icon {
-    width: 30px;
-    height: 30px;
-    font-size: 0.9rem;
-  }
-
-  .logout {
-    margin-top: 10px;
-    text-align: center;
-  }
-
-  .logout button {
-    font-size: small;
-  }
+.sidebar a {
+  text-decoration: none;
+  color: #030303 !important;
+  font-size: large;
+  transition: color 0.3s, background-color 0.3s;
+  border-radius: 5px;
+  margin-right: 50px;
 }
 
+.sidebar a:hover {
+  color: #01b3bd !important;
+}
 
+.sidebar .active-link {
+  color: #01b3bd !important;
+  text-decoration: none;
+}
+
+.review {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-right: 300px;
+}
+
+.review a {
+  text-decoration: none;
+  color: #030303 !important;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 15px;
+  transition: color 0.3s, background-color 0.3s;
+  border-radius: 5px;
+}
+
+.review a:hover {
+  color: #01b3bd !important;
+  background-color: rgba(1, 179, 189, 0.1);
+}
+
+.review .active-link {
+  color: #01b3bd !important;
+  text-decoration: underline;
+}
+
+/* User Icon */
+.user-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #26cac7;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logout Button */
+.logout {
+  margin-left: 15px;
+}
+
+.logout button {
+  background-color: transparent;
+  color: #0c0c0c;
+  border: none;
+  font-size: large;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.logout button:hover {
+  color: red;
+  background-color: transparent;
+}
 
 
 
