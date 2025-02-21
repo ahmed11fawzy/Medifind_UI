@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect,useState } from "react";
 
-const Toast = () => {
+export const Toast = () => {
   const [showToast, setShowToast] = useState(true);
 
   // Animation Variants for Framer Motion
@@ -47,4 +47,4 @@ const Toast = () => {
   );
 };
 
-export default Toast;
+

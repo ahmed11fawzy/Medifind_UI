@@ -1,3 +1,5 @@
+
+
 import { useState } from "react";
 import { Container, Card, Form, Modal, Button } from "react-bootstrap";
 import { AddBtn } from "../components/customComponents/Addbtn";
@@ -8,7 +10,7 @@ import "../components/customComponents/toastedbtn"
 
 export const AddMedicine = () => {
   const [img_path, setPath] = useState('');
-  const [showToast, setShowToast] = useState(false); // حالة الـ Toast
+  const [showToast, setShowToast] = useState(false); 
 
   const handleUpload = async (e) => {
     const file = e.target.files[0];
@@ -16,8 +18,8 @@ export const AddMedicine = () => {
     if (!file) return;
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "medifined"); // Replace with your Cloudinary Upload Preset
-    formData.append("cloud_name", "doxyvufkz"); // Replace with your Cloudinary Cloud Name
+    formData.append("upload_preset", "medifined"); 
+    formData.append("cloud_name", "doxyvufkz"); 
 
     try {
       const response = await axios.post(
@@ -87,8 +89,8 @@ export const AddMedicine = () => {
           setImage(null);
           document.getElementById("imageInput").value = "";
 
-          setShowToast(true); // تفعيل الـ Toast
-          setTimeout(() => setShowToast(false), 3000); // إخفاء الـ Toast بعد 3 ثواني
+          setShowToast(true); 
+          setTimeout(() => setShowToast(false), 3000); 
         } else {
           console.log('something wrong');
         }
@@ -227,7 +229,6 @@ export const AddMedicine = () => {
 
 
 
-// import {  useState } from "react";
 // import { Container, Card, Form, Modal, Button } from "react-bootstrap";
 // import { AddBtn } from "../components/customComponents/Addbtn";
 // import {useAddMedicineForm} from "../customHooks/AddMedicine";  
