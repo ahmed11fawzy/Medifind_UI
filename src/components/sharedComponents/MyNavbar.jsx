@@ -75,10 +75,7 @@ export const NavBar = () => {
                 Donate
              </NavLink>
             </Nav> */}
-                
-
-
-          {/* User Icon */}
+       
           <div
             className="user-icon ms-3 d-flex align-items-center justify-content-center"
             onClick={() => navigate("/profile")}
@@ -86,7 +83,6 @@ export const NavBar = () => {
             {isLoading ? <Spinner animation="border" size="sm" /> : serverError ? "!" : userInitial}
           </div>
 
-          {/* Logout Button */}
           <div className="logout">
             <Button onClick={handleLogout}>Logout</Button>
           </div>
