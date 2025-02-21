@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 import { Container, Card, Form, Modal, Button } from "react-bootstrap";
 import { AddBtn } from "../components/customComponents/Addbtn";
@@ -16,6 +14,7 @@ export const AddMedicine = () => {
   const [isUploading,setUploading]=useState(false);
  
 
+
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     console.log(file);
@@ -23,11 +22,13 @@ export const AddMedicine = () => {
     const formData = new FormData();
     formData.append("file", file);
 
+
     formData.append("upload_preset", "medifined"); // Replace with your Cloudinary Upload Preset
     formData.append("cloud_name", "doxyvufkz");
     setUploading(true) // Replace with your Cloudinary Cloud Name
 
   
+
 
 
     try {
@@ -99,8 +100,11 @@ export const AddMedicine = () => {
           setConcentration("");
           setImage(null);
 
+
           setShowToast(true); 
           setTimeout(() => setShowToast(false), 3000);
+
+         
 
         } else {
           console.log('something wrong');
@@ -113,7 +117,10 @@ export const AddMedicine = () => {
 
   return (
     <>
+
       {isUploading && <Loader/>}
+
+
       <Container style={{ marginTop: "50px" }}>
         <Card className="p-4 shadow-sm">
           <h3 className="text-center mb-4">Add Medicine</h3>
