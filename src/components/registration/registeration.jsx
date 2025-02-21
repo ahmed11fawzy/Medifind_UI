@@ -83,7 +83,7 @@ export function Registration() {
         body: JSON.stringify({ name: user, email: mail, password: pwd }),
       });
       if (!response.ok){
-         throw new Error(data.message || "Something went wrong!");
+         throw new Error( "Something went wrong!");
       }
 
       const data = await response.json();

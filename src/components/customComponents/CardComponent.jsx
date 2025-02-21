@@ -1,9 +1,27 @@
-import React from "react";
+
+
+
+import React, { useState } from "react";
 import { Card, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
 import { AddBtn } from "./Addbtn";
 
-export const CardComponent = ({ image, name, quantity, onIncrease, onDecrease, onRemove }) => {
+  export const CardComponent = ({ image, name, quantity,onProceed, onRemove, request_id ,medicine_id,status }) => {
+    const[requested,setRequested]=useState(false)
+    const navigate = useNavigate();
+    const goToRequestMedicine = () => {
+      navigate("/RequestMedicine", {
+        state: {
+          medicineName: name,
+          medicine_id:medicine_id,
+          request_id
+        }
+      });
+    };
+    // ... rest of the component remains the same
+
   return (
     <Card
       style={{
@@ -34,24 +52,16 @@ export const CardComponent = ({ image, name, quantity, onIncrease, onDecrease, o
               Name :- {name}
             </Card.Title>
             <div className="d-flex align-items-center  mt-2">
-              <Button
-                variant="light"
-                style={{ border: "none", background: "none" }}
-                onClick={onDecrease}
-              >
-                <FaMinusCircle style={{ fontSize: "20px", color: "red" }} />
-              </Button>
-              <span style={{ fontSize: "16px", fontWeight: "bold", color: "#000" }}>{quantity}</span>
-              <Button
-                variant="light"
-                style={{ border: "none", background: "none" }}
-                onClick={onIncrease}
-              >
-                <FaPlusCircle style={{ fontSize: "20px", color: "green" }} />
-              </Button>
+              
+              <span style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}>Conc :- {quantity}</span>
+              
+              
             </div>
-            <AddBtn onClick={onRemove} style={{ backgroundColor: "#1E9694", border: "none", width: "60%", marginTop: "10px" }}>Remove</AddBtn>
-            
+           { !(requested&&status)&& <AddBtn onClick={onProceed}  className="ms-auto d-block" style={{ backgroundColor: "#109d89", border: "none", fontSize: "18px",width:"60%" ,marginRight:"150px",marginTop:"10px"}}>Check out</AddBtn>     
+              }
+          { !(requested&&status)&& <AddBtn onClick={onRemove}
+             style={{ backgroundColor: "#ca1e0f", border: "none", width: "60%", marginTop: "10px" }}>Remove</AddBtn>
+          } 
           </Card.Body>
         </div>
       </div>

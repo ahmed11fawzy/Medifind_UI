@@ -1,3 +1,4 @@
+
 import { Navbar, Container, Nav, Spinner, Button } from "react-bootstrap";
 import { useNavigate, NavLink } from "react-router-dom";
 import logo from "../../assets/loge.jpeg";
@@ -39,10 +40,12 @@ export const NavBar = () => {
           MediFind
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0" />
+
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-  
-           <Nav className="sidebar ms-auto">
+
+          <Nav className="sidebar mx-auto">
+
             <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
               Home
             </NavLink>
@@ -61,10 +64,8 @@ export const NavBar = () => {
             <NavLink to="/donate" className={({ isActive }) => (isActive ? "active-link" : "")}>
               Donation
             </NavLink>
-          </Nav>
-           
 
-                {/* <Nav className="ms-auto review ">
+          {/* <Nav className="ms-auto review ">
                 <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
                  Home
               </NavLink>
@@ -75,13 +76,18 @@ export const NavBar = () => {
                 Donate
              </NavLink>
             </Nav> */}
-       
+
+
+
+          {/* User Icon */}
           <div
             className="user-icon ms-3 d-flex align-items-center justify-content-center"
             onClick={() => navigate("/profile")}
           >
             {isLoading ? <Spinner animation="border" size="sm" /> : serverError ? "!" : userInitial}
           </div>
+
+          {/* Logout Button */}
 
           <div className="logout">
             <Button onClick={handleLogout}>Logout</Button>

@@ -1,8 +1,9 @@
 // hooks/useMedicineForm.js
-
+import axios from "axios";
 import { useState } from "react";
 
 const useMedicineForm = () => {
+  const [img_path, setPath] = useState('')
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -14,21 +15,32 @@ const useMedicineForm = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  // const handleImageUpload = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setFormData({ ...formData, image: URL.createObjectURL(file) });
-  //     setErrors({ ...errors, image: "" });
-  //   }
-  // };
-  // const handleDrop = (e) => {
-  //   e.preventDefault();
-  //   const file = e.dataTransfer.files[0];
-  //   if (file) {
-  //     setFormData({ ...formData, image: URL.createObjectURL(file) });
-  //     setErrors({ ...errors, image: "" });
-  //   }
-  // };
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    console.log(file)
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "medifined");
+    formData.append("cloud_name", "doxyvufkz");
+
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/doxyvufkz/image/upload",
+        formData
+      );
+
+      console.log(response.data.secure_url);
+      setPath(response.data.secure_url);
+      // Update formData with the image URL
+      setFormData(prev => ({
+        ...prev,
+        image: response.data.secure_url
+      }));
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
+};
   const validateForm = () => {
     let newErrors = {};
     if (!formData.name.trim()) {
@@ -48,7 +60,7 @@ const useMedicineForm = () => {
     formData,
     errors,
     handleChange,
-    // handleImageUpload,
+    handleUpload,
     // handleDrop,
     validateForm,
     setFormData,
