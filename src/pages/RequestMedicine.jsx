@@ -5,7 +5,7 @@ import { NavBar } from "../components/sharedComponents/MyNavbar";
 import { Footer } from "../components/sharedComponents/MyFooter";
 import { AddBtn } from "../components/customComponents/Addbtn";
 import useMedicineForm from "../customHooks/RequestMedicine";  
-
+import   { Toast }  from "../components/customComponents/toastedbtn"
 export const RequestMedicine = () => {
   const {
     formData,
@@ -154,17 +154,17 @@ export const RequestMedicine = () => {
         </Card>
       </Container>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Success</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Medicine added successfully!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {showToast && (
+        <div className="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+          <div className="toast-header">
+            <strong className="me-auto">Congratulations</strong>
+            <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div className="toast-body">
+            The medicine has been Requested successfully!
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -1,4 +1,114 @@
-.sidebar {
+@media (max-width: 992px) {
+  .sidebar {
+    flex-wrap: wrap; /* السماح للعناصر بالنزول لسطر جديد إذا لم يكن هناك مساحة */
+    justify-content: center;
+    margin-right: 0; /* إزالة الهامش الزائد على اليمين */
+    gap: 10px; /* تقليل المسافة بين العناصر */
+  }
+
+  .sidebar a {
+    font-size: medium; /* تصغير النص قليلاً عند الحاجة */
+    margin-right: 10px; /* تقليل المسافة بين العناصر */
+    padding: 8px 12px;
+  }
+
+  .review {
+    flex-wrap: wrap; /* السماح للعناصر بالنزول لسطر جديد */
+    justify-content: center;
+    margin-right: 0;
+    gap: 10px;
+  }
+
+  .review a {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .user-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+
+  .logout {
+    margin-left: 5px; /* تقليل المسافة بين زر تسجيل الخروج والعناصر الأخرى */
+  }
+
+  .logout button {
+    font-size: medium;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar {
+    flex-direction: column; /* جعل العناصر عمودية على الشاشات الصغيرة */
+    align-items: center;
+    gap: 5px;
+  }
+
+  .sidebar a {
+    font-size: small;
+    padding: 6px 10px;
+    text-align: center;
+  }
+
+  .review {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .review a {
+    font-size: small;
+  }
+
+  .user-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+
+  .logout {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .logout button {
+    font-size: small;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .sidebar {
     display: flex;
    text-align: center;
    position: relative;
@@ -73,4 +183,4 @@
 
   .logout {
     margin-left: 15px;
-  }
+  } */
