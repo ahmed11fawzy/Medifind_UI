@@ -1,72 +1,69 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col} from "react-bootstrap";
 import { CardComponent } from "../components/customComponents/CardComponent";
 import { AddBtn } from "../components/customComponents/Addbtn";
-// import { MyNavbar } from "../components/sharedComponents/MyNavbar";
-// import { MyFooter } from "../components/sharedComponents/MyFooter";
+import { useNavigate } from "react-router-dom";
+import { useDecoded } from "../customHooks/useDecode";
+import { useGet } from "../customHooks/useGet.js";
+import {useDelete} from "../customHooks/useDelete";
+export const CardPage = () => {
 
-import image1 from "../assets/img1.jpg";
-import image2 from "../assets/img2.jpg";
-import image3 from "../assets/img3.jpg";
-import image4 from "../assets/img4.jpg";
-
-export  const initialItems = [
-  { id: 1, name: "Alphintern", image: image1, quantity: 1 },
-  { id: 2, name: "Mebo", image: image2, quantity: 1 },
-  { id: 3, name: "Moov", image: image3, quantity: 1 },
-  { id: 4, name: "Panadol", image: image4, quantity: 1 },
-];
- const CardPage = () => {
-  const [items, setItems] = useState(initialItems);
-
-  const handleIncrease = (id) => {
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item))
-    );
+  const[requested,setRequested]=useState(false)
+    const navigate = useNavigate();
+    const goToRequestMedicine = (name,id,req_id) => {
+      navigate("/RequestMedicine", {
+        state: {
+          medicineName: name,
+          medicine_id:id,
+          request_id:req_id
+        }
+      });
+    };
+  const decodedToken = useDecoded();
+  const baseUrl = 'http://localhost:7777/request';
+  
+  const { data, isLoading, serverError, getRequest } = useGet(
+    decodedToken ? `${baseUrl}/${decodedToken.id}` : null
+  );
+  useEffect(() => {
+    if (decodedToken) {
+      getRequest();
+    }
+  }, [decodedToken]); // Add getRequest as dependency if needed
+  
+  const { isLoading: deleteLoading, serverError: deleteError, deleteRequest } = useDelete('http://localhost:7777/request/');
+  
+  const handleRemove = async (req_id) => {
+    try {
+      await deleteRequest(req_id);
+      await getRequest();
+      console.log(data)
+      console.log("Request deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete request:", error);
+    }
   };
-
-  const handleDecrease = (id) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
-      )
-    );
-  };
-
-  const handleRemove = (id) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
   return (
-      <Container style={{ maxWidth: "900px", paddingTop: "20px" }}>
+    <>
       <Row>
-        {items.map((item) => (
-          <Col key={item.id} xs={12} md={6} lg={5} className="mb-3">
-            <CardComponent
-              image={item.image}
-              name={item.name}
-              quantity={item.quantity}
-              onIncrease={() => handleIncrease(item.id)}
-              onDecrease={() => handleDecrease(item.id)}
-              onRemove={() => handleRemove(item.id)}
-            />
-          </Col>
-        ))}
+        {data ? data.map((item) => (
+          item.medicine ? (  // Add check for medicine property
+            <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
+              <CardComponent
+                medicine_id={item.medicine?._id}
+                status={item.status}
+                request_id={item._id}
+                image={item.medicine?.image_path || ''}  // Add fallback
+                name={item.medicine?.name || 'No name'}
+                quantity={item.medicine?.concentration || ''}
+                onProceed={() => goToRequestMedicine(item.medicine.name,item.medicine._id,item._id)}
+                onRemove={() => handleRemove(item._id)} 
+              />
+            </Col>
+          ) : null
+        )) : <div>Nothing to display</div>}
       </Row>
-      <div className="text-center mt-3 ">
-        {/* <Button
-          style={{
-            backgroundColor: "#109d89",
-            border: "none",
-            fontSize: "18px",
-            padding: "10px 20px",
-          }}
-        >
-          Check out
-        </Button> */}
-        <AddBtn className="ms-auto d-block" style={{ backgroundColor: "#109d89", border: "none", fontSize: "18px",width:"200px" ,marginRight:"150px"}}>Check out</AddBtn>     
-      </div>
-    </Container>
+    </>
   );
 };
 

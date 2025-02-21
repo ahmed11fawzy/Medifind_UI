@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Form, Alert } from 'react-bootstrap';
+import { useState } from 'react';
+import {  Form,  } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { AddBtn } from '../components/customComponents/Addbtn';
 // import jwt
@@ -46,28 +46,22 @@ export function Login() {
           password: password,
           }),
         });
-        if (!response.ok) {
-          throw new Error("Something went wrong!");
-        }
 
-      const data = await response.json();
-      
-        const token = response.headers.get('x-auth-token');
-        localStorage.setItem('token',token);
+        if (!response.ok) {
+          const errorData = await response.json();
+          setErrors({ form: errorData.message || "Invalid email or password" });
+          throw new Error( "Something went wrong!");
+        }
+          const data = await response.json();
+          const token = await response.headers.get('x-auth-token');
+          localStorage.setItem('token',token);
         
 
 
       console.log(data)
-      
-      goToHome();    
-    
 
-    
-    
-    
-    //Add Routing to home Page//// 
-
-
+        
+      goToHome();   
 } catch (error) {
     console.log(error.message);
 }
@@ -81,7 +75,7 @@ export function Login() {
     <div className='vh-100 d-flex justify-content-center align-items-center bg-light'>
       <div className='p-4 bg-white rounded shadow-sm' style={{ maxWidth: '400px', width: '100%' }}>
         <h1 className='text-center mb-4'>Log In</h1>
-        <Form onSubmit={handleSubmit}>
+        <Form >
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Enter Your Email</Form.Label>
             <Form.Control
@@ -117,7 +111,7 @@ export function Login() {
             <span className='text-primary text-info' style={{ cursor: 'pointer' }}>Forget Password?</span>
           </div>
           
-          <AddBtn type="submit" className="w-100">
+          <AddBtn type="submit" onClick={handleSubmit}  className="w-100">
             Log In
           </AddBtn>
           
