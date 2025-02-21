@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 import { Container, Card, Form, Modal, Button } from "react-bootstrap";
 import { AddBtn } from "../components/customComponents/Addbtn";
@@ -8,27 +6,29 @@ import { useDecoded } from "../customHooks/useDecode";
 import axios from "axios";
 import "../components/customComponents/toastedbtn"
 
+// import { Loader } from "../components/customComponents/Loader/Loader";
 export const AddMedicine = () => {
   const [img_path, setPath] = useState('');
   const [showToast, setShowToast] = useState(false); 
-
+  const [isUploading,setUploading]=useState(false);
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     console.log(file);
     if (!file) return;
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "medifined"); 
-    formData.append("cloud_name", "doxyvufkz"); 
-
+    formData.append("upload_preset", "medifined"); // Replace with your Cloudinary Upload Preset
+    formData.append("cloud_name", "doxyvufkz");
+    setUploading(true) // Replace with your Cloudinary Cloud Name
     try {
-      const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/doxyvufkz/image/upload",
-        formData
-      );
-
-      console.log(response.data.secure_url);
-      setPath(response.data.secure_url);
+        const response = await axios.post(
+            "https://api.cloudinary.com/v1_1/doxyvufkz/image/upload",
+            formData
+        );
+        console.log(response.data.secure_url);
+        setPath(response.data.secure_url)
+        setUploading(false)
+      // Pass image URL to parent component
     } catch (error) {
       console.error("Upload failed:", error);
     }
@@ -67,6 +67,8 @@ export const AddMedicine = () => {
               quantity: Number(numPieces),
               concentration: concentration,
               expire_date: expireDate,
+              examine: false,
+              status: false,
               image_path: img_path,
               user_id: decodedToken.id,
             }),
@@ -80,7 +82,6 @@ export const AddMedicine = () => {
 
           const data = await response.json();
           console.log(data);
-
           setShowModal(true);
           setMedicineName("");
           setNumPieces("");
@@ -88,9 +89,8 @@ export const AddMedicine = () => {
           setConcentration("");
           setImage(null);
           document.getElementById("imageInput").value = "";
-
           setShowToast(true); 
-          setTimeout(() => setShowToast(false), 3000); 
+          setTimeout(() => setShowToast(false), 3000);
         } else {
           console.log('something wrong');
         }
@@ -102,7 +102,8 @@ export const AddMedicine = () => {
 
   return (
     <>
-      <Container style={{ marginTop: "50px", marginBottom: "50px", marginLeft: "100px"}}>
+      {/* {isUploading && <Loader/>} */}
+      <Container style={{ marginTop: "50px" }}>
         <Card className="p-4 shadow-sm">
           <h3 className="text-center mb-4">Add Medicine</h3>
           <Form onSubmit={handleSubmit}>
