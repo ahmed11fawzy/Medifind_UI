@@ -3,7 +3,7 @@
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-const ProtectedRoute = ({ isAuthenticated, isAllowed, userRole }) => {
+export const ProtectedRoute = ({ isAuthenticated, isAllowed, userRole }) => {
   const location = useLocation();
   
   if (!isAuthenticated) {
@@ -27,4 +27,3 @@ const ProtectedRoute = ({ isAuthenticated, isAllowed, userRole }) => {
   return <Outlet />;
 };
 
-export default ProtectedRoute;

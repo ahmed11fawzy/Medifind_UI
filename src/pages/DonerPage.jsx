@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { CardComponent } from "../components/customComponents/CardComponent";
+import { CardDonation } from "../components/customComponents/CardDonation.jsx";
 import { AddBtn } from "../components/customComponents/Addbtn";
 import { useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
@@ -9,12 +9,10 @@ import { useDelete } from "../customHooks/useDelete";
 
 export const DonorPage = () => {
   const navigate = useNavigate();
-  const goToDonateMedicine = () => navigate("/AddMedicine"); 
-
+  const goToDonateMedicine = () => navigate("/AddMedicine");
+  const goToUpdateMedicine = (_id) => navigate(`/UpdateMedicine/${_id}`);
   const decodedToken = useDecoded();
-  const baseUrl = `http://localhost:7777/medicine`; // تعديل الرابط ليعكس بيانات التبرع
-
-  // جلب بيانات التبرعات الخاصة بالمتبرع
+  const baseUrl = `http://localhost:7777/medicine`;
   const { data, isLoading, serverError, getRequest } = useGet(
     decodedToken ? `${baseUrl}/${decodedToken.id}` : null
   );
@@ -22,13 +20,16 @@ export const DonorPage = () => {
   useEffect(() => {
     if (decodedToken) {
       getRequest();
+
     }
   }, [decodedToken]);
+  console.log(data);
+
+  // IMP Request refer to request to Add medicine          
 
   const { isLoading: deleteLoading, serverError: deleteError, deleteRequest } =
-    useDelete("http://localhost:7777/medicine/"); 
+    useDelete(decodedToken ? `${baseUrl}/${decodedToken.id}` : null);
 
-  // دالة لإلغاء التبرع
   const handleRemove = async (donation_id) => {
     try {
       await deleteRequest(donation_id);
@@ -39,28 +40,32 @@ export const DonorPage = () => {
     }
   };
 
+
   return (
     <>
-      <Row>
+      {<Row>
         {data && data.length > 0 ? (
           data.map((item) => (
             <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
-              <CardComponent
-                image={item.medicine.image_path}
-                name={item.medicine.name}
-                quantity={item.medicine.concentration}
-                pcs={item.medicine.pcs} 
-                expDate={item.medicine.exp_date} 
-                onRemove={() => handleRemove(item._id)} 
-              />
+              <CardDonation
+                image={item.image_path}
+                name={item.name}
+                quantity={item.concentration}
+                pcs={item.quantity}
+                expDate={item.exp_date}
+                OnUpdate={() => goToUpdateMedicine(item._id)}
+                onRemove={() => handleRemove(item._id)}
+              >
+
+              </CardDonation>
             </Col>
           ))
         ) : (
           <div className="text-center"> nothing to show</div>
         )}
-      </Row>
+      </Row>}
 
-     
+
     </>
   );
 };

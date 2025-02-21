@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { AddBtn } from "./Addbtn";
 
-export const CardComponent = ({ image, name, quantity, pcs, expDate, onRemove }) => {
+export const CardDonation = ({ image, name, quantity, pcs, expDate, onRemove,OnUpdate }) => {
   return (
     <Card
       style={{
@@ -51,7 +51,7 @@ export const CardComponent = ({ image, name, quantity, pcs, expDate, onRemove })
               Delete 
             </AddBtn>
             <AddBtn
-              
+              onClick={OnUpdate}
               style={{
                 backgroundColor: "#1E9694",
                 border: "none",

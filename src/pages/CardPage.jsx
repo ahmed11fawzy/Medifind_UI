@@ -7,8 +7,18 @@ import { useDecoded } from "../customHooks/useDecode";
 import { useGet } from "../customHooks/useGet.js";
 import {useDelete} from "../customHooks/useDelete";
 export const CardPage = () => {
-  const navigate = useNavigate();
-  const goToRequestMedicine = () => navigate("/RequestMedicine");
+
+  const[requested,setRequested]=useState(false)
+    const navigate = useNavigate();
+    const goToRequestMedicine = (name,id,req_id) => {
+      navigate("/RequestMedicine", {
+        state: {
+          medicineName: name,
+          medicine_id:id,
+          request_id:req_id
+        }
+      });
+    };
   const decodedToken = useDecoded();
   const baseUrl = 'http://localhost:7777/request';
   
@@ -46,7 +56,8 @@ export const CardPage = () => {
                 image={item.medicine?.image_path || ''}  // Add fallback
                 name={item.medicine?.name || 'No name'}
                 quantity={item.medicine?.concentration || ''}
-                onRemove={() => handleRemovZZZe(item._id)} 
+                onProceed={() => goToRequestMedicine(item.medicine.name,item.medicine._id,item._id)}
+                onRemove={() => handleRemove(item._id)} 
               />
             </Col>
           ) : null
@@ -55,4 +66,5 @@ export const CardPage = () => {
     </>
   );
 };
+
 
