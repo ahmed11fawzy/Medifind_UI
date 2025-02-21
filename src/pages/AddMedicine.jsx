@@ -67,6 +67,8 @@ export const AddMedicine = () => {
               quantity: Number(numPieces),
               concentration: concentration,
               expire_date: expireDate,
+              examine: false,
+              status: false,
               image_path: img_path,
               user_id: decodedToken.id,
             }),
@@ -80,7 +82,6 @@ export const AddMedicine = () => {
 
           const data = await response.json();
           console.log(data);
-
           setShowModal(true);
           setMedicineName("");
           setNumPieces("");
@@ -88,9 +89,8 @@ export const AddMedicine = () => {
           setConcentration("");
           setImage(null);
           document.getElementById("imageInput").value = "";
-
-          setShowToast(true); // تفعيل الـ Toast
-          setTimeout(() => setShowToast(false), 3000); // إخفاء الـ Toast بعد 3 ثواني
+          setShowToast(true); 
+          setTimeout(() => setShowToast(false), 3000);
         } else {
           console.log('something wrong');
         }
