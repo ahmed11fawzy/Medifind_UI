@@ -2,8 +2,9 @@
   display: flex;
   justify-content: center;
 
-  flex-wrap: wrap; /* يجعلها مرنة على الشاشات الصغيرة */
-  gap: 15px;
+  align-items: center;
+  /* يجعلها مرنة على الشاشات الصغيرة */
+
 }
 
 
@@ -14,6 +15,7 @@
   font-size: large;
   transition: color 0.3s, background-color 0.3s;
   border-radius: 5px;
+  margin-right: 20px;
 }
 
 .sidebar a:hover {
@@ -26,16 +28,16 @@
 }
 
 /* Review Section */
-/* .review {
+.review {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+
   gap: 15px;
   margin-right: 300px;
-} */
+}
 
-/* .review a {
+.review a {
   text-decoration: none;
   color: #030303 !important;
   font-size: 16px;
@@ -43,7 +45,7 @@
   padding: 10px 15px;
   transition: color 0.3s, background-color 0.3s;
   border-radius: 5px;
-} */
+}
 
 .review a:hover {
   color: #01b3bd !important;
@@ -71,6 +73,9 @@
 }
 
 /* Logout Button */
+.logout {
+  margin-left: 15px;
+}
 
 
 .logout button {

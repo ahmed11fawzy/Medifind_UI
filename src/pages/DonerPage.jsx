@@ -10,7 +10,9 @@ import { useDelete } from "../customHooks/useDelete";
 export const DonorPage = () => {
   const navigate = useNavigate();
   const goToDonateMedicine = () => navigate("/AddMedicine");
-  const goToUpdateMedicine = (_id) => navigate(`/UpdateMedicine/${_id}`);
+  const goToUpdateMedicine = (_id, name, image, quantity, date, concentration) => navigate(`/UpdateMedicine/${_id}`, {
+    state: { id: _id, medicineName: name, image_path: image, quantity, exp_date: date, concentration },
+  });
   const decodedToken = useDecoded();
   const baseUrl = `http://localhost:7777/medicine`;
   const { data, isLoading, serverError, getRequest } = useGet(
@@ -53,7 +55,7 @@ export const DonorPage = () => {
                 quantity={item.concentration}
                 pcs={item.quantity}
                 expDate={item.exp_date}
-                OnUpdate={() => goToUpdateMedicine(item._id)}
+                OnUpdate={() => goToUpdateMedicine(item._id, item.name, item.image_path, item.quantity, item.exp_date)}
                 onRemove={() => handleRemove(item._id)}
               >
 
