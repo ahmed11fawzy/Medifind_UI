@@ -13,7 +13,7 @@ export const NavBar = () => {
   const decodedToken = useDecoded();
   const loggedInUserId = decodedToken?.id;
   const usersArray = Array.isArray(users) ? users : users?.users || [];
-  const loggedInUser = usersArray.find(user => user._id === loggedInUserId);
+  const loggedInUser = usersArray.find((user) => user._id === loggedInUserId);
   const userInitial = loggedInUser?.name ? loggedInUser.name.charAt(0).toUpperCase() : "?";
 
   const handleLogout = () => {
@@ -42,42 +42,42 @@ export const NavBar = () => {
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+          {decodedToken?.role === 'user' && (
+            <Nav className="sidebar mx-auto">
+              <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                Home
+              </NavLink>
+              <NavLink to="/profile" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                Profile
+              </NavLink>
+              <NavLink to="/AddMedicine" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                Add Medicine
+              </NavLink>
+              <NavLink to="/RequestMedicine" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                Request Medicine
+              </NavLink>
+              <NavLink to="/need" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                Needs
+              </NavLink>
+              <NavLink to="/donate" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                Donation
+              </NavLink>
+            </Nav>
+          )}
 
-          {decodedToken?.role == 'user' && <Nav className="sidebar mx-auto">
-            <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
-              Home
-            </NavLink>
-            <NavLink to="/profile" className={({ isActive }) => (isActive ? "active-link" : "")}>
-              Profile
-            </NavLink>
-            <NavLink to="/AddMedicine" className={({ isActive }) => (isActive ? "active-link" : "")}>
-              Add Medicine
-            </NavLink>
-            <NavLink to="/RequestMedicine" className={({ isActive }) => (isActive ? "active-link" : "")}>
-              Request Medicine
-            </NavLink>
-            <NavLink to="/need" className={({ isActive }) => (isActive ? "active-link" : "")}>
-              Needs
-            </NavLink>
-            <NavLink to="/donate" className={({ isActive }) => (isActive ? "active-link" : "")}>
-              Donation
-            </NavLink>
-          </Nav>}
-
-
-          {decodedToken?.role == 'doctor' && <Nav className="ms-auto review ">
-            <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
-              Home
-            </NavLink>
-            <NavLink to="/RequestsReview" className={({ isActive }) => (isActive ? "active-link" : "")}>
-              Request
-            </NavLink>
-            <NavLink to="/offersReview" className={({ isActive }) => (isActive ? "active-link" : "")}>
-              Donate
-            </NavLink>
-          </Nav>}
-
-
+          {decodedToken?.role === 'doctor' && (
+            <Nav className="ms-auto review">
+              <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                Home
+              </NavLink>
+              <NavLink to="/RequestsReview" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                Requests
+              </NavLink>
+              <NavLink to="/OffersReview" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                Offers
+              </NavLink>
+            </Nav>
+          )}
 
           {/* User Icon */}
           <div

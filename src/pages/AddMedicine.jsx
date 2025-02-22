@@ -11,11 +11,13 @@ import { Card, Container, Form } from "react-bootstrap";
 export const AddMedicine = () => {
   const [img_path, setPath] = useState('');
 
+
   
 
 
   const [showToast, setShowToast] = useState(false);
   const [isUploading, setUploading] = useState(false);
+
 
   const handleUpload = async (e) => {
     const file = e.target.files[0];
@@ -23,10 +25,12 @@ export const AddMedicine = () => {
     
     const formData = new FormData();
     formData.append("file", file);
+
     formData.append("upload_preset", "medifined");
     formData.append("cloud_name", "doxyvufkz");
     
     setUploading(true);
+
 
     try {
       const response = await axios.post(
@@ -66,6 +70,7 @@ export const AddMedicine = () => {
     e.preventDefault();
     
     if (validateForm()) {
+
 
         try {
             if (img_path && decodedToken) {
@@ -117,6 +122,7 @@ export const AddMedicine = () => {
                 progress: undefined,
             });
      
+
         }
     }
   };
@@ -124,9 +130,13 @@ export const AddMedicine = () => {
   return (
     <>
 
+
       <ToastContainer />
 
+
       {isUploading && <Loader />}
+
+
       <Container style={{ marginTop: "50px" }}>
         <Card className="p-4 shadow-sm">
           <h3 className="text-center mb-4">Add Medicine</h3>
@@ -209,12 +219,4 @@ export const AddMedicine = () => {
     </>
   );
 };
-
-
-
-
-
-
-
-
 
