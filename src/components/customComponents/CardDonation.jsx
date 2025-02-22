@@ -39,7 +39,8 @@ export const CardDonation = ({ image, name, quantity, pcs, expDate, onRemove,OnU
             <div style={{ marginTop: "5px", fontSize: "14px", color: "#666" }}>
               No. of pcs: {pcs} | EXP. Date: {expDate}
             </div>
-            <AddBtn
+            <div className="d-flex gap-3">
+              <AddBtn
               onClick={onRemove}
               style={{
                 backgroundColor: "#1E9694",
@@ -61,6 +62,7 @@ export const CardDonation = ({ image, name, quantity, pcs, expDate, onRemove,OnU
             >
               Update 
             </AddBtn>
+            </div>
           </Card.Body>
         </div>
       </div>
