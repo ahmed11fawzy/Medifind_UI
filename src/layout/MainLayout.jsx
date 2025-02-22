@@ -34,6 +34,7 @@ import { DonorPage } from "../pages/DonerPage";
 
 import { useDecoded } from "../customHooks/useDecode";
 import { useEffect, useState, useMemo } from 'react';
+import UpdateMedicine from "../pages/UpdateMedicine/UpdateMedicine";
 
 export function MainLayout() {
   const token = localStorage.getItem('token');
@@ -69,7 +70,7 @@ export function MainLayout() {
 
   const roleAccess = {
     doctor: ['/home', '/offersReview', '/RequestsReview'],
-    user: ['/home', '/AddMedicine', '/RequestMedicine', '/need', '/donate', '/profile'],
+    user: ['/home', '/AddMedicine', '/RequestMedicine', '/need', '/donate', '/profile', '/UpdateMedicine'],  // Remove :id
     guest: ['/', '/login', '/signup']
   };
 
@@ -78,13 +79,17 @@ export function MainLayout() {
       console.log('Invalid role:', { role, decodedRole: decodedToken?.role });
       return false;
     }
-    const normalizedPath = path.endsWith('/') ? path.slice(0, -1) : path;
+    // Extract base path for dynamic routes
+    const pathParts = path.split('/');
+    const basePath = `/${pathParts[1]}`;
+    
     const hasAccess = roleAccess[role].some(route => {
-      return normalizedPath === route ||
-        normalizedPath.startsWith(`${route}/`);
+      // Check if the base path matches the allowed route
+      return route.startsWith(basePath);
     });
     console.log('Access check:', {
-      path: normalizedPath,
+      path,
+      basePath,
       role,
       allowedRoutes: roleAccess[role],
       hasAccess
@@ -112,7 +117,7 @@ export function MainLayout() {
 
               {/* User Routes */}
               <Route path="/AddMedicine" element={<AddMedicine />} />
-              <Route path="/UpdateMedicine/:id" element={<AddMedicine />} />
+              <Route path="/UpdateMedicine/:id" element={<UpdateMedicine />} />
               <Route path="/RequestMedicine" element={<RequestMedicine />} />
               <Route path="/RequestMedicine/:id" element={<RequestMedicine />} />
 
