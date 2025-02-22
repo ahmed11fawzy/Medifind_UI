@@ -13,13 +13,19 @@
 
 body {
   overflow-x: hidden;
-  /* height: 500vh; */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
 .text-brand {
   font-family: "Yellowtail", serif !important;
   font-weight: 400;
   font-style: normal;
 }
-
