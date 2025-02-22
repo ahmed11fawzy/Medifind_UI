@@ -62,8 +62,8 @@ const MedicineCard = ({ image, name, expireDate,id,medicines,setMedicines,examin
           <p className="mb-3"><strong>Name:</strong> {name || "Unknown"}</p>
           <div className="d-flex gap-3">
         </div>
-            <AddBtn style={{ backgroundColor: "#2AC728" }} onClick={()=>handleAccept(id)}>Add</AddBtn>
-            <AddBtn style={{ backgroundColor: "#C7282A" }}  onClick={()=>handleReject(id)} >Delete</AddBtn>
+            <AddBtn style={{ backgroundColor: "#2AC728" ,marginRight:"20px"}} onClick={()=>handleAccept(id)}>Add</AddBtn>
+            <AddBtn style={{ backgroundColor: "#C7282A ",marginRight:"10px"}}  onClick={()=>handleReject(id)} >Delete</AddBtn>
           </div>
       </div>
     </Card>

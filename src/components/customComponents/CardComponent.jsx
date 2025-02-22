@@ -1,27 +1,22 @@
 
 
-
-import React, { useState } from "react";
-import { Card, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-
-import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
+import React from "react";
+import { Card } from "react-bootstrap";
 import { AddBtn } from "./Addbtn";
 
-  export const CardComponent = ({ image, name, quantity,onProceed, onRemove, request_id ,medicine_id,status }) => {
-    const[requested,setRequested]=useState(false)
-    const navigate = useNavigate();
-    const goToRequestMedicine = () => {
-      navigate("/RequestMedicine", {
-        state: {
-          medicineName: name,
-          medicine_id:medicine_id,
-          request_id
-        }
-      });
-    };
-    // ... rest of the component remains the same
-
+export const CardComponent = ({
+  image,
+  name,
+  quantity,
+  onRemove,
+  request_id,
+  medicine_id,
+  examined,
+  status,
+  setRequested,
+  requested,
+  goToRequestMedicine,
+}) => {
   return (
     <Card
       style={{
@@ -40,28 +35,67 @@ import { AddBtn } from "./Addbtn";
             alt={name}
             style={{
               borderRadius: "5px",
-                maxWidth: "100%",
-                height: "100%",
-                
+              maxWidth: "100%",
+              height: "100%",
             }}
           />
         </div>
         <div className="col-8">
           <Card.Body>
-            <Card.Title style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}>
-              Name :- {name}
+            <Card.Title
+              style={{
+                fontSize: "16px",
+                fontWeight: "bold",
+                color: "#333",
+              }}
+            >
+              Name: {name}
             </Card.Title>
-            <div className="d-flex align-items-center  mt-2">
-              
-              <span style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}>Conc :- {quantity}</span>
-              
-              
+            <div className="d-flex align-items-center mt-2">
+              <span
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  color: "#000",
+                }}
+              >
+                {quantity}
+              </span>
             </div>
-           { !(requested&&status)&& <AddBtn onClick={onProceed}  className="ms-auto d-block" style={{ backgroundColor: "#109d89", border: "none", fontSize: "18px",width:"60%" ,marginRight:"150px",marginTop:"10px"}}>Check out</AddBtn>     
-              }
-          { !(requested&&status)&& <AddBtn onClick={onRemove}
-             style={{ backgroundColor: "#ca1e0f", border: "none", width: "60%", marginTop: "10px" }}>Remove</AddBtn>
-          } 
+            {/* Only display "Check out" button if not requested */}
+            {!requested && !examined &&!status && (
+              <AddBtn
+                onClick={() => {
+                  setRequested(true); // update the flag in parent state and localStorage
+                  goToRequestMedicine(); // navigate to RequestMedicine page
+                }}
+                className="ms-auto d-block"
+                style={{
+                  backgroundColor: "#109d89",
+                  border: "none",
+                  fontSize: "18px",
+                  width: "60%",
+                  marginRight: "150px",
+                  marginTop: "10px",
+                }}
+              >
+                Check out
+              </AddBtn>
+            )}
+            {requested && !status &&!examined &&<p className='text-muted' style={{ fontSize: "24px" }}>waiting for approval</p>}
+            { examined && status &&<p style={{ color: "green" }}><b>Accepted</b></p>}
+            {  examined && !status &&<p style={{ color: "red" }}><b>Rejected</b></p>}
+            <AddBtn
+              onClick={onRemove}
+              style={{
+                backgroundColor: "#ca1e0f",
+                border: "none",
+                width: "60%",
+                marginTop: "10px",
+              }}
+            >
+              Remove
+            </AddBtn>
           </Card.Body>
         </div>
       </div>
