@@ -1,6 +1,6 @@
 .loaderContainer {
   background-color: rgba(27, 26, 26, 0.603);
-  height: 100%;
+  min-height: 100vh;
   scroll-behavior: none;
 }
 .loader {
