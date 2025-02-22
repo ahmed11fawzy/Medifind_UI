@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Modal, Button, Card } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
 import { AddBtn } from "../components/customComponents/Addbtn";
@@ -6,18 +6,22 @@ import useMedicineForm from "../customHooks/RequestMedicine";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
+import { Loader } from "../components/customComponents/Loader/Loader";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const RequestMedicine = () => {
   const { state } = useLocation();
-  const { medicineName, medicine_id ,request_id} = state || {};
+  const { medicineName, medicine_id, request_id } = state || {};
   const navigate = useNavigate();
   const decodedToken = useDecoded();
+  const [isUploading, setUploading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   
   const {
     formData,
     errors,
     handleChange,
-    handleUpload,
     handleDrop,
     validateForm,
     setFormData,
@@ -25,87 +29,101 @@ export const RequestMedicine = () => {
 
   const [showModal, setShowModal] = useState(false);
 
-  useState(() => {
+  useEffect(() => {
     if (medicineName) {
-      setFormData(prev => ({
-        ...prev,
-        name: medicineName
-      }));
+      setFormData(prev => ({ ...prev, name: medicineName }));
     }
   }, [medicineName]);
 
-  const handleSubmit = async(e) => {
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "medifined");
+    formData.append("cloud_name", "doxyvufkz");
+    
+    setUploading(true);
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/doxyvufkz/image/upload",
+        formData
+      );
+      setFormData(prev => ({ ...prev, image: response.data.secure_url }));
+    } catch (error) {
+      console.error("Upload failed:", error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       const requestData = {
         req_name: formData.name,
         req_description: formData.description,
-        user_id:decodedToken.id,
-        medicine:medicine_id?medicine_id:"",
-        prescription_img:formData.image,
+        user_id: decodedToken.id,
+        medicine: medicine_id || "",
+        prescription_img: formData.image,
         status: false,
-        examined: false
+        examined: false,
       };
-   if(request_id!==undefined){
+      
       try {
-        const response = await fetch(`http://localhost:7777/request/${request_id}`, {
-          method: "PATCH",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestData)
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Something went wrong!");
-        }
-
-        setShowModal(true);
-        setFormData({
-          name: "",
-          description: "",
-          image: null,
-        });
+        const url = request_id !== undefined
+          ? `http://localhost:7777/request/${request_id}`
+          : "http://localhost:7777/orders";
+        const method = request_id !== undefined ? "PATCH" : "POST";
         
-        setTimeout(() => {
-          navigate('/need');
-        }, 2000);
-      } catch (error) {
-        console.error("Submit error:", error);
-      }
-    }
-    else{
-      try {
-        const response = await fetch("http://localhost:7777/orders", {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        const response = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(requestData)
         });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error( "Something went wrong!");
-        }
+        if (!response.ok) throw new Error("Something went wrong!");
+
+              toast.success("Medicine added successfully", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,  
+                    progress: undefined,
+                });
 
         setShowModal(true);
         setFormData({ name: "", description: "", image: null });
+
+        if (request_id !== undefined) {
+          setTimeout(() => navigate('/need'), 2000);
+        }
       } catch (error) {
-        console.error("Submit error:", error);
+        // console.error("Submit error:", error);
+         toast.error("Something went wrong", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
       }
     }
-    }
-};
-  
+  };
 
   return (
     <>
-      <Container style={{ marginTop: "50px"}} >
-        <Card className="shadow-sm " style={{padding:"25px 20px",margin:"50px 0px"}} >
+      <ToastContainer />
+      <Container>
+              {isUploading && <Loader />}
+        <Card className="shadow-sm" style={{ padding: "25px 20px", margin: "25px 0px" }}>
           <h3 className="text-center mb-4">Request Medicine</h3>
-          <Row >
+          <Row>
             <Col md={3} className="d-flex justify-content-center">
               <div
                 onDragOver={(e) => e.preventDefault()}
@@ -130,11 +148,7 @@ export const RequestMedicine = () => {
                   <img
                     src={typeof formData.image === 'string' ? formData.image : URL.createObjectURL(formData.image)}
                     alt="Preview"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
                 ) : (
                   <FaPlus />
@@ -149,7 +163,6 @@ export const RequestMedicine = () => {
               </div>
               {errors.image && <p className="text-danger mt-2">{errors.image}</p>}
             </Col>
-
             <Col md={9}>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
@@ -165,7 +178,6 @@ export const RequestMedicine = () => {
                   />
                   <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                 </Form.Group>
-
                 <Form.Group className="mb-3">
                   <Form.Label>Description:</Form.Label>
                   <Form.Control
@@ -173,12 +185,10 @@ export const RequestMedicine = () => {
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
-                    style={{ backgroundColor: "#ffffff" }}
                     isInvalid={!!errors.description}
                   />
                   <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
                 </Form.Group>
-
                 <div className="mt-4 d-flex justify-content-end w-25 ms-auto">
                   <AddBtn style={{ backgroundColor: "var(--main-color)" }} type="submit">
                     {medicine_id ? 'Update Request' : 'Add Request'}
@@ -189,8 +199,8 @@ export const RequestMedicine = () => {
           </Row>
         </Card>
       </Container>
-
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      
+      {/* <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Success</Modal.Title>
         </Modal.Header>
@@ -198,11 +208,9 @@ export const RequestMedicine = () => {
           {medicine_id ? 'Request updated successfully!' : 'Request added successfully!'}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Close
-          </Button>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
     </>
   );
 };
