@@ -68,7 +68,7 @@ export function MainLayout() {
   }
 
   const roleAccess = {
-    doctor: ['/home', '/offersReview', '/RequestsReview'],
+    doctor: ['/home', '/RequestsReview', '/OffersReview'],
     user: ['/home', '/AddMedicine', '/RequestMedicine', '/need', '/donate', '/profile'],
     guest: ['/', '/login', '/signup']
   };
