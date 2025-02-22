@@ -114,7 +114,7 @@ export const RequestsReview = () => {
                   </div>
 
                   <AddBtn
-                    onClick={() => handleAccept(req_url, request._id,setRequests,request.medicine)}
+                    onClick={() => handleAccept(req_url, request._id,setRequests)}
                     style={{
                       width: "30%",
                       marginTop: "10px",
