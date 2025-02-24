@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Modal, Button, Card } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
 import { AddBtn } from "../components/customComponents/Addbtn";
-import useMedicineForm from "../customHooks/RequestMedicine";  
+import useMedicineForm from "../customHooks/RequestMedicine";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
@@ -15,9 +15,13 @@ export const RequestMedicine = () => {
   const { medicineName, medicine_id, request_id } = state || {};
   const navigate = useNavigate();
   const decodedToken = useDecoded();
+
   const [isUploading, setUploading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   
+
+
+
   const {
     formData,
     errors,
@@ -25,7 +29,7 @@ export const RequestMedicine = () => {
     handleDrop,
     validateForm,
     setFormData,
-  } = useMedicineForm();  
+  } = useMedicineForm();
 
   const [showModal, setShowModal] = useState(false);
 
@@ -34,6 +38,7 @@ export const RequestMedicine = () => {
       setFormData(prev => ({ ...prev, name: medicineName }));
     }
   }, [medicineName]);
+
 
   const handleUpload = async (e) => {
     const file = e.target.files[0];
@@ -63,13 +68,19 @@ export const RequestMedicine = () => {
     if (validateForm()) {
       const requestData = {
         req_name: formData.name,
+        requested: true,
         req_description: formData.description,
         user_id: decodedToken.id,
-        medicine: medicine_id || "",
+
+       
+
+        medicine: medicine_id ? medicine_id : "",
+
         prescription_img: formData.image,
         status: false,
         examined: false,
       };
+
       
       try {
         const url = request_id !== undefined
@@ -122,6 +133,8 @@ export const RequestMedicine = () => {
       <Container>
               {isUploading && <Loader />}
         <Card className="shadow-sm" style={{ padding: "25px 20px", margin: "25px 0px" }}>
+
+    
           <h3 className="text-center mb-4">Request Medicine</h3>
           <Row>
             <Col md={3} className="d-flex justify-content-center">
@@ -191,7 +204,7 @@ export const RequestMedicine = () => {
                 </Form.Group>
                 <div className="mt-4 d-flex justify-content-end w-25 ms-auto">
                   <AddBtn style={{ backgroundColor: "var(--main-color)" }} type="submit">
-                    {medicine_id ? 'Update Request' : 'Add Request'}
+                    {medicine_id ? 'Complete' : 'Add Request'}
                   </AddBtn>
                 </div>
               </Form>
@@ -200,17 +213,7 @@ export const RequestMedicine = () => {
         </Card>
       </Container>
       
-      {/* <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Success</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {medicine_id ? 'Request updated successfully!' : 'Request added successfully!'}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
-        </Modal.Footer>
-      </Modal> */}
+      
     </>
   );
 };
