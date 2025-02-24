@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
 import { Loader } from "../components/customComponents/Loader/Loader";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css"; 
 
 export const RequestMedicine = () => {
   const { state } = useLocation();
