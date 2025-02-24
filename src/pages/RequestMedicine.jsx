@@ -2,17 +2,17 @@ import { useState } from "react";
 import { Container, Row, Col, Form, Modal, Button, Card } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
 import { AddBtn } from "../components/customComponents/Addbtn";
-import useMedicineForm from "../customHooks/RequestMedicine";  
+import useMedicineForm from "../customHooks/RequestMedicine";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
 
 export const RequestMedicine = () => {
   const { state } = useLocation();
-  const { medicineName, medicine_id ,request_id} = state || {};
+  const { medicineName, medicine_id, request_id } = state || {};
   const navigate = useNavigate();
   const decodedToken = useDecoded();
-  
+
   const {
     formData,
     errors,
@@ -21,7 +21,7 @@ export const RequestMedicine = () => {
     handleDrop,
     validateForm,
     setFormData,
-  } = useMedicineForm();  
+  } = useMedicineForm();
 
   const [showModal, setShowModal] = useState(false);
 
@@ -34,76 +34,76 @@ export const RequestMedicine = () => {
     }
   }, [medicineName]);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       const requestData = {
         req_name: formData.name,
         req_description: formData.description,
-        user_id:decodedToken.id,
-        medicine:medicine_id?medicine_id:"",
-        prescription_img:formData.image,
+        user_id: decodedToken.id,
+        medicine: medicine_id ? medicine_id : "",
+        prescription_img: formData.image,
         status: false,
         examined: false
       };
-   if(request_id!==undefined){
-      try {
-        const response = await fetch(`http://localhost:7777/request/${request_id}`, {
-          method: "PATCH",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestData)
-        });
+      if (request_id !== undefined) {
+        try {
+          const response = await fetch(`http://localhost:7777/request/${request_id}`, {
+            method: "PATCH",
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData)
+          });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Something went wrong!");
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Something went wrong!");
+          }
+
+          setShowModal(true);
+          setFormData({
+            name: "",
+            description: "",
+            image: null,
+          });
+
+          setTimeout(() => {
+            navigate('/need');
+          }, 2000);
+        } catch (error) {
+          console.error("Submit error:", error);
         }
+      }
+      else {
+        try {
+          const response = await fetch("http://localhost:7777/orders", {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData)
+          });
 
-        setShowModal(true);
-        setFormData({
-          name: "",
-          description: "",
-          image: null,
-        });
-        
-        setTimeout(() => {
-          navigate('/need');
-        }, 2000);
-      } catch (error) {
-        console.error("Submit error:", error);
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error("Something went wrong!");
+          }
+
+          setShowModal(true);
+          setFormData({ name: "", description: "", image: null });
+        } catch (error) {
+          console.error("Submit error:", error);
+        }
       }
     }
-    else{
-      try {
-        const response = await fetch("http://localhost:7777/orders", {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestData)
-        });
+  };
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error( "Something went wrong!");
-        }
-
-        setShowModal(true);
-        setFormData({ name: "", description: "", image: null });
-      } catch (error) {
-        console.error("Submit error:", error);
-      }
-    }
-    }
-};
-  
 
   return (
     <>
-      <Container style={{ marginTop: "50px"}} >
-        <Card className="shadow-sm " style={{padding:"25px 20px",margin:"50px 0px"}} >
+      <Container style={{ marginTop: "50px" }} >
+        <Card className="shadow-sm " style={{ padding: "25px 20px", margin: "50px 0px" }} >
           <h3 className="text-center mb-4">Request Medicine</h3>
           <Row >
             <Col md={3} className="d-flex justify-content-center">
@@ -181,7 +181,7 @@ export const RequestMedicine = () => {
 
                 <div className="mt-4 d-flex justify-content-end w-25 ms-auto">
                   <AddBtn style={{ backgroundColor: "var(--main-color)" }} type="submit">
-                    {medicine_id ? 'Update Request' : 'Add Request'}
+                    {medicine_id ? 'Complete' : 'Add Request'}
                   </AddBtn>
                 </div>
               </Form>
