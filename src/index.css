@@ -3,6 +3,7 @@
 :root {
   --main-color: #01b3bd;
   --secondary-color: #2837387e;
+  --Dark-Violet: hsl(260, 44%, 11%);
 }
 
 * {

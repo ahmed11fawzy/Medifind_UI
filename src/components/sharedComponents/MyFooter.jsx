@@ -14,7 +14,7 @@ export const Footer = () => {
             md={3}
             style={{ paddingRight: "20px", position: "relative" }}
           >
-            <h3 style={{ color: "#1E9694", fontWeight: "bold" }}>Medifind</h3>
+            <h3 className="text-brand " style={{ color: "#1E9694", }}>Medifind</h3>
             <div className="vertical-line"></div>
           </Col>
 
