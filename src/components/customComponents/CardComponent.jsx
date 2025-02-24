@@ -6,6 +6,7 @@ import { AddBtn } from "./Addbtn";
 
 export const CardComponent = ({
   image,
+  prescription_img,
   name,
   quantity,
   onRemove,
@@ -16,11 +17,19 @@ export const CardComponent = ({
   setRequested,
   requested,
   goToRequestMedicine,
-}) => {
+})=>{
+
+  const bgColor = requested
+  ? (!examined ? "#d9dedc" : (status ? "#bef5be" : "#f9c8c1"))
+  : "#f4fcf9";
+
   return (
     <Card
       style={{
-        backgroundColor: "#E6F5EF",
+
+        // backgroundColor: "#E6F5EF",
+        backgroundColor: bgColor,
+
         borderRadius: "10px",
         padding: "10px",
         boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
@@ -65,10 +74,7 @@ export const CardComponent = ({
             {/* Only display "Check out" button if not requested */}
             {!requested && !examined &&!status && (
               <AddBtn
-                onClick={() => {
-                  setRequested(true); // update the flag in parent state and localStorage
-                  goToRequestMedicine(); // navigate to RequestMedicine page
-                }}
+                onClick= { goToRequestMedicine }
                 className="ms-auto d-block"
                 style={{
                   backgroundColor: "#109d89",
@@ -82,9 +88,9 @@ export const CardComponent = ({
                 Check out
               </AddBtn>
             )}
-            {requested && !status &&!examined &&<p className='text-muted' style={{ fontSize: "24px" }}>waiting for approval</p>}
-            { examined && status &&<p style={{ color: "green" }}><b>Accepted</b></p>}
-            {  examined && !status &&<p style={{ color: "red" }}><b>Rejected</b></p>}
+            {requested && !status &&!examined &&<p className='text-muted' style={{ fontSize: "16px" }}>status :<b> waiting for approval</b></p>}
+            { requested && examined && status &&<p style={{ color: "green" }}>status : <b>Accepted</b></p>}
+            { requested &&  examined && !status &&<p style={{ color: "red" }}>status : <b>Rejected</b></p>}
             <AddBtn
               onClick={onRemove}
               style={{
