@@ -39,6 +39,7 @@ export const RequestMedicine = () => {
     if (validateForm()) {
       const requestData = {
         req_name: formData.name,
+        requested: true,
         req_description: formData.description,
         user_id: decodedToken.id,
         medicine: medicine_id ? medicine_id : "",

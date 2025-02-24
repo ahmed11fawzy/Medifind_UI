@@ -84,8 +84,9 @@ export const RequestsReview = () => {
 
   return (
     <>
+
       {requests && requests.map((request, index) =>
-        request.examined ? null : (
+        (request.examined || !request.req_description) ? null : (
           <div className="row mb-5 mt-3" key={index}>
             <div className="col-5">
               <img
