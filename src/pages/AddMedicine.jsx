@@ -1,14 +1,19 @@
-import { useState } from "react";
-import { Container, Card, Form, Modal, Button } from "react-bootstrap";
 import { AddBtn } from "../components/customComponents/Addbtn";
 import { useAddMedicineForm } from "../customHooks/AddMedicine";
 import { useDecoded } from "../customHooks/useDecode";
 import axios from "axios";
-import "../components/customComponents/toastedbtn"
-
 import { Loader } from "../components/customComponents/Loader/Loader";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+import { Card, Container, Form } from "react-bootstrap";
+
 export const AddMedicine = () => {
   const [img_path, setPath] = useState('');
+
+
+  
+
 
   const [showToast, setShowToast] = useState(false);
   const [isUploading, setUploading] = useState(false);
@@ -16,18 +21,15 @@ export const AddMedicine = () => {
 
   const handleUpload = async (e) => {
     const file = e.target.files[0];
-    console.log(file);
     if (!file) return;
+    
     const formData = new FormData();
     formData.append("file", file);
 
-
-    formData.append("upload_preset", "medifined"); // Replace with your Cloudinary Upload Preset
+    formData.append("upload_preset", "medifined");
     formData.append("cloud_name", "doxyvufkz");
-    setUploading(true) // Replace with your Cloudinary Cloud Name
-
-  
-
+    
+    setUploading(true);
 
 
     try {
@@ -35,17 +37,19 @@ export const AddMedicine = () => {
         "https://api.cloudinary.com/v1_1/doxyvufkz/image/upload",
         formData
       );
+
+      
       console.log(response.data.secure_url);
       setPath(response.data.secure_url)
       setUploading(false)
       // Pass image URL to parent component
     } catch (error) {
       console.error("Upload failed:", error);
+      setUploading(false);
     }
   };
 
   const decodedToken = useDecoded();
-  console.log(decodedToken);
 
   const {
     medicineName,
@@ -61,62 +65,74 @@ export const AddMedicine = () => {
     validateForm,
   } = useAddMedicineForm();
 
-  const [showModal, setShowModal] = useState(false);
-
   // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (validateForm()) {
-      try {
-        if (img_path && decodedToken) {
-          const response = await fetch("http://localhost:7777/medicine", { // Add API endpoint here
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: medicineName,
-              quantity: Number(numPieces),
-              concentration: concentration,
-              expire_date: expireDate,
-              examine: false,
-              status: false,
-              image_path: img_path,
-              user_id: decodedToken.id,
-            }),
-          });
 
-          console.log('req sent');
 
-          if (!response.ok) {
-            throw new Error("Something went wrong!");
-          }
+        try {
+            if (img_path && decodedToken) {
+                const response = await fetch("http://localhost:7777/medicine", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        name: medicineName,
+                        quantity: Number(numPieces),
+                        concentration: concentration,
+                        expire_date: expireDate,
+                        examine: false,
+                        status: false,
+                        image_path: img_path,
+                        user_id: decodedToken.id,
+                    }),
+                });
 
-          const data = await response.json();
-          console.log(data);
-          setShowModal(true);
-          setMedicineName("");
-          setNumPieces("");
-          setExpireDate("");
-          setConcentration("");
-          setImage(null);
+                if (!response.ok) throw new Error("Something went wrong!");
 
-          document.getElementById("imageInput").value = "";
-          setShowToast(true);
+                toast.success("Medicine added successfully", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
 
-          setTimeout(() => setShowToast(false), 3000);
+                setMedicineName("");
+                setNumPieces("");
+                setExpireDate("");
+                setConcentration("");
+                setImage(null);
+                document.getElementById("imageInput").value = "";
 
-         
+            } else {
+                throw new Error("Missing data");
+            }
+        } catch (error) {
+            toast.error("Something went wrong", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+     
 
-        } else {
-          console.log('something wrong');
         }
-      } catch (error) {
-        console.log(error.message);
-      }
     }
   };
 
   return (
     <>
+
+
+      <ToastContainer />
+
 
       {isUploading && <Loader />}
 
@@ -199,18 +215,7 @@ export const AddMedicine = () => {
           </Form>
         </Card>
       </Container>
-      {/* Toast Notification */}
-      {showToast && (
-        <div className="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-          <div className="toast-header">
-            <strong className="me-auto">Congratulations</strong>
-            <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-          <div className="toast-body">
-            The medicine has been added successfully!
-          </div>
-        </div>
-      )}
+
     </>
   );
 };
