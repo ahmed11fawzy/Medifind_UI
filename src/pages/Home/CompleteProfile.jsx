@@ -7,6 +7,8 @@ import { useDecoded } from '../../customHooks/useDecode';
 import { useEffect, useState } from "react";
 import { useGet } from "../../customHooks/useGet";
 import { Loader } from "../../components/customComponents/Loader/Loader";
+import { FaUserCircle } from "react-icons/fa";
+
 
 export const CompleteProfile = () => {
   const navigate = useNavigate();
@@ -95,19 +97,19 @@ export const CompleteProfile = () => {
 
   return (
     userData ? (
-      <div className="container" style={{ maxWidth: "900px", marginTop: "80px", padding: "40px", backgroundColor: "#ffffff", borderRadius: "10px", boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}>
+      <div className="container" style={{ maxWidth: "1000px", padding: "40px", backgroundColor: "#ffffff", borderRadius: "10px", boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}>
         {isUploading && <Loader />}
         <div className="d-flex mb-3">
-          <div 
-            className="position-relative d-inline-block"
-            style={{ width: 80, height: 80, border: "2px solid #ccc", borderRadius: "50%", cursor: "pointer", overflow: "hidden" }}
+         <div 
+            className="position-relative d-inline-block d-flex align-items-center justify-content-center"
+            style={{ width: 80, height: 80, border: "0.5px solid #ccc", borderRadius: "50%", cursor: "pointer", overflow: "hidden" }}
             onClick={() => document.getElementById("imageUpload").click()}
           >
-            <img 
-              src={formData.profileImage} 
-              alt="Profile" 
-              className="rounded-circle img-fluid w-100 h-100" 
-            />
+            {formData.profileImage ? (
+              <img src={formData.profileImage} className="rounded-circle img-fluid w-100 h-100" />
+            ) : (
+              <FaUserCircle size={80} color="#ccc" />
+            )}
           </div>
           <input 
             id="imageUpload" 
@@ -116,12 +118,12 @@ export const CompleteProfile = () => {
             hidden 
             onChange={handleImageChange} 
           />
-          <div>
+          <div className="ms-4" >
             <h5 className="mt-2">
-              <input type="text" name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="border-0 text-center w-75" />
+              <input type="text" name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="border-0  w-100" />
             </h5>
             <p className="text-muted">
-              <input type="email" name="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="border-0 text-center w-75 text-muted" />
+              <input type="email" name="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="border-0  w-75 text-muted" />
             </p>
           </div>
         </div>
