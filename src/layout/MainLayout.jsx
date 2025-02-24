@@ -27,13 +27,12 @@ const RequestsReview = lazy(async () => {
 });
 
 import { CardPage } from "../pages/CardPage";
-
 import { CompleteProfile } from "../pages/Home/CompleteProfile";
 import { DonorPage } from "../pages/DonerPage";
-
-
 import { useDecoded } from "../customHooks/useDecode";
 import { useEffect, useState, useMemo } from 'react';
+import UpdateMedicine from "../pages/UpdateMedicine/UpdateMedicine";
+import { Loader } from "../components/customComponents/Loader/Loader";
 
 export function MainLayout() {
   const token = localStorage.getItem('token');
@@ -64,12 +63,15 @@ export function MainLayout() {
 
   // Don't render routes until token is decoded
   if (isLoading && isAuthenticated) {
-    return <div>Loading...</div>;
+    return <Loader></Loader>;
   }
 
   const roleAccess = {
-    doctor: ['/home', '/offersReview', '/RequestsReview'],
-    user: ['/home', '/AddMedicine', '/RequestMedicine', '/need', '/donate', '/profile'],
+
+    doctor: ['/home', '/RequestsReview', '/OffersReview'],
+
+    user: ['/home', '/AddMedicine', '/RequestMedicine', '/need', '/donate', '/profile', '/UpdateMedicine'],  // Remove :id
+
     guest: ['/', '/login', '/signup']
   };
 
@@ -78,13 +80,17 @@ export function MainLayout() {
       console.log('Invalid role:', { role, decodedRole: decodedToken?.role });
       return false;
     }
-    const normalizedPath = path.endsWith('/') ? path.slice(0, -1) : path;
+    // Extract base path for dynamic routes
+    const pathParts = path.split('/');
+    const basePath = `/${pathParts[1]}`;
+
     const hasAccess = roleAccess[role].some(route => {
-      return normalizedPath === route ||
-        normalizedPath.startsWith(`${route}/`);
+      // Check if the base path matches the allowed route
+      return route.startsWith(basePath);
     });
     console.log('Access check:', {
-      path: normalizedPath,
+      path,
+      basePath,
       role,
       allowedRoutes: roleAccess[role],
       hasAccess
@@ -93,41 +99,41 @@ export function MainLayout() {
   };
   return (
     <BrowserRouter>
-      <Suspense fallback={<h2 style={{ textAlign: "center" }}>Loading...</h2>}>
-        <Routes>
-          <Route path="/" element={<SignUp />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route element={<SharedLayout />}>
-            <Route element={
-              <ProtectedRoute
-                isAuthenticated={isAuthenticated}
-                isAllowed={isAllowedRoute}
-                userRole={userRole}
-              />
-            }>
-              {/* doctor Routes */}
-              <Route path="/offersReview" element={<OffersReview />} />
-              <Route path="/RequestsReview" element={<RequestsReview />} />
 
-              {/* User Routes */}
-              <Route path="/AddMedicine" element={<AddMedicine />} />
-              <Route path="/UpdateMedicine/:id" element={<AddMedicine />} />
-              <Route path="/RequestMedicine" element={<RequestMedicine />} />
-              <Route path="/RequestMedicine/:id" element={<RequestMedicine />} />
+      <Routes>
+        <Route path="/" element={<SignUp />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route element={<SharedLayout />}>
+          <Route element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              isAllowed={isAllowedRoute}
+              userRole={userRole}
+            />
+          }>
+            {/* doctor Routes */}
+            <Route path="/offersReview" element={<OffersReview />} />
+            <Route path="/RequestsReview" element={<RequestsReview />} />
 
-              <Route path="/need" element={<CardPage />} />
-              <Route path="/profile" element={<CompleteProfile />} />
-              <Route path="/donate" element={<DonorPage />} />
+            {/* User Routes */}
+            <Route path="/AddMedicine" element={<AddMedicine />} />
+            <Route path="/UpdateMedicine/:id" element={<UpdateMedicine />} />
+            <Route path="/RequestMedicine" element={<RequestMedicine />} />
+            <Route path="/RequestMedicine/:id" element={<RequestMedicine />} />
+
+            <Route path="/need" element={<CardPage />} />
+            <Route path="/profile" element={<CompleteProfile />} />
+            <Route path="/donate" element={<DonorPage />} />
 
 
-              {/* Shared Routes */}
-              <Route path="/home" element={<Home />} />
+            {/* Shared Routes */}
+            <Route path="/home" element={<Home />} />
 
-            </Route>
           </Route>
-        </Routes>
-      </Suspense>
+        </Route>
+      </Routes>
+
 
     </BrowserRouter>
   );
