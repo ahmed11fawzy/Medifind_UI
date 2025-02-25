@@ -7,13 +7,13 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import { Card, Container, Form } from "react-bootstrap";
+import { nav } from "framer-motion/client";
+import { useNavigate } from "react-router-dom";
 
 export const AddMedicine = () => {
+
+const navigate = useNavigate();
   const [img_path, setPath] = useState('');
-
-
-  
-
 
   const [showToast, setShowToast] = useState(false);
   const [isUploading, setUploading] = useState(false);
@@ -68,65 +68,72 @@ export const AddMedicine = () => {
   // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
     if (validateForm()) {
-
-
-        try {
-            if (img_path && decodedToken) {
-                const response = await fetch("http://localhost:7777/medicine", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        name: medicineName,
-                        quantity: Number(numPieces),
-                        concentration: concentration,
-                        expire_date: expireDate,
-                        examine: false,
-                        status: false,
-                        image_path: img_path,
-                        user_id: decodedToken.id,
-                    }),
-                });
-
-                if (!response.ok) throw new Error("Something went wrong!");
-
-                toast.success("Medicine added successfully", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-
-                setMedicineName("");
-                setNumPieces("");
-                setExpireDate("");
-                setConcentration("");
-                setImage(null);
-                document.getElementById("imageInput").value = "";
-
-            } else {
-                throw new Error("Missing data");
-            }
-        } catch (error) {
-            toast.error("Something went wrong", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-     
-
+      try {
+        if (img_path && decodedToken) {
+          const response = await fetch("http://localhost:7777/medicine", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: medicineName,
+              quantity: Number(numPieces),
+              concentration: concentration,
+              expire_date: expireDate,
+              examine: false,
+              status: false,
+              image_path: img_path,
+              user_id: decodedToken.id,
+            }),
+          });
+  
+          console.log("Response status:", response.status);
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Something went wrong!");
+          }
+  
+          toast.success("Medicine added successfully", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+  
+          // Clear the form fields
+          setMedicineName("");
+          setNumPieces("");
+          setExpireDate("");
+          setConcentration("");
+          setImage(null);
+          document.getElementById("imageInput").value = "";
+          
+          // Navigate after a delay for toast visibility
+          setTimeout(() => {
+            console.log("Navigating to /need");
+            navigate("/need");
+          }, 2000);
+        } else {
+          throw new Error("Missing data");
         }
+      } catch (error) {
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        console.error("Submit error:", error);
+      }
     }
   };
-
+  
   return (
     <>
 

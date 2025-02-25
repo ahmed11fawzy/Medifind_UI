@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import { CardComponent } from "../components/customComponents/CardComponent";
 import { useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
 import { useDelete } from "../customHooks/useDelete";
+import { CardNeeds } from "../components/customComponents/CardNeeds";
 
 export const CardPage = () => {
   const [requests, setRequests] = useState([]);
@@ -17,7 +17,7 @@ export const CardPage = () => {
   const requestDelete = useDelete(req_Url);
   const orderDelete = useDelete(order_Url);
 
-  // Helper function to fetch requests (or orders)
+  // Helper function to fetch requests (or orders) 
   const fetchRequests = async (url, setFunction) => {
     try {
       const response = await fetch(`${url}/${decodedToken.id}`);
@@ -63,13 +63,18 @@ export const CardPage = () => {
       state: { medicineName: name, medicine_id, request_id, requested: true },
     });
   };
+  const goToUpdateRequest = ( request_id,url) => {
+    navigate(`/UpdateRequest/${request_id}`, {
+      state: { request_id, requested: true , url},
+    });
+  };
 
   return (
     <>
       <Row>
         {requests.map((item) => (
           <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
-            <CardComponent
+            <CardNeeds
               requested={item.requested}
               medicine_id={item.medicine._id}
               examined={item.examined}
@@ -77,11 +82,14 @@ export const CardPage = () => {
               request_id={item._id}
               prescription_img={item.prescription_img || ""}
               image={item.medicine?.image_path || ""}
-              name={item.medicine?.name || "No name"}
+              name={item.req_name ||  item.medicine.name ||"No name"}
               quantity={item.medicine?.concentration || ""}
               onRemove={() => handleRemove(req_Url, item._id, setRequests)}
               goToRequestMedicine={() =>
                 goToRequestMedicine(item.medicine.name, item.medicine._id, item._id)
+              }
+              goToUpdateRequest={()=>
+                goToUpdateRequest(item._id,req_Url)  
               }
             />
           </Col>
@@ -91,7 +99,7 @@ export const CardPage = () => {
       <Row>
         {orders.map((item) => (
           <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
-            <CardComponent
+            <CardNeeds
               examined={item.examined}
               status={item.status}
               request_id={item._id}
@@ -99,6 +107,10 @@ export const CardPage = () => {
               name={item.req_name || "No name"}
               onRemove={() => handleRemove(order_Url, item._id, setOrders)}
               requested={item.requested}
+              goToUpdateRequest={()=>
+                goToUpdateRequest(item._id,order_Url)  
+              }
+
             />
           </Col>
         ))}
