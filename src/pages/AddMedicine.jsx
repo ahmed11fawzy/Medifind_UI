@@ -144,7 +144,7 @@ const navigate = useNavigate();
       {isUploading && <Loader />}
 
 
-      <Container style={{ marginTop: "50px" }}>
+      <Container >
         <Card className="p-4 shadow-sm">
           <h3 className="text-center mb-4">Add Medicine</h3>
           <Form onSubmit={handleSubmit}>
