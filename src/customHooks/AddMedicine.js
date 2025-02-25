@@ -16,12 +16,13 @@ export const useAddMedicineForm = () => {
       newErrors.medicineName = "Only letters are allowed.";
     }
 
-    if (!numPieces.trim()) {
+    // Fix number validation
+    if (!numPieces) {
       newErrors.numPieces = "Number of pieces is required.";
-    } else if (!/^\d+$/.test(numPieces.trim())) {
+    } else if (!/^\d+$/.test(String(numPieces))) {
       newErrors.numPieces = "Only numbers are allowed.";
     }
-    
+
     if (!expireDate) {
       newErrors.expireDate = "Expire date is required.";
     } else {
@@ -33,7 +34,7 @@ export const useAddMedicineForm = () => {
       }
     }
 
-    if (!concentration.trim()) {
+    if (!concentration?.trim()) {
       newErrors.concentration = "Concentration is required.";
     } else if (!/^\d+\s?(mg|g|ml|mcg|kg)$/i.test(concentration.trim())) {
       newErrors.concentration = "Invalid format (e.g., 100 mg).";
@@ -61,7 +62,6 @@ export const useAddMedicineForm = () => {
     numPieces,
     expireDate,
     concentration,
-    // image,
     errors,
     setMedicineName,
     setNumPieces,
