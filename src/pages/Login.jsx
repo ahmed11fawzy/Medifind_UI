@@ -1,16 +1,14 @@
 import { useState } from 'react';
-import {  Form,  } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { AddBtn } from '../components/customComponents/Addbtn';
-// import jwt
 
 export function Login() {
-
-  const navigate=useNavigate();
-  const goToHome=()=>{
-    navigate("/home")
-  }
-
+  const mailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+  const pwdRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
+  
+  const navigate = useNavigate();
+  const goToHome = () => navigate("/home");
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,64 +16,56 @@ export function Login() {
 
   const validateForm = () => {
     const newErrors = {};
+
     if (!email) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
+    } else if (!RegExp(mailRegex).test(email)) {
       newErrors.email = 'Email address is invalid';
     }
+
     if (!password) {
       newErrors.password = 'Password is required';
-    } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+    } else if (!RegExp(pwdRegex).test(password)) {
+      newErrors.password = 'Password must be at least 8 characters, including a letter, a number, and a special character.';
     }
+
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0; 
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-
       try {
-        // const response = await fetch("http://localhost:7777/login", {  // Add API endpoint here
-        const response = await fetch("http://localhost:7777/login", {  // Add API endpoint here
+        const response = await fetch("http://localhost:7777/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-          email: email,
-          password: password,
-          }),
+          body: JSON.stringify({ email, password }),
         });
 
         if (!response.ok) {
           const errorData = await response.json();
           setErrors({ form: errorData.message || "Invalid email or password" });
-          throw new Error( "Something went wrong!");
+          throw new Error("Something went wrong!");
         }
-          const data = await response.json();
-          const token = await response.headers.get('x-auth-token');
-          localStorage.setItem('token',token);
+
+        const data = await response.json();
+        const token = response.headers.get('x-auth-token');
+        localStorage.setItem('token', token);
         
-
-
-      console.log(data)
-
-        
-      goToHome();   
-} catch (error) {
-    console.log(error.message);
-}
-
-}
-
-
+        console.log(data);
+        goToHome();
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
   };
 
   return (
-    <div className='vh-100 d-flex justify-content-center align-items-center bg-light'>
-      <div className='p-4 bg-white rounded shadow-sm' style={{ maxWidth: '400px', width: '100%' }}>
-        <h1 className='text-center mb-4'>Log In</h1>
-        <Form >
+    <div className="vh-100 d-flex justify-content-center align-items-center bg-light">
+      <div className="p-4 bg-white rounded shadow-sm" style={{ maxWidth: '400px', width: '100%' }}>
+        <h1 className="text-center mb-4">Log In</h1>
+        <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Enter Your Email</Form.Label>
             <Form.Control
@@ -85,9 +75,7 @@ export function Login() {
               onChange={(e) => setEmail(e.target.value)}
               isInvalid={!!errors.email}
             />
-            <Form.Control.Feedback type="invalid">
-              {errors.email}
-            </Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -99,23 +87,20 @@ export function Login() {
               onChange={(e) => setPassword(e.target.value)}
               isInvalid={!!errors.password}
             />
-            <Form.Control.Feedback type="invalid">
-              {errors.password}
-            </Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
           </Form.Group>
 
-          <div className='d-flex justify-content-between align-items-center mb-3'>
+          <div className="d-flex justify-content-between align-items-center mb-3">
             <Form.Group controlId="formBasicCheckbox">
               <Form.Check type="checkbox" label="Remember Me" />
             </Form.Group>
-            <span className='text-primary text-info' style={{ cursor: 'pointer' }}>Forget Password?</span>
+            <span className="text-primary text-info" style={{ cursor: 'pointer' }}>Forget Password?</span>
           </div>
-          
-          <AddBtn type="submit" onClick={handleSubmit}  className="w-100">
-            Log In
-          </AddBtn>
-          
+
+          <AddBtn type="submit" className="w-100">Log In</AddBtn>
         </Form>
+
+        {errors.form && <p className="text-danger p-2 mt-3 text-center fs-4">{errors.form}</p>}
       </div>
     </div>
   );
