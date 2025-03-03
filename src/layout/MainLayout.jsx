@@ -142,7 +142,6 @@ export function MainLayout() {
 
 
           </Route>
-        </Route>
       </Routes>
 
 
