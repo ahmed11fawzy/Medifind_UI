@@ -64,17 +64,18 @@ export default function UpdateMedicine() {
   useEffect(() => {
     if (state) {
       setMedicineName(name || '');
-      setNumPieces(quantity || '');
+      setNumPieces(quantity ? String(quantity) : ''); // Convert to string
       setExpireDate(date || '');
       setConcentration(conc || '');
     }
   }, [state]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        if (img_path && decodedToken) {
-          const response = await fetch(`http://localhost:7777/medicine/${_id}`, { // Add API endpoint here
+        if (decodedToken) {  // Remove img_path check since it's optional
+          const response = await fetch(`http://localhost:7777/medicine/${_id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -82,8 +83,7 @@ export default function UpdateMedicine() {
               quantity: Number(numPieces),
               concentration: concentration,
               expire_date: expireDate,
-              image_path: img_path,
-
+              image_path: img_path || image, // Use existing image if no new one uploaded
             }),
           });
 
@@ -110,7 +110,7 @@ export default function UpdateMedicine() {
       {isUploading && <Loader />}
       <Container style={{ marginTop: "50px" }}>
         <Card className="p-4 shadow-sm">
-          <h3 className="text-center mb-4">Add Medicine</h3>
+          <h3 className="text-center mb-4">Update Medicine</h3>
           <Form onSubmit={handleSubmit}>
             <div className="row">
               <div className="col-12 col-md-6">
