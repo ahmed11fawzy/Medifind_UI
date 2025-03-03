@@ -27,15 +27,16 @@ const RequestsReview = lazy(async () => {
 });
 
 import { CardPage } from "../pages/CardPage";
-
 import { CompleteProfile } from "../pages/Home/CompleteProfile";
 import { DonorPage } from "../pages/DonerPage";
-
-
 import { useDecoded } from "../customHooks/useDecode";
 import { useEffect, useState, useMemo } from 'react';
 import UpdateMedicine from "../pages/UpdateMedicine/UpdateMedicine";
+
 import {UpdateRequest} from "../pages/UpdateRequest/UpdateRequest";
+
+import { Loader } from "../components/customComponents/Loader/Loader";
+
 
 export function MainLayout() {
   const token = localStorage.getItem('token');
@@ -66,14 +67,16 @@ export function MainLayout() {
 
   // Don't render routes until token is decoded
   if (isLoading && isAuthenticated) {
-    return <div>Loading...</div>;
+    return <Loader></Loader>;
   }
 
   const roleAccess = {
 
     doctor: ['/home', '/RequestsReview', '/OffersReview'],
+
   
     user: ['/home', '/AddMedicine', '/RequestMedicine', '/need', '/donate', '/profile', '/UpdateMedicine', '/UpdateRequest'],  // Remove :id
+
 
     guest: ['/', '/login', '/signup']
   };
@@ -86,7 +89,7 @@ export function MainLayout() {
     // Extract base path for dynamic routes
     const pathParts = path.split('/');
     const basePath = `/${pathParts[1]}`;
-    
+
     const hasAccess = roleAccess[role].some(route => {
       // Check if the base path matches the allowed route
       return route.startsWith(basePath);
@@ -102,7 +105,8 @@ export function MainLayout() {
   };
   return (
     <BrowserRouter>
-      <Suspense fallback={<h2 style={{ textAlign: "center" }}>Loading...</h2>}>
+
+     
         <Routes>
           <Route path="/" element={<SignUp />} />
           <Route path="/signup" element={<SignUp />} />
@@ -135,9 +139,12 @@ export function MainLayout() {
               <Route path="/home" element={<Home />} />
 
             </Route>
+
+
           </Route>
-        </Routes>
-      </Suspense>
+        </Route>
+      </Routes>
+
 
     </BrowserRouter>
   );

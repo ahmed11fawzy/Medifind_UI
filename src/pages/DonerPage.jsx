@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
 import { useGet } from "../customHooks/useGet.js";
 import { useDelete } from "../customHooks/useDelete";
+import { Loader } from "../components/customComponents/Loader/Loader.jsx";
 
 export const DonorPage = () => {
   const navigate = useNavigate();
-  
+
   // Fix the update function to return a callback
   const goToUpdateMedicine = (_id, name, image, quantity, date, concentration) => () => {
     navigate(`/UpdateMedicine/${_id}`, {
@@ -21,6 +22,8 @@ export const DonorPage = () => {
   const { data, isLoading, serverError, getRequest } = useGet(
     decodedToken ? `${baseUrl}/${decodedToken.id}` : null
   );
+
+
 
   useEffect(() => {
     if (decodedToken) {
@@ -44,10 +47,21 @@ export const DonorPage = () => {
       console.error("Failed to delete medicine:", error);
     }
   };
+  if (isLoading || deleteLoading) {
+    return <Loader />;
+  }
+  if (data?.length === 0) {
+    return (
+      <div className="text-center">
+        <h1>You have no medicine For donation </h1>
+        <AddBtn className=" mt-5" onClick={() => navigate("/AddMedicine")}>Donate</AddBtn>
+      </div>
+    );
+  }
   return (
     <>
-      {<Row>
-        {data && data.length > 0 ? (
+      <Row>
+        {data && (
           data.map((item) => (
             <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
               <CardDonation
@@ -57,11 +71,11 @@ export const DonorPage = () => {
                 pcs={item.quantity}
                 expDate={item.exp_date}
                 OnUpdate={goToUpdateMedicine(
-                  item._id, 
-                  item.name, 
-                  item.image_path, 
-                  item.quantity, 
-                  item.exp_date, 
+                  item._id,
+                  item.name,
+                  item.image_path,
+                  item.quantity,
+                  item.exp_date,
                   item.concentration
                 )}
                 onRemove={() => handleRemove(item._id)}
@@ -69,10 +83,8 @@ export const DonorPage = () => {
               </CardDonation>
             </Col>
           ))
-        ) : (
-          <div className="text-center"> nothing to show</div>
         )}
-      </Row>}
+      </Row>
     </>
   );
 };
