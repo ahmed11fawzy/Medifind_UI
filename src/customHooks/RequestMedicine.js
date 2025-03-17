@@ -50,7 +50,7 @@ const useMedicineForm = () => {
     }
 
     if (!formData.description.trim()) newErrors.description = "Description is required";
-    // if (!formData.image) newErrors.image = "Image is required";
+    if (!formData.image) newErrors.image = "Image is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

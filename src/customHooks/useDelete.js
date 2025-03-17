@@ -14,10 +14,9 @@ export const useDelete = (url) => {
       if (!decodedToken) {
         throw new Error('User is not authenticated');
       }
-      const response = await axios.delete(url, {
+      const response = await axios.delete(`${url}/${decodedToken.id}`, {
         headers: {
           'Content-Type': 'application/json',
-          'user_id': decodedToken.id,
           'req_id': req_id
         },
         validateStatus: (status) => status < 500 // Handle 4xx errors in try block

@@ -43,10 +43,12 @@ export const CardNeeds = ({
           <img
             src={image}
             alt={name}
+        
             style={{
               borderRadius: "5px",
               maxWidth: "100%",
               height: "100%",
+
             }}
           />
         </div>
@@ -105,7 +107,7 @@ export const CardNeeds = ({
                           >
                             Delete 
                           </AddBtn>
-                          <AddBtn
+                      { !examined &&  <AddBtn
                             onClick={goToUpdateRequest}
                             style={{
                               backgroundColor: "#1E9694",
@@ -115,9 +117,8 @@ export const CardNeeds = ({
                             }}
                           >
                             Update 
-                          </AddBtn>
+                            </AddBtn>}
                           </div>
-
           </Card.Body>
         </div>
       </div>
