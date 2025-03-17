@@ -40,17 +40,17 @@ export const useAddMedicineForm = () => {
       newErrors.concentration = "Invalid format (e.g., 100 mg).";
     }
 
-    // if (!image) {
-    //   newErrors.image = "Image is required.";
-    // } else if (!/\.(jpg|jpeg|png)$/i.test(image.name)) {
-    //   newErrors.image = "Only JPG and PNG formats are allowed.";
-    // }
+    if (!image) {
+      newErrors.image = "Image is required.";
+    } else if (!/\.(jpg|jpeg|png)$/i.test(image.name)) {
+      newErrors.image = "Only JPG and PNG formats are allowed.";
+    }
 
-    // if(image){
-    //   if(!/\.(jpg|jpeg|png)$/i.test(image.name)){
+    if(image){
+      if(!/\.(jpg|jpeg|png)$/i.test(image.name)){
 
-    //   }
-    // }
+      }
+    }
 
 
     setErrors(newErrors);

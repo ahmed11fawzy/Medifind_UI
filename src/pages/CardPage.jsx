@@ -16,6 +16,7 @@ export const CardPage = () => {
   // Initialize delete hooks for each endpoint at the top level.
   const requestDelete = useDelete(req_Url);
   const orderDelete = useDelete(order_Url);
+  
 
   // Helper function to fetch requests (or orders) 
   const fetchRequests = async (url, setFunction) => {
@@ -76,13 +77,13 @@ export const CardPage = () => {
           <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
             <CardNeeds
               requested={item.requested}
-              medicine_id={item.medicine._id}
+              medicine_id={item.medicine?._id}
               examined={item.examined}
               status={item.status}
               request_id={item._id}
               prescription_img={item.prescription_img || ""}
               image={item.medicine?.image_path || ""}
-              name={item.req_name ||  item.medicine.name ||"No name"}
+              name={item.req_name ||  item.medicine?.name ||"No name"}
               quantity={item.medicine?.concentration || ""}
               onRemove={() => handleRemove(req_Url, item._id, setRequests)}
               goToRequestMedicine={() =>
