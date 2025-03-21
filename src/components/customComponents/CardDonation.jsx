@@ -2,11 +2,16 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { AddBtn } from "./Addbtn";
 
-export const CardDonation = ({ image, name, quantity, pcs, expDate, onRemove,OnUpdate }) => {
+export const CardDonation = ({ image, name, quantity, pcs, expDate, onRemove,OnUpdate ,examine,status}) => {
+  const bgColor = examine
+  ? (!status ? "#f9c8c1" :"#bef5be" )
+  : "#d6d8d7";
+
   return (
     <Card
       style={{
-        backgroundColor: "#E6F5EF",
+        backgroundColor: bgColor ,
+        width: "90%",
         borderRadius: "10px",
         padding: "10px",
         boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
@@ -39,6 +44,15 @@ export const CardDonation = ({ image, name, quantity, pcs, expDate, onRemove,OnU
             <div style={{ marginTop: "5px", fontSize: "14px", color: "#666" }}>
               No. of pcs: {pcs} | EXP. Date: {expDate}
             </div>
+         {examine&&status&&   <div style={{ marginTop: "5px", fontSize: "18px", color: "#181717" }}>
+            status: Accepted
+            </div>}
+          {examine&& !status &&  <div style={{ marginTop: "5px", fontSize: "18px", color: "#181717" }}>
+            status: Rejected 
+            </div>}
+            { !examine&& !status && <div style={{ marginTop: "5px", fontSize: "18px", color: "#181717" }}>
+            status: Waiting for approval 
+            </div>}
             <div className="d-flex gap-3">
               <AddBtn
               onClick={onRemove}
