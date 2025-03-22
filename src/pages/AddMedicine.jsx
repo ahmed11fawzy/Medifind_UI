@@ -1,55 +1,19 @@
-import { AddBtn } from "../components/customComponents/Addbtn";
-import { useAddMedicineForm } from "../customHooks/AddMedicine";
-import { useDecoded } from "../customHooks/useDecode";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Loader } from "../components/customComponents/Loader/Loader";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
 import { Card, Container, Form } from "react-bootstrap";
-import { nav } from "framer-motion/client";
-import { useNavigate } from "react-router-dom";
+
+import { AddBtn } from "../components/customComponents/Addbtn";
+import { Loader } from "../components/customComponents/Loader/Loader";
+import { useAddMedicineForm } from "../customHooks/AddMedicine";
+import { useDecoded } from "../customHooks/useDecode";
 
 export const AddMedicine = () => {
-
-const navigate = useNavigate();
-  const [img_path, setPath] = useState('');
-
-  const [showToast, setShowToast] = useState(false);
+  const navigate = useNavigate();
+  const [img_path, setPath] = useState("");
   const [isUploading, setUploading] = useState(false);
-
-
-  const handleUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    
-    const formData = new FormData();
-    formData.append("file", file);
-
-    formData.append("upload_preset", "medifined");
-    formData.append("cloud_name", "doxyvufkz");
-    
-    setUploading(true);
-
-
-    try {
-      const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/doxyvufkz/image/upload",
-        formData
-      );
-
-      
-      console.log(response.data.secure_url);
-      setPath(response.data.secure_url)
-      setUploading(false)
-      // Pass image URL to parent component
-    } catch (error) {
-      console.error("Upload failed:", error);
-      setUploading(false);
-    }
-  };
-
-  const decodedToken = useDecoded();
 
   const {
     medicineName,
@@ -65,10 +29,40 @@ const navigate = useNavigate();
     validateForm,
   } = useAddMedicineForm();
 
-  // Handle submit
+  const decodedToken = useDecoded();
+
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Update the hook's image state so validation passes.
+    setImage(file);
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "medifined");
+    formData.append("cloud_name", "doxyvufkz");
+
+    setUploading(true);
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/doxyvufkz/image/upload",
+        formData
+      );
+
+      console.log("Secure URL:", response.data.secure_url);
+      setPath(response.data.secure_url);
+      setUploading(false);
+    } catch (error) {
+      console.error("Upload failed:", error);
+      setUploading(false);
+    }
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (validateForm()) {
       try {
         if (img_path && decodedToken) {
@@ -86,13 +80,13 @@ const navigate = useNavigate();
               user_id: decodedToken.id,
             }),
           });
-  
+
           console.log("Response status:", response.status);
           if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || "Something went wrong!");
           }
-  
+
           toast.success("Medicine added successfully", {
             position: "top-right",
             autoClose: 3000,
@@ -102,19 +96,19 @@ const navigate = useNavigate();
             draggable: true,
             progress: undefined,
           });
-  
+
           // Clear the form fields
           setMedicineName("");
           setNumPieces("");
           setExpireDate("");
           setConcentration("");
-          setImage(null);
+          setImage(null); // Clear the image state in the hook.
           document.getElementById("imageInput").value = "";
-          
-          // Navigate after a delay for toast visibility
+
+          // Navigate after a delay so that the toast can be seen.
           setTimeout(() => {
-            console.log("Navigating to /need");
-            navigate("/need");
+            console.log("Navigating to /donate");
+            navigate("/donate");
           }, 2000);
         } else {
           throw new Error("Missing data");
@@ -133,18 +127,12 @@ const navigate = useNavigate();
       }
     }
   };
-  
+
   return (
     <>
-
-
       <ToastContainer />
-
-
       {isUploading && <Loader />}
-
-
-      <Container >
+      <Container>
         <Card className="p-4 shadow-sm">
           <h3 className="text-center mb-4">Add Medicine</h3>
           <Form onSubmit={handleSubmit}>
@@ -158,7 +146,9 @@ const navigate = useNavigate();
                     onChange={(e) => setMedicineName(e.target.value)}
                     isInvalid={!!errors.medicineName}
                   />
-                  <Form.Control.Feedback type="invalid">{errors.medicineName}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.medicineName}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </div>
 
@@ -171,7 +161,9 @@ const navigate = useNavigate();
                     onChange={(e) => setNumPieces(e.target.value)}
                     isInvalid={!!errors.numPieces}
                   />
-                  <Form.Control.Feedback type="invalid">{errors.numPieces}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.numPieces}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </div>
 
@@ -184,7 +176,9 @@ const navigate = useNavigate();
                     onChange={(e) => setExpireDate(e.target.value)}
                     isInvalid={!!errors.expireDate}
                   />
-                  <Form.Control.Feedback type="invalid">{errors.expireDate}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.expireDate}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </div>
 
@@ -197,7 +191,9 @@ const navigate = useNavigate();
                     onChange={(e) => setConcentration(e.target.value)}
                     isInvalid={!!errors.concentration}
                   />
-                  <Form.Control.Feedback type="invalid">{errors.concentration}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.concentration}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </div>
 
@@ -211,19 +207,21 @@ const navigate = useNavigate();
                     onChange={handleUpload}
                     isInvalid={!!errors.image}
                   />
-                  <Form.Control.Feedback type="invalid">{errors.image}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.image}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </div>
             </div>
 
             <div className="text-center d-flex justify-content-end w-25 ms-auto">
-              <AddBtn type="submit" disabled={!img_path}>Add</AddBtn>
+              <AddBtn type="submit" disabled={!img_path}>
+                Add
+              </AddBtn>
             </div>
           </Form>
         </Card>
       </Container>
-
     </>
   );
 };
-
