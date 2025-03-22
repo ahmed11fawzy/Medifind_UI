@@ -10,19 +10,22 @@ export const useAddMedicineForm = () => {
 
   const validateForm = () => {
     let newErrors = {};
+
+    // Medicine name validation
     if (!medicineName.trim()) {
       newErrors.medicineName = "Medicine name is required.";
     } else if (!/^[A-Za-z\s]+$/.test(medicineName.trim())) {
       newErrors.medicineName = "Only letters are allowed.";
     }
 
-    // Fix number validation
+    // Number of pieces validation
     if (!numPieces) {
       newErrors.numPieces = "Number of pieces is required.";
     } else if (!/^\d+$/.test(String(numPieces))) {
       newErrors.numPieces = "Only numbers are allowed.";
     }
 
+    // Expire date validation
     if (!expireDate) {
       newErrors.expireDate = "Expire date is required.";
     } else {
@@ -34,24 +37,19 @@ export const useAddMedicineForm = () => {
       }
     }
 
+    // Concentration validation
     if (!concentration?.trim()) {
       newErrors.concentration = "Concentration is required.";
     } else if (!/^\d+\s?(mg|g|ml|mcg|kg)$/i.test(concentration.trim())) {
       newErrors.concentration = "Invalid format (e.g., 100 mg).";
     }
 
-    // if (!image) {
-    //   newErrors.image = "Image is required.";
-    // } else if (!/\.(jpg|jpeg|png)$/i.test(image.name)) {
-    //   newErrors.image = "Only JPG and PNG formats are allowed.";
-    // }
-
-    // if(image){
-    //   if(!/\.(jpg|jpeg|png)$/i.test(image.name)){
-
-    //   }
-    // }
-
+    // Image validation: checks that an image file was provided
+    if (!image) {
+      newErrors.image = "Image is required.";
+    } else if (!/\.(jpg|jpeg|png)$/i.test(image.name)) {
+      newErrors.image = "Only JPG and PNG formats are allowed.";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

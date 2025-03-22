@@ -70,13 +70,15 @@ export const DonorPage = () => {
                 quantity={item.concentration}
                 pcs={item.quantity}
                 expDate={item.exp_date}
+                examine={item.examine}
+                status={item.status}
                 OnUpdate={goToUpdateMedicine(
                   item._id,
                   item.name,
                   item.image_path,
                   item.quantity,
                   item.exp_date,
-                  item.concentration
+                  item.concentration,
                 )}
                 onRemove={() => handleRemove(item._id)}
               >
