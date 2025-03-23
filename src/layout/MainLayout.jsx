@@ -32,7 +32,11 @@ import { DonorPage } from "../pages/DonerPage";
 import { useDecoded } from "../customHooks/useDecode";
 import { useEffect, useState, useMemo } from 'react';
 import UpdateMedicine from "../pages/UpdateMedicine/UpdateMedicine";
+
+import {UpdateRequest} from "../pages/UpdateRequest/UpdateRequest";
+
 import { Loader } from "../components/customComponents/Loader/Loader";
+
 
 export function MainLayout() {
   const token = localStorage.getItem('token');
@@ -70,7 +74,9 @@ export function MainLayout() {
 
     doctor: ['/home', '/RequestsReview', '/OffersReview'],
 
-    user: ['/home', '/AddMedicine', '/RequestMedicine', '/need', '/donate', '/profile', '/UpdateMedicine'],  // Remove :id
+  
+    user: ['/home', '/AddMedicine', '/RequestMedicine', '/need', '/donate', '/profile', '/UpdateMedicine', '/UpdateRequest'],  // Remove :id
+
 
     guest: ['/', '/login', '/signup']
   };
@@ -100,38 +106,42 @@ export function MainLayout() {
   return (
     <BrowserRouter>
 
-      <Routes>
-        <Route path="/" element={<SignUp />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-        <Route element={<SharedLayout />}>
-          <Route element={
-            <ProtectedRoute
-              isAuthenticated={isAuthenticated}
-              isAllowed={isAllowedRoute}
-              userRole={userRole}
-            />
-          }>
-            {/* doctor Routes */}
-            <Route path="/offersReview" element={<OffersReview />} />
-            <Route path="/RequestsReview" element={<RequestsReview />} />
+     
+        <Routes>
+          <Route path="/" element={<SignUp />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route element={<SharedLayout />}>
+            <Route element={
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                isAllowed={isAllowedRoute}
+                userRole={userRole}
+              />
+            }>
+              {/* doctor Routes */}
+              <Route path="/offersReview" element={<OffersReview />} />
+              <Route path="/RequestsReview" element={<RequestsReview />} />
 
-            {/* User Routes */}
-            <Route path="/AddMedicine" element={<AddMedicine />} />
-            <Route path="/UpdateMedicine/:id" element={<UpdateMedicine />} />
-            <Route path="/RequestMedicine" element={<RequestMedicine />} />
-            <Route path="/RequestMedicine/:id" element={<RequestMedicine />} />
+              {/* User Routes */}
+              <Route path="/AddMedicine" element={<AddMedicine />} />
+              <Route path="/UpdateMedicine/:id" element={<UpdateMedicine />} />
+              <Route path="/RequestMedicine" element={<RequestMedicine />} />
+              <Route path="/RequestMedicine/:id" element={<RequestMedicine />} />
+              <Route path="/UpdateRequest/:request_id" element={<UpdateRequest />} />
 
-            <Route path="/need" element={<CardPage />} />
-            <Route path="/profile" element={<CompleteProfile />} />
-            <Route path="/donate" element={<DonorPage />} />
+              <Route path="/need" element={<CardPage />} />
+              <Route path="/profile" element={<CompleteProfile />} />
+              <Route path="/donate" element={<DonorPage />} />
 
 
-            {/* Shared Routes */}
-            <Route path="/home" element={<Home />} />
+              {/* Shared Routes */}
+              <Route path="/home" element={<Home />} />
+
+            </Route>
+
 
           </Route>
-        </Route>
       </Routes>
 
 

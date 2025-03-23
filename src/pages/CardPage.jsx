@@ -1,14 +1,11 @@
-
 import { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import { CardComponent } from "../components/customComponents/CardComponent";
 import { useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
-import { useGet } from "../customHooks/useGet.js";
 import { useDelete } from "../customHooks/useDelete";
+import { CardNeeds } from "../components/customComponents/CardNeeds";
 
 export const CardPage = () => {
-  // const [requestedItems, setRequestedItems] = useState([]);
   const [requests, setRequests] = useState([]);
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
@@ -16,7 +13,12 @@ export const CardPage = () => {
   const req_Url = "http://localhost:7777/request";
   const order_Url = "http://localhost:7777/orders"; // if needed
 
-  // Helper function to fetch requests (or orders)
+  // Initialize delete hooks for each endpoint at the top level.
+  const requestDelete = useDelete(req_Url);
+  const orderDelete = useDelete(order_Url);
+  
+
+  // Helper function to fetch requests (or orders) 
   const fetchRequests = async (url, setFunction) => {
     try {
       const response = await fetch(`${url}/${decodedToken.id}`);
@@ -37,23 +39,22 @@ export const CardPage = () => {
   useEffect(() => {
     if (decodedToken) {
       fetchRequests(req_Url, setRequests);
-      // If needed, you can fetch orders similarly:
       fetchRequests(order_Url, setOrders);
     }
   }, [decodedToken]);
 
-  // When requests change, augment each item with a requested flag from localStorage.
-
-
-  const { deleteRequest } = useDelete(req_Url);
-
-  const handleRemove = async (url,del_id,setFunction) => {
+  // Delete handler for both requests and orders.
+  const handleRemove = async (url, del_id, setFunction) => {
     try {
-      await deleteRequest(del_id);
+      if (url === req_Url) {
+        await requestDelete.deleteRequest(del_id);
+      } else if (url === order_Url) {
+        await orderDelete.deleteRequest(del_id);
+      }
       await fetchRequests(url, setFunction);
-      console.log("Request deleted successfully");
+      console.log("Item deleted successfully");
     } catch (error) {
-      console.error("Failed to delete request:", error);
+      console.error("Failed to delete item:", error);
     }
   };
 
@@ -63,57 +64,58 @@ export const CardPage = () => {
       state: { medicineName: name, medicine_id, request_id, requested: true },
     });
   };
+  const goToUpdateRequest = ( request_id,url) => {
+    navigate(`/UpdateRequest/${request_id}`, {
+      state: { request_id, requested: true , url},
+    });
+  };
 
   return (
     <>
       <Row>
-        {
-          requests.map((item) =>
-              <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
-                <CardComponent
-                  requested={item.requested}
-                  medicine_id={item.medicine._id}
-                  examined={item.examined}
-                  status={item.status}
-                  request_id={item._id}
-                  prescription_img={item.prescription_img || ""}
-                  image={item.medicine?.image_path || ""}
-                  name={item.medicine?.name || "No name"}
-                  quantity={item.medicine?.concentration || ""}
-                  onRemove={() => handleRemove(req_Url,item._id,setRequests)}
-                  goToRequestMedicine={() =>
-                    goToRequestMedicine(item.medicine.name, item.medicine._id, item._id)
-                  }
-                
-                />
-              </Col>
-                )}
+        {requests.map((item) => (
+          <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
+            <CardNeeds
+              requested={item.requested}
+              medicine_id={item.medicine?._id}
+              examined={item.examined}
+              status={item.status}
+              request_id={item._id}
+              prescription_img={item.prescription_img || ""}
+              image={item.medicine?.image_path || ""}
+              name={item.req_name ||  item.medicine?.name ||"No name"}
+              quantity={item.medicine?.concentration || ""}
+              onRemove={() => handleRemove(req_Url, item._id, setRequests)}
+              goToRequestMedicine={() =>
+                goToRequestMedicine(item.medicine.name, item.medicine._id, item._id)
+              }
+              goToUpdateRequest={()=>
+                goToUpdateRequest(item._id,req_Url)  
+              }
+            />
+          </Col>
+        ))}
       </Row>
-              
+
       <Row>
-        {
-          orders.map((item) =>
-           
-              <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
-                <CardComponent
-                  examined={item.examined}
-                  status={item.status}
-                  request_id={item._id}
-                  image={item.prescription_img || ""}
-                  name={item.req_name || "No name"}
-                  onRemove={() => handleRemove(item._id)}                
-                  requested={item.requested}
-                  />
-              
-              </Col>
-           
-          )
-       
-        }
+        {orders.map((item) => (
+          <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
+            <CardNeeds
+              examined={item.examined}
+              status={item.status}
+              request_id={item._id}
+              image={item.prescription_img || ""}
+              name={item.req_name || "No name"}
+              onRemove={() => handleRemove(order_Url, item._id, setOrders)}
+              requested={item.requested}
+              goToUpdateRequest={()=>
+                goToUpdateRequest(item._id,order_Url)  
+              }
+
+            />
+          </Col>
+        ))}
       </Row>
-
-
     </>
   );
 };
-
