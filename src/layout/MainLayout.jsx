@@ -2,8 +2,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from '../pages/Login';
 import { SignUp } from '../pages/signup/SignUp';
 import { ProtectedRoute } from '../pages/ProtectedRoute';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect, useState, useMemo } from 'react';
 import SharedLayout from "../layout/SharedLayout";
+import { Loader } from "../components/customComponents/Loader/Loader";
+import { useDecoded } from "../customHooks/useDecode";
+import UpdateMedicine from "../pages/UpdateMedicine/UpdateMedicine";
+import {UpdateRequest} from "../pages/UpdateRequest/UpdateRequest";
 
 const Home = lazy(async () => {
   const module = await import("../pages/Home/Home");
@@ -29,37 +33,43 @@ const RequestsReview = lazy(async () => {
 import { CardPage } from "../pages/CardPage";
 import { CompleteProfile } from "../pages/Home/CompleteProfile";
 import { DonorPage } from "../pages/DonerPage";
-import { useDecoded } from "../customHooks/useDecode";
-import { useEffect, useState, useMemo } from 'react';
-import UpdateMedicine from "../pages/UpdateMedicine/UpdateMedicine";
-
-import {UpdateRequest} from "../pages/UpdateRequest/UpdateRequest";
-
-import { Loader } from "../components/customComponents/Loader/Loader";
-
 
 export function MainLayout() {
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(localStorage.getItem('token'));
   const isAuthenticated = !!token;
   const decodedToken = useDecoded();
   const [isLoading, setIsLoading] = useState(true);
 
-  // Add immediate role update when token changes
+  // Handle token changes
   useEffect(() => {
-    const handleTokenChange = () => {
-      setIsLoading(true);
-      if (decodedToken !== null) {
-        setIsLoading(false);
+    const handleStorageChange = (e) => {
+      if (e.key === 'token') {
+        setToken(e.newValue);
+        setIsLoading(true);
       }
     };
 
-    handleTokenChange();
-    window.addEventListener('storage', handleTokenChange);
+    // Listen for storage changes
+    window.addEventListener('storage', handleStorageChange);
+
+    // Initial token check
+    const currentToken = localStorage.getItem('token');
+    if (currentToken !== token) {
+      setToken(currentToken);
+    }
 
     return () => {
-      window.removeEventListener('storage', handleTokenChange);
+      window.removeEventListener('storage', handleStorageChange);
     };
-  }, [decodedToken, token]);
+  }, [token]);
+
+  // Handle loading state based on decoded token
+  useEffect(() => {
+    if (decodedToken !== null) {
+      setIsLoading(false);
+    }
+  }, [decodedToken]);
+
   const userRole = useMemo(() => {
     if (!decodedToken) return 'guest';
     return decodedToken.role?.toLowerCase() || 'guest';
@@ -67,17 +77,12 @@ export function MainLayout() {
 
   // Don't render routes until token is decoded
   if (isLoading && isAuthenticated) {
-    return <Loader></Loader>;
+    return <Loader />;
   }
 
   const roleAccess = {
-
     doctor: ['/home', '/RequestsReview', '/OffersReview'],
-
-  
     user: ['/home', '/AddMedicine', '/RequestMedicine', '/need', '/donate', '/profile', '/UpdateMedicine', '/UpdateRequest'],  // Remove :id
-
-
     guest: ['/', '/login', '/signup']
   };
 
@@ -105,8 +110,7 @@ export function MainLayout() {
   };
   return (
     <BrowserRouter>
-
-     
+      <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<SignUp />} />
           <Route path="/signup" element={<SignUp />} />
@@ -134,17 +138,12 @@ export function MainLayout() {
               <Route path="/profile" element={<CompleteProfile />} />
               <Route path="/donate" element={<DonorPage />} />
 
-
               {/* Shared Routes */}
               <Route path="/home" element={<Home />} />
-
             </Route>
-
-
           </Route>
-      </Routes>
-
-
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
