@@ -48,12 +48,12 @@ export function SlideDown({Medicine}) {
       {
         
         <>
-        <main className={`${styles.post} position-relative px-4 py-3 `}>
+        <main className={`${styles.post} position-relative px-4 py-4 `}>
           <header className="position-absolute top-0 start-50  translate-middle  ">
             <img src={loge} width={"50px"} height={"50px"} className=" rounded rounded-circle" alt="" />
           </header>
           <h4 className="mt-3 mb-4 text-center">{Medicine.user_id.name}</h4>
-          <h5>Name :<span className=" fw-midium fs-5 ">{Medicine.name.toUpperCase()}</span> <span className="fw-light fs-6">{Medicine.concentration}</span></h5>
+          <p className="fw-bold" >Name: <span className=" fw-normal fs-6 ">{Medicine.name.toUpperCase()}</span> <span className="fw-light fs-6">{Medicine.concentration}</span></p>
           <p ><span className="fw-bold" >Expire date :</span> {Medicine.expire_date.split("-").slice(0,2).join("-") } </p>
             
             <AddBtn 
