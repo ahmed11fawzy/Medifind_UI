@@ -1,3 +1,8 @@
+
+import styles from "./signup/signup.module.css";
+import loge from "../assets/loge.jpeg";
+
+
 import { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -12,21 +17,26 @@ export function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
 
     if (!email) {
+
       newErrors.email = 'Email is required';
     } else if (!RegExp(mailRegex).test(email)) {
       newErrors.email = 'Email address is invalid';
+
     }
 
     if (!password) {
+
       newErrors.password = 'Password is required';
     } else if (!RegExp(pwdRegex).test(password)) {
       newErrors.password = 'Password must be at least 8 characters, including a letter, a number, and a special character.';
+
     }
 
     setErrors(newErrors);
@@ -40,7 +50,9 @@ export function Login() {
         const response = await fetch("http://localhost:7777/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+
           body: JSON.stringify({ email, password }),
+
         });
 
         if (!response.ok) {
@@ -49,10 +61,12 @@ export function Login() {
           throw new Error("Something went wrong!");
         }
 
+
         const data = await response.json();
         const token = response.headers.get('x-auth-token');
         localStorage.setItem('token', token);
         
+
         console.log(data);
         goToHome();
       } catch (error) {
@@ -62,6 +76,7 @@ export function Login() {
   };
 
   return (
+
     <div className="vh-100 d-flex justify-content-center align-items-center bg-light">
       <div className="p-4 bg-white rounded shadow-sm" style={{ maxWidth: '400px', width: '100%' }}>
         <h1 className="text-center mb-4">Log In</h1>
@@ -101,6 +116,7 @@ export function Login() {
         </Form>
 
         {errors.form && <p className="text-danger p-2 mt-3 text-center fs-4">{errors.form}</p>}
+
       </div>
     </div>
   );

@@ -12,7 +12,9 @@ export function Post() {
             {acceptedMedicine ? (
                 acceptedMedicine.map((Medicine) => (
                     <div className="col-12 col-md-4" key={Medicine.id}>
+                        <div className={styles.post}>
                         <SlideDown key={Medicine.id} Medicine={Medicine} />
+                        </div>
                     </div>
                 ))
             ) : null}

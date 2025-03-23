@@ -3,8 +3,6 @@
   justify-content: center;
 
   align-items: center;
-  /* يجعلها مرنة على الشاشات الصغيرة */
-
 }
 
 
@@ -31,30 +29,29 @@
 .review {
   display: flex;
   justify-content: center;
+  margin-right:250px;
   align-items: center;
-
-  gap: 15px;
-  margin-right: 300px;
 }
+
+
 
 .review a {
   text-decoration: none;
   color: #030303 !important;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 15px;
+  font-size: large;
   transition: color 0.3s, background-color 0.3s;
   border-radius: 5px;
+  margin-right: 20px;
+  padding: 0px 30px;
 }
 
 .review a:hover {
   color: #01b3bd !important;
-  background-color: rgba(1, 179, 189, 0.1);
 }
 
 .review .active-link {
   color: #01b3bd !important;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 /* User Icon */
