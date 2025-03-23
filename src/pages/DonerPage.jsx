@@ -14,7 +14,7 @@ export const DonorPage = () => {
   // Fix the update function to return a callback
   const goToUpdateMedicine = (_id, name, image, quantity, date, concentration) => () => {
     navigate(`/UpdateMedicine/${_id}`, {
-      state: { id: _id, medicineName: name, image_path: image, quantity, exp_date: date, concentration },
+      state: { id: _id, medicineName: name, image_path: image, quantity, exp_date: date, concentration  },
     });
   };
   const decodedToken = useDecoded();
