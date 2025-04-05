@@ -3,7 +3,7 @@ import styles from "./Post.module.css";
 import { useFetch } from "../../../customHooks/useFetch";
 import { SlideDown } from "../SlideDown/SlideDown";
 export function Post() {
-    const { data, isLoading, serverError } = useFetch('http://localhost:7777/medicine');
+    const { data, isLoading, serverError } = useFetch('https://medifind-production.up.railway.app/medicine');
     console.log(data);
     const acceptedMedicine = data?.filter((medicine) => medicine.status === true)
     console.log(acceptedMedicine)

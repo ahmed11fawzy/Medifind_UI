@@ -11,7 +11,7 @@ import { FaUserCircle } from "react-icons/fa";
 export const CompleteProfile = () => {
   const navigate = useNavigate();
   const decodedToken = useDecoded();
-  const { data: userData, isLoading, getRequest } = useGet(decodedToken ? `http://localhost:7777/user/${decodedToken.id}` : null);
+  const { data: userData, isLoading, getRequest } = useGet(decodedToken ? `https://medifind-production.up.railway.app/user/${decodedToken.id}` : null);
   
   // Egyptian National ID regex with validation rules
   const nationalIdRegex = /^[23][0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[0-9]{3}[0-9]{3}[0-9]$/;
@@ -115,7 +115,7 @@ export const CompleteProfile = () => {
     requestBody.location = `${formData.city}, ${formData.street}`;
     requestBody.profileImage = formData.profileImage;
     try {
-      const response = await axios.patch(`http://localhost:7777/user/${decodedToken.id}`, requestBody);
+      const response = await axios.patch(`https://medifind-production.up.railway.app/user/${decodedToken.id}`, requestBody);
       console.log("Updated successfully:", response.data);
       navigate("/home");
     } catch (error) {
