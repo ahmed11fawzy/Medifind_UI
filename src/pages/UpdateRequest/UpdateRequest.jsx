@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Container, Row, Col, Form, Modal, Button, Card } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
@@ -6,6 +5,8 @@ import { AddBtn } from "../../components/customComponents/Addbtn";
 import useMedicineForm from "../../customHooks/RequestMedicine";  
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDecoded } from "../../customHooks/useDecode";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaCheckCircle } from "react-icons/fa";
 
 export const UpdateRequest = () => {
   // Provide default empty object if state is undefined
@@ -168,7 +169,7 @@ export const UpdateRequest = () => {
 
                 <div className="mt-4 d-flex justify-content-end w-25 ms-auto">
                   <AddBtn style={{ backgroundColor: "var(--main-color)" }} type="submit">
-                    {request_id ? "Update Request" : "Add Request"}
+                    {request_id ? "Update" : "Add Request"}
                   </AddBtn>
                 </div>
               </Form>
@@ -177,21 +178,119 @@ export const UpdateRequest = () => {
         </Card>
       </Container>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Success</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {request_id
-            ? "Request updated successfully!"
-            : "Request added successfully!"}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Close
-          </Button> 
-        </Modal.Footer>
-      </Modal>
+      <AnimatePresence>
+        {showModal && (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 1050,
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.5, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              style={{
+                backgroundColor: "white",
+                padding: "2rem",
+                borderRadius: "15px",
+                width: "90%",
+                maxWidth: "400px",
+                position: "relative",
+                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1, rotate: 360 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginBottom: "1.5rem",
+                }}
+              >
+                <FaCheckCircle size={60} color="#1E9694" />
+              </motion.div>
+
+              <motion.h4
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                style={{
+                  textAlign: "center",
+                  color: "#1E9694",
+                  marginBottom: "1rem",
+                  fontSize: "1.5rem",
+                  fontWeight: "600",
+                }}
+              >
+                Success!
+              </motion.h4>
+
+              <motion.p
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                style={{
+                  textAlign: "center",
+                  color: "#666",
+                  marginBottom: "2rem",
+                  fontSize: "1.1rem",
+                }}
+              >
+                {request_id
+                  ? "Your request has been updated successfully!"
+                  : "Your request has been added successfully!"}
+              </motion.p>
+
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <button
+                  onClick={() => setShowModal(false)}
+                  style={{
+                    backgroundColor: "#1E9694",
+                    color: "white",
+                    border: "none",
+                    padding: "0.8rem 2rem",
+                    borderRadius: "8px",
+                    fontSize: "1rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "transform 0.2s, box-shadow 0.2s",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = "translateY(-2px)";
+                    e.target.style.boxShadow = "0 5px 15px rgba(30, 150, 148, 0.3)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow = "none";
+                  }}
+                >
+                  Close
+                </button>
+              </motion.div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

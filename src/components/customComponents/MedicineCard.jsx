@@ -2,7 +2,7 @@ import {React,useState} from "react";
 import { Card } from "react-bootstrap";
 import { AddBtn } from "./Addbtn";
 
-const MedicineCard = ({ image, name, expireDate,id,medicines,setMedicines,examine}) => {
+const MedicineCard = ({ image, name, expireDate, id, medicines, setMedicines, examine }) => {
 
   // const[reviews,setReviews]=useState({});
   // const[examine,setExamine]=useState(false);
@@ -54,19 +54,69 @@ const MedicineCard = ({ image, name, expireDate,id,medicines,setMedicines,examin
 };
 
   return (
-     examine ? null :<Card className="p-3 shadow-sm" style={{ width: "90%", maxWidth: "600px", backgroundColor: "#D2F3F0", borderRadius: "10px" }}>
-      <div className="d-flex align-items-center gap-3">
-        <img src={image} alt={name} style={{ width: "80px", height: "120px", objectFit: "contain" }} />
-        <div>
-          <p className="mb-1"><strong>Expire date:</strong> {expireDate || "N/A"}</p>
-          <p className="mb-3"><strong>Name:</strong> {name || "Unknown"}</p>
-          <div className="d-flex gap-3">
-        </div>
-            <AddBtn style={{ backgroundColor: "#2AC728" ,marginRight:"20px"}} onClick={()=>handleAccept(id)}>Accept</AddBtn>
-            <AddBtn style={{ backgroundColor: "#C7282A ",marginRight:"10px"}}  onClick={()=>handleReject(id)} >Reject</AddBtn>
+    examine ? null : (
+      <Card 
+        style={{ 
+          width: "90%", 
+          maxWidth: "600px", 
+          backgroundColor: "#D2F3F0", 
+          borderRadius: "10px",
+          overflow: "hidden",
+          height: "200px",
+          boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
+        }}
+        className="mb-3"
+      >
+        <div className="row g-0 h-100">
+          <div className="col-4 p-0 h-100">
+            <img 
+              src={image} 
+              alt={name} 
+              style={{ 
+                width: "100%",
+                height: "100%",
+                // objectFit: "cover",
+                // objectPosition: "center",
+                display: "block"
+              }} 
+            />
           </div>
-      </div>
-    </Card>
+          <div className="col-8 h-100">
+            <Card.Body className="p-3 d-flex flex-column h-100">
+              <div>
+                <p className="mb-2">
+                  <strong>Name:</strong> {name || "Unknown"}
+                </p>
+                <p className="mb-2">
+                  <strong>Expire date:</strong> {expireDate || "N/A"}
+                </p>
+              </div>
+              
+              <div className="d-flex gap-3 mt-auto">
+                <AddBtn 
+                  style={{ 
+                    backgroundColor: "#2AC728",
+                    width: "50%"
+                  }} 
+                  onClick={() => handleAccept(id)}
+                >
+                  Accept
+                </AddBtn>
+                <AddBtn 
+                  style={{ 
+                    backgroundColor: "#C7282A",
+                    width: "50%"
+                  }}  
+                  onClick={() => handleReject(id)}
+                >
+                  Reject
+                </AddBtn>
+              </div>
+            </Card.Body>
+          </div>
+        </div>
+      </Card>
+    )
   );
 };
 
