@@ -19,12 +19,14 @@ export function Login() {
     "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
 
   const navigate = useNavigate();
+
   const goToHome = () => navigate("/home");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const validateForm = () => {
@@ -64,14 +66,22 @@ export function Login() {
           throw new Error("Something went wrong!");
         }
 
-        const data = await response.json();
-        const token = response.headers.get("x-auth-token");
-        localStorage.setItem("token", token);
 
-        console.log(data);
-        goToHome();
+        await response.json();
+        const token = response.headers.get('x-auth-token');
+        
+        // Store token and trigger storage event
+        localStorage.setItem('token', token);
+        window.dispatchEvent(new Event('storage'));
+
+        // Navigate after a small delay to ensure state updates
+        setTimeout(() => {
+          navigate("/home");
+        }, 100);
+
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
+
       } finally {
         setIsLoading(false);
       }
@@ -79,6 +89,7 @@ export function Login() {
   };
 
   return (
+
     <Container fluid className="min-vh-100">
       <Row className="min-vh-100">
         {/* Left side - Login Form */}
@@ -321,6 +332,7 @@ export function Login() {
             >
               {/*  */}
             </motion.div>
+
 
             {/* Text content */}
             <motion.div

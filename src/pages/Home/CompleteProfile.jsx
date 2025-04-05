@@ -1,4 +1,3 @@
-
 import { Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AddBtn } from "../../components/customComponents/Addbtn";
@@ -9,17 +8,27 @@ import { useGet } from "../../customHooks/useGet";
 import { Loader } from "../../components/customComponents/Loader/Loader";
 import { FaUserCircle } from "react-icons/fa";
 
-
 export const CompleteProfile = () => {
   const navigate = useNavigate();
   const decodedToken = useDecoded();
   const { data: userData, isLoading, getRequest } = useGet(decodedToken ? `https://medifind-production.up.railway.app/user/${decodedToken.id}` : null);
+  
+  // Egyptian National ID regex with validation rules
+  const nationalIdRegex = /^[23][0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[0-9]{3}[0-9]{3}[0-9]$/;
+  // Egyptian phone number regex (starts with 01 followed by 9 digits)
+  const phoneRegex = /^01[0125][0-9]{8}$/;
+  
+  const [errors, setErrors] = useState({
+    idNumber: '',
+    phoneNumber: ''
+  });
   
   useEffect(() => {
     if (decodedToken && decodedToken.id) {
       (async () => { await getRequest(); })();
     }
   }, [decodedToken]);
+
   const [requestBody, setRequestBody] = useState({
     ssn: "",
     phone: "",
@@ -75,8 +84,27 @@ export const CompleteProfile = () => {
     }
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!nationalIdRegex.test(formData.idNumber)) {
+      newErrors.idNumber = 'Please enter a valid Egyptian National ID (14 digits starting with 2 or 3)';
+    }
+    
+    if (!phoneRegex.test(formData.phoneNumber)) {
+      newErrors.phoneNumber = 'Please enter a valid Egyptian phone number (e.g., 01234567890)';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+
     if (!decodedToken?.id) {
       console.error("User ID not found");
       return;
@@ -106,7 +134,7 @@ export const CompleteProfile = () => {
             onClick={() => document.getElementById("imageUpload").click()}
           >
             {formData.profileImage ? (
-              <img src={formData.profileImage} className="rounded-circle img-fluid w-100 h-100" />
+              <img src={formData.profileImage} className="rounded-circle img-fluid w-100 h-100" alt="Profile" />
             ) : (
               <FaUserCircle size={80} color="#ccc" />
             )}
@@ -120,10 +148,10 @@ export const CompleteProfile = () => {
           />
           <div className="ms-4" >
             <h5 className="mt-2">
-              <input type="text" name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="border-0  w-100" />
+              <input type="text" name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="border-0 w-100" />
             </h5>
             <p className="text-muted">
-              <input type="email" name="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="border-0  w-75 text-muted" />
+              <input type="email" name="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="border-0 w-75 text-muted" />
             </p>
           </div>
         </div>
@@ -132,14 +160,36 @@ export const CompleteProfile = () => {
           <Row className="mb-3">
             <Col>
               <Form.Group>
-                <Form.Label>ID Number:</Form.Label>
-                <Form.Control type="text" name="idNumber" value={formData.idNumber} onChange={(e) => setFormData({ ...formData, idNumber: e.target.value })} />
+                <Form.Label>National ID:</Form.Label>
+                <Form.Control 
+                  type="text" 
+                  name="idNumber" 
+                  value={formData.idNumber} 
+                  onChange={(e) => setFormData({ ...formData, idNumber: e.target.value })}
+                  isInvalid={!!errors.idNumber}
+                  maxLength="14"
+                  placeholder="Enter Your National ID"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.idNumber}
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
                 <Form.Label>Phone Number:</Form.Label>
-                <Form.Control type="text" name="phoneNumber" value={formData.phoneNumber} onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })} />
+                <Form.Control 
+                  type="text" 
+                  name="phoneNumber" 
+                  value={formData.phoneNumber} 
+                  onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                  isInvalid={!!errors.phoneNumber}
+                  maxLength="11"
+                  placeholder="Enter Egyptian phone number "
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.phoneNumber}
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
@@ -149,7 +199,7 @@ export const CompleteProfile = () => {
                 <Form.Label>City:</Form.Label>
                 <Form.Control as="select" name="city" value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })}>
                   <option value="">Select a city</option>
-                  {["Cairo", "Alexandria", "Giza"].map((city, index) => (
+                  {["Cairo", "Alexandria", "Giza", "Mansoura", "Tanta", "Aswan"].map((city, index) => (
                     <option key={index} value={city}>{city}</option>
                   ))}
                 </Form.Control>
