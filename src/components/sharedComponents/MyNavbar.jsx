@@ -1,7 +1,7 @@
 
 import { Navbar, Container, Nav, Spinner, Button } from "react-bootstrap";
 import { useNavigate, NavLink } from "react-router-dom";
-import logo from "../../assets/loge.jpeg";
+import logo from "../../assets/medi3.png";
 import { useFetch } from "../../customHooks/useFetch";
 import { useDecoded } from "../../customHooks/useDecode";
 import "../../styles/navstyle.css";
@@ -9,7 +9,7 @@ import "../../styles/sidebar.css";
 
 export const NavBar = () => {
   const navigate = useNavigate();
-  const { data: users, isLoading, serverError } = useFetch("http://localhost:7777/users");
+  const { data: users, isLoading, serverError } = useFetch("https://medifind-production.up.railway.app/users");
   const decodedToken = useDecoded();
   const loggedInUserId = decodedToken?.id;
   const usersArray = Array.isArray(users) ? users : users?.users || [];
@@ -27,17 +27,12 @@ export const NavBar = () => {
         {/* Logo */}
         <Navbar.Brand
           onClick={() => navigate("/")}
-          className="d-flex align-items-center text-brand"
-          style={{ cursor: "pointer", color: "var(--main-color)" }}
+          
+          className=""
+          style={{ cursor: "pointer", width: "100px", height: "70px" }}
         >
-          <img
-            src={logo}
-            alt="MediFind Logo"
-            width="60"
-            height="40"
-            className="me-3 rounded-circle"
-          />
-          MediFind
+          <img src={logo} alt="Logo" className="w-100  " />
+          
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -89,7 +84,7 @@ export const NavBar = () => {
 
           {/* Logout Button */}
           <div className="logout">
-            <Button onClick={handleLogout}>Logout</Button>
+            <Button className="" onClick={handleLogout}>Logout</Button >
           </div>
         </Navbar.Collapse>
       </Container>

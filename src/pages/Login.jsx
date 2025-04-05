@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { AddBtn } from '../components/customComponents/Addbtn';
+import { FaLock, FaEnvelope, FaHeartbeat } from 'react-icons/fa';
+import './Login.css';
 
 export function Login() {
   const mailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -13,6 +14,23 @@ export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  // Track mouse position for parallax effect
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({
+        x: e.clientX / window.innerWidth - 0.5,
+        y: e.clientY / window.innerHeight - 0.5
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -37,7 +55,8 @@ export function Login() {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await fetch("http://localhost:7777/login", {
+        setIsLoading(true);
+        const response = await fetch("https://medifind-production.up.railway.app/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
@@ -57,50 +76,136 @@ export function Login() {
         goToHome();
       } catch (error) {
         console.log(error.message);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
 
   return (
-    <div className="vh-100 d-flex justify-content-center align-items-center bg-light">
-      <div className="p-4 bg-white rounded shadow-sm" style={{ maxWidth: '400px', width: '100%' }}>
-        <h1 className="text-center mb-4">Log In</h1>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Enter Your Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              isInvalid={!!errors.email}
-            />
-            <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-          </Form.Group>
+    <div className="login-container">
+      {/* 3D Animated Objects */}
+      <div className="scene">
+        <div 
+          className="floating-shape shape1" 
+          style={{ 
+            transform: `translate3d(${mousePosition.x * 30}px, ${mousePosition.y * 30}px, 0)` 
+          }}
+        ></div>
+        <div 
+          className="floating-shape shape2" 
+          style={{ 
+            transform: `translate3d(${mousePosition.x * -20}px, ${mousePosition.y * -20}px, 0)` 
+          }}
+        ></div>
+        <div 
+          className="floating-shape shape3" 
+          style={{ 
+            transform: `translate3d(${mousePosition.x * 15}px, ${mousePosition.y * 15}px, 0)` 
+          }}
+        ></div>
+        <div className="pulse-circle"></div>
+      </div>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Enter Your Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              isInvalid={!!errors.password}
-            />
-            <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
-          </Form.Group>
+      {/* Logo & Branding */}
+      <div 
+        className="brand-container"
+        style={{ 
+          transform: `translate3d(${mousePosition.x * -10}px, ${mousePosition.y * -10}px, 0)` 
+        }}
+      >
+        <div className="brand-logo">
+          <div className="heartbeat-icon">
+            <FaHeartbeat />
+          </div>
+          <h1>MediFind</h1>
+        </div>
+        <p className="brand-tagline">Your Healthcare Companion</p>
+      </div>
 
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <Form.Group controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Remember Me" />
-            </Form.Group>
-            <span className="text-primary text-info" style={{ cursor: 'pointer' }}>Forget Password?</span>
+      {/* Login Card */}
+      <div 
+        className="login-content"
+        style={{ 
+          transform: `translate3d(${mousePosition.x * 10}px, ${mousePosition.y * 10}px, 0)` 
+        }}
+      >
+        <div className="login-card">
+          <div className="login-heading">
+            <h2>Welcome</h2>
+            <div className="login-pill">
+              <span className="active">Login</span>
+              <span>Register</span>
+            </div>
           </div>
 
-          <AddBtn type="submit" className="w-100">Log In</AddBtn>
-        </Form>
+          <Form onSubmit={handleSubmit}>
+            <div className="form-floating-label">
+              <Form.Group className="input-group">
+                <div className="input-icon">
+                  <FaEnvelope />
+                </div>
+                <Form.Control
+                  type="email"
+                  placeholder=" "
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  isInvalid={!!errors.email}
+                />
+                <Form.Label>Email Address</Form.Label>
+                <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+              </Form.Group>
+            </div>
 
-        {errors.form && <p className="text-danger p-2 mt-3 text-center fs-4">{errors.form}</p>}
+            <div className="form-floating-label">
+              <Form.Group className="input-group">
+                <div className="input-icon">
+                  <FaLock />
+                </div>
+                <Form.Control
+                  type="password"
+                  placeholder=" "
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  isInvalid={!!errors.password}
+                />
+                <Form.Label>Password</Form.Label>
+                <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+              </Form.Group>
+            </div>
+
+            <div className="form-options">
+              <Form.Group controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" label="Remember me" />
+              </Form.Group>
+              <a href="#" className="forgot-link">Forgot Password?</a>
+            </div>
+
+            <div className="form-submit">
+              <button 
+                type="submit" 
+                className="login-button" 
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <span className="spinner"></span>
+                ) : (
+                  <>Sign In<span className="btn-arrow">→</span></>
+                )}
+              </button>
+            </div>
+
+            {errors.form && (
+              <div className="error-message">
+                {errors.form}
+              </div>
+            )}
+          </Form>
+
+          <div className="login-footer">
+            <p>Don&apos;t have an account? <a href="#">Create Account</a></p>
+          </div>
+        </div>
       </div>
     </div>
   );

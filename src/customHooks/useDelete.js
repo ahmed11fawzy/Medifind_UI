@@ -14,13 +14,17 @@ export const useDelete = (url) => {
       if (!decodedToken) {
         throw new Error('User is not authenticated');
       }
-      const response = await axios.delete(`${url}/${decodedToken.id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          'req_id': req_id
-        },
-        validateStatus: (status) => status < 500 // Handle 4xx errors in try block
-      });
+
+      console.log(`${url}/${decodedToken.id}`);
+      const response = await axios.delete(`${url}/${decodedToken.id}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'req_id': req_id
+          },
+        }
+
+      );
       if (response.status !== 200 && response.status !== 201) {
         throw new Error(`Request failed with status ${response.status}: ${response.data.message || 'Unknown error'}`);
       }

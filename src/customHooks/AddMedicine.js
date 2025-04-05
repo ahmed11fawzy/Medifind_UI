@@ -44,12 +44,6 @@ export const useAddMedicineForm = () => {
       newErrors.concentration = "Invalid format (e.g., 100 mg).";
     }
 
-    // Image validation: checks that an image file was provided
-    if (!image) {
-      newErrors.image = "Image is required.";
-    } else if (!/\.(jpg|jpeg|png)$/i.test(image.name)) {
-      newErrors.image = "Only JPG and PNG formats are allowed.";
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

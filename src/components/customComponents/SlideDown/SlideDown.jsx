@@ -11,7 +11,7 @@ import { useDecoded } from "../../../customHooks/useDecode";
 export function SlideDown({Medicine}) {
   const decodedToken = useDecoded();
   const navigate = useNavigate();
-  const { sendRequest, isLoading } = usePost('http://localhost:7777/request');
+  const { sendRequest, isLoading } = usePost('https://medifind-production.up.railway.app/request');
   const handleRequest = async () => {
     if (!decodedToken) return;
     

@@ -13,7 +13,7 @@ import { FaUserCircle } from "react-icons/fa";
 export const CompleteProfile = () => {
   const navigate = useNavigate();
   const decodedToken = useDecoded();
-  const { data: userData, isLoading, getRequest } = useGet(decodedToken ? `http://localhost:7777/user/${decodedToken.id}` : null);
+  const { data: userData, isLoading, getRequest } = useGet(decodedToken ? `https://medifind-production.up.railway.app/user/${decodedToken.id}` : null);
   
   useEffect(() => {
     if (decodedToken && decodedToken.id) {
@@ -87,7 +87,7 @@ export const CompleteProfile = () => {
     requestBody.location = `${formData.city}, ${formData.street}`;
     requestBody.profileImage = formData.profileImage;
     try {
-      const response = await axios.patch(`http://localhost:7777/user/${decodedToken.id}`, requestBody);
+      const response = await axios.patch(`https://medifind-production.up.railway.app/user/${decodedToken.id}`, requestBody);
       console.log("Updated successfully:", response.data);
       navigate("/home");
     } catch (error) {
