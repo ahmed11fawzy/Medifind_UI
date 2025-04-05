@@ -71,17 +71,12 @@ export const RequestMedicine = () => {
         requested: true,
         req_description: formData.description,
         user_id: decodedToken.id,
-
-       
-
         medicine: medicine_id ? medicine_id : "",
-
         prescription_img: formData.image,
         status: false,
         examined: false,
       };
 
-      
       try {
         const url = request_id !== undefined
           ? `https://medifind-production.up.railway.app/request/${request_id}`
@@ -96,33 +91,33 @@ export const RequestMedicine = () => {
 
         if (!response.ok) throw new Error("Something went wrong!");
 
-              toast.success("Medicine added successfully", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,  
-                    progress: undefined,
-                });
+        toast.success("Medicine added successfully", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,  
+          progress: undefined,
+        });
 
         setShowModal(true);
         setFormData({ name: "", description: "", image: null });
 
-        if (request_id !== undefined) {
-          setTimeout(() => navigate('/need'), 2000);
-        }
+        setTimeout(() => {
+          navigate('/need');
+        }, 2000);
+
       } catch (error) {
-        // console.error("Submit error:", error);
-         toast.error("Something went wrong", {
-                        position: "top-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     }
   };

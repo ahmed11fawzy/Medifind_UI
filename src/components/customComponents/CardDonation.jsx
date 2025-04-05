@@ -10,29 +10,28 @@ export const CardDonation = ({ image, name, quantity, pcs, expDate, onRemove,OnU
   return (
     <Card
       style={{
-        backgroundColor: bgColor ,
+        backgroundColor: bgColor,
         width: "90%",
         borderRadius: "10px",
-        padding: "10px",
+        overflow: "hidden",
         boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
         transition: "transform 0.2s ease-in-out",
       }}
       className="mb-3"
     >
       <div className="row g-0">
-        <div className="col-4 d-flex align-items-center justify-content-center">
+        <div className="col-4 p-0">
           <img
             src={image}
             alt={name}
             style={{
-              borderRadius: "5px",
-              maxWidth: "100%",
+              width: "100%",
               height: "100%",
             }}
           />
         </div>
         <div className="col-8">
-          <Card.Body>
+          <Card.Body className="p-3">
             <Card.Title style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}>
               Name: {name}
             </Card.Title>
@@ -44,15 +43,21 @@ export const CardDonation = ({ image, name, quantity, pcs, expDate, onRemove,OnU
             <div style={{ marginTop: "5px", fontSize: "14px", color: "#666" }}>
               No. of pcs: {pcs} | EXP. Date: {expDate}
             </div>
-         {examine&&status&&   <div style={{ marginTop: "5px", fontSize: "18px", color: "#181717" }}>
-            status: Accepted
-            </div>}
-          {examine&& !status &&  <div style={{ marginTop: "5px", fontSize: "18px", color: "#181717" }}>
-            status: Rejected 
-            </div>}
-            { !examine&& !status && <div style={{ marginTop: "5px", fontSize: "18px", color: "#181717" }}>
-            status: Waiting for approval 
-            </div>}
+            {examine && status && (
+              <div style={{ marginTop: "5px", fontSize: "18px", color: "#181717" }}>
+                status: Accepted
+              </div>
+            )}
+            {examine && !status && (
+              <div style={{ marginTop: "5px", fontSize: "18px", color: "#181717" }}>
+                status: Rejected 
+              </div>
+            )}
+            {!examine && !status && (
+              <div style={{ marginTop: "5px", fontSize: "18px", color: "#181717" }}>
+                status: Waiting for approval 
+              </div>
+            )}
             <div className="d-flex gap-3">
               <AddBtn
                 onClick={onRemove}
@@ -65,18 +70,19 @@ export const CardDonation = ({ image, name, quantity, pcs, expDate, onRemove,OnU
               >
                 Delete 
               </AddBtn>
-                {!examine &&  <AddBtn
-                onClick={OnUpdate}
-                style={{
-                  backgroundColor: "#1E9694",
-                  border: "none",
-                  width: "60%",
-                  marginTop: "10px",
-                }}
-              >
-                Update
-              </AddBtn>
-              }
+              {!examine && (
+                <AddBtn
+                  onClick={OnUpdate}
+                  style={{
+                    backgroundColor: "#1E9694",
+                    border: "none",
+                    width: "60%",
+                    marginTop: "10px",
+                  }}
+                >
+                  Update
+                </AddBtn>
+              )}
             </div>
           </Card.Body>
         </div>

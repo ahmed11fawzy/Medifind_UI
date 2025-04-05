@@ -1,7 +1,3 @@
-
-
-
-
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Modal, Button, Card } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
@@ -83,124 +79,159 @@ export const RequestsReview = () => {
   }
 
   return (
-    <>
-
-      {requests && requests.map((request, index) =>
-        (request.examined || !request.req_description) ? null : (
-          <div className="row mb-5 mt-3" key={index}>
-            <div className="col-5">
-              <img
-                src={request.prescription_img} // Make sure this matches your API data key
-                style={{ width: "100%", height: "100%" }}
-                alt="prescription"
-              />
-            </div>
-
-            <div className="col-6 mt-5 ms-2">
-              <div>
-                <div className="mb-0 mt-5">
-                  <h4>Reason</h4>
-                  <span><b>Medicine Name:</b></span> <span>{request.req_name}</span>
-                  <div
-                    style={{
-                      backgroundColor: "#E6E6E6",
-                      width: "100%",
-                      height: "100%",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    {request.req_description}
+    <Container className="py-4">
+      <Row className="g-4">
+        {requests && requests.map((request, index) =>
+          (request.examined || !request.req_description) ? null : (
+            <Col key={index} xs={12} md={6}>
+              <Card 
+                className="h-100"
+                style={{ 
+                  backgroundColor: "#D2F3F0",
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                  height: "200px",
+                  boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <div className="row g-0 h-100">
+                  <div className="col-4 p-0 h-100">
+                    <img
+                      src={request.prescription_img}
+                      alt="prescription"
+                      style={{ 
+                        width: "100%",
+                        height: "100%",
+                        
+                      }}
+                    />
                   </div>
-
-                  <AddBtn
-                    onClick={() => handleAccept(req_url, request._id,setRequests)}
-                    style={{
-                      width: "30%",
-                      marginTop: "10px",
-                      backgroundColor: "#28c742",
-                    }}
-                  >
-                    Accept
-                  </AddBtn>
-                  <AddBtn
-                    onClick={() => handleReject(req_url, request._id,setRequests)}
-                    style={{
-                      backgroundColor: "#C7282A",
-                      marginLeft: "10px",
-                      width: "30%",
-                      marginTop: "10px",
-                    }}
-                  >
-                    Reject
-                  </AddBtn>
-                </div>
-              </div>
-            </div>
-            <hr className="mt-5" />
-          </div>
-        )
-      )}
-
-      {orders && orders.map((order, index) =>
-        order.examined ? null : (
-          <div className="row mb-5 mt-3" key={index}>
-            <div className="col-5">
-              <img
-                src={order.prescription_img} // Again, ensure property name is correct
-                style={{ width: "100%", height: "100%" }}
-                alt="prescription"
-              />
-            </div>
-
-            <div className="col-6 mt-5 ms-2">
-              <div>
-                <div className="mb-0 mt-5">
-                  <h4>Reason</h4>
-                  <span><b>Medicine Name:</b></span> <span>{order.req_name}</span>
-                  <div
-                    style={{
-                      backgroundColor: "#E6E6E6",
-                      width: "100%",
-                      height: "100%",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    {order.req_description}
+                  <div className="col-8 h-100">
+                    <Card.Body className="p-3 d-flex flex-column h-100">
+                      <div>
+                        <h4 className="mb-3">Reason</h4>
+                        <p className="mb-2">
+                          <strong>Medicine Name:</strong> {request.req_name}
+                        </p>
+                        <div
+                          style={{
+                            backgroundColor: "#E6E6E6",
+                            padding: "10px",
+                            borderRadius: "5px",
+                            marginBottom: "10px",
+                            fontSize: "0.9rem",
+                            maxHeight: "60px",
+                            overflowY: "auto"
+                          }}
+                        >
+                          {request.req_description}
+                        </div>
+                      </div>
+                      
+                      <div className="d-flex gap-3 mt-auto">
+                        <AddBtn
+                          onClick={() => handleAccept(req_url, request._id, setRequests)}
+                          style={{
+                            backgroundColor: "#28c742",
+                            width: "50%"
+                          }}
+                        >
+                          Accept
+                        </AddBtn>
+                        <AddBtn
+                          onClick={() => handleReject(req_url, request._id, setRequests)}
+                          style={{
+                            backgroundColor: "#C7282A",
+                            width: "50%"
+                          }}
+                        >
+                          Reject
+                        </AddBtn>
+                      </div>
+                    </Card.Body>
                   </div>
-
-                  <AddBtn
-                    onClick={() => handleAccept(order_url, order._id, setOrders)}
-                    style={{
-                      width: "30%",
-                      marginTop: "10px",
-                      backgroundColor: "#28c742",
-                    }}
-                  >
-                    Accept
-                  </AddBtn>
-                  <AddBtn
-                    onClick={() => handleReject(order_url, order._id, setOrders)}
-                    style={{
-                      backgroundColor: "#C7282A",
-                      marginLeft: "10px",
-                      width: "30%",
-                      marginTop: "10px",
-                    }}
-                  >
-                    Reject
-                  </AddBtn>
                 </div>
-              </div>
-            </div>
-            <hr className="mt-5" />
-          </div>
-        )
-      )}
-    </>
+              </Card>
+            </Col>
+          )
+        )}
+
+        {orders && orders.map((order, index) =>
+          order.examined ? null : (
+            <Col key={index} xs={12} md={6}>
+              <Card 
+                className="h-100"
+                style={{ 
+                  backgroundColor: "#D2F3F0",
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                  height: "200px",
+                  boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <div className="row g-0 h-100">
+                  <div className="col-4 p-0 h-100">
+                    <img
+                      src={order.prescription_img}
+                      alt="prescription"
+                      style={{ 
+                        width: "100%",
+                        height: "100%",
+                      
+                      }}
+                    />
+                  </div>
+                  <div className="col-8 h-100">
+                    <Card.Body className="p-3 d-flex flex-column h-100">
+                      <div>
+                        <h4 className="mb-3">Reason</h4>
+                        <p className="mb-2">
+                          <strong>Medicine Name:</strong> {order.req_name}
+                        </p>
+                        <div
+                          style={{
+                            backgroundColor: "#E6E6E6",
+                            padding: "10px",
+                            borderRadius: "5px",
+                            marginBottom: "10px",
+                            fontSize: "0.9rem",
+                            maxHeight: "60px",
+                            overflowY: "auto"
+                          }}
+                        >
+                          {order.req_description}
+                        </div>
+                      </div>
+                      
+                      <div className="d-flex gap-3 mt-auto">
+                        <AddBtn
+                          onClick={() => handleAccept(order_url, order._id, setOrders)}
+                          style={{
+                            backgroundColor: "#28c742",
+                            width: "50%"
+                          }}
+                        >
+                          Accept
+                        </AddBtn>
+                        <AddBtn
+                          onClick={() => handleReject(order_url, order._id, setOrders)}
+                          style={{
+                            backgroundColor: "#C7282A",
+                            width: "50%"
+                          }}
+                        >
+                          Reject
+                        </AddBtn>
+                      </div>
+                    </Card.Body>
+                  </div>
+                </div>
+              </Card>
+            </Col>
+          )
+        )}
+      </Row>
+    </Container>
   );
 };
 
