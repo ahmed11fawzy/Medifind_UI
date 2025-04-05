@@ -14,31 +14,27 @@ export const DonorPage = () => {
   // Fix the update function to return a callback
   const goToUpdateMedicine = (_id, name, image, quantity, date, concentration) => () => {
     navigate(`/UpdateMedicine/${_id}`, {
-      state: { id: _id, medicineName: name, image_path: image, quantity, exp_date: date, concentration  },
+      state: { id: _id, medicineName: name, image_path: image, quantity, exp_date: date, concentration },
     });
   };
+
   const decodedToken = useDecoded();
   const baseUrl = `https://medifind-production.up.railway.app/medicine`;
   const { data, isLoading, serverError, getRequest } = useGet(
     decodedToken ? `${baseUrl}/${decodedToken.id}` : null
   );
 
-
-
   useEffect(() => {
     if (decodedToken) {
       getRequest();
-
     }
   }, [decodedToken]);
-  console.log(data);
-
-  // IMP Request refer to request to Add medicine          
 
   const { isLoading: deleteLoading, serverError: deleteError, deleteRequest } =
     useDelete(decodedToken ? `${baseUrl}` : null);
 
-  const handleRemove = async (donation_id) => {
+  // Create a function that returns a callback for handleRemove
+  const handleRemove = (donation_id) => async () => {
     try {
       await deleteRequest(donation_id);
       await getRequest();
@@ -47,21 +43,26 @@ export const DonorPage = () => {
       console.error("Failed to delete medicine:", error);
     }
   };
+
   if (isLoading || deleteLoading) {
     return <Loader />;
   }
+
   if (data?.length === 0) {
     return (
       <div className="text-center">
         <h1>You have no medicine For donation </h1>
-        <AddBtn className=" mt-5" onClick={() => navigate("/AddMedicine")}>Donate</AddBtn>
+        <AddBtn className="mt-5" onClick={() => navigate("/AddMedicine")}>
+          Donate
+        </AddBtn>
       </div>
     );
   }
+
   return (
     <>
       <Row>
-        {data && (
+        {data &&
           data.map((item) => (
             <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
               <CardDonation
@@ -78,14 +79,12 @@ export const DonorPage = () => {
                   item.image_path,
                   item.quantity,
                   item.exp_date,
-                  item.concentration,
+                  item.concentration
                 )}
-                onRemove={() => handleRemove(item?._id)}
-              >
-              </CardDonation>
+                onRemove={handleRemove(item._id)}  // Pass the callback function
+              />
             </Col>
-          ))
-        )}
+          ))}
       </Row>
     </>
   );

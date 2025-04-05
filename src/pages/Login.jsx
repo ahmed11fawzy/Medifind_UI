@@ -54,11 +54,14 @@ export function Login() {
     if (validateForm()) {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:7777/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        });
+        const response = await fetch(
+          "https://medifind-production.up.railway.app/login",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          }
+        );
 
         if (!response.ok) {
           const errorData = await response.json();
