@@ -18,7 +18,7 @@ export const DonorPage = () => {
     });
   };
   const decodedToken = useDecoded();
-  const baseUrl = `http://localhost:7777/medicine`;
+  const baseUrl = `https://medifind-production.up.railway.app/medicine`;
   const { data, isLoading, serverError, getRequest } = useGet(
     decodedToken ? `${baseUrl}/${decodedToken.id}` : null
   );
@@ -36,7 +36,7 @@ export const DonorPage = () => {
   // IMP Request refer to request to Add medicine          
 
   const { isLoading: deleteLoading, serverError: deleteError, deleteRequest } =
-    useDelete(decodedToken ? `${baseUrl}/${decodedToken.id}` : null);
+    useDelete(decodedToken ? `${baseUrl}` : null);
 
   const handleRemove = async (donation_id) => {
     try {
@@ -80,7 +80,7 @@ export const DonorPage = () => {
                   item.exp_date,
                   item.concentration,
                 )}
-                onRemove={() => handleRemove(item._id)}
+                onRemove={() => handleRemove(item?._id)}
               >
               </CardDonation>
             </Col>

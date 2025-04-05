@@ -75,7 +75,7 @@ export default function UpdateMedicine() {
     if (validateForm()) {
       try {
         if (decodedToken) {  // Remove img_path check since it's optional
-          const response = await fetch(`http://localhost:7777/medicine/${_id}`, {
+          const response = await fetch(`https://medifind-production.up.railway.app/medicine/${_id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -169,7 +169,7 @@ export default function UpdateMedicine() {
                   <Form.Control
                     id="imageInput"
                     type="file"
-
+                        
                     accept="image/png, image/jpeg"
                     onChange={handleUpload}
                     isInvalid={!!errors.image}

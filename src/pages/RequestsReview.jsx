@@ -15,8 +15,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 export const RequestsReview = () => {
   const [requests, setRequests] = useState([]);
   const [orders, setOrders] = useState([]);
-  const req_url = "http://localhost:7777/request";
-  const order_url = "http://localhost:7777/orders";
+  const req_url = "https://medifind-production.up.railway.app/request";
+  const order_url = "https://medifind-production.up.railway.app/orders";
 
   const fetchData = async (url) => {
     try {
