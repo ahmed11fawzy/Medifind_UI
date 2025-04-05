@@ -30,7 +30,7 @@ export const CardNeeds = ({
 
         // backgroundColor: "#E6F5EF",
         backgroundColor: bgColor,
-
+        
         borderRadius: "10px",
         padding: "10px",
         boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
@@ -41,13 +41,13 @@ export const CardNeeds = ({
       <div className="row g-0">
         <div className="col-4 d-flex align-items-center justify-content-center">
           <img
-            src={image}
+            src={image||prescription_img}
             alt={name}
         
             style={{
               borderRadius: "5px",
               maxWidth: "100%",
-              height: "100%",
+              height: "200px",
 
             }}
           />
