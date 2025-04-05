@@ -10,8 +10,8 @@ export const CardPage = () => {
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
   const decodedToken = useDecoded();
-  const req_Url = "http://localhost:7777/request";
-  const order_Url = "http://localhost:7777/orders"; // if needed
+  const req_Url = "https://medifind-production.up.railway.app/request";
+  const order_Url = "https://medifind-production.up.railway.app/orders"; // if needed
 
   // Initialize delete hooks for each endpoint at the top level.
   const requestDelete = useDelete(req_Url);

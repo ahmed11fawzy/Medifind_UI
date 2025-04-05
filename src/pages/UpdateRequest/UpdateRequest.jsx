@@ -21,8 +21,8 @@ export const UpdateRequest = () => {
     return <div>Error: Missing required update information.</div>;
   }
   
-  const req_Url = "http://localhost:7777/request";
-  const order_Url = "http://localhost:7777/orders";
+  const req_Url = "https://medifind-production.up.railway.app/request";
+  const order_Url = "https://medifind-production.up.railway.app/orders";
   
   const {
     formData,
@@ -49,8 +49,8 @@ export const UpdateRequest = () => {
       try {
         const endpoint =
           url === req_Url
-            ? `http://localhost:7777/request/${request_id}`
-            : `http://localhost:7777/orders/${request_id}`;
+            ? `https://medifind-production.up.railway.app/request/${request_id}`
+            : `https://medifind-production.up.railway.app/orders/${request_id}`;
 
         const response = await fetch(endpoint, {
           method: "PATCH",

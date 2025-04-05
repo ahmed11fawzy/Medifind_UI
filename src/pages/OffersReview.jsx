@@ -14,7 +14,7 @@ export  const OffersReview = () => {
 useEffect(() => {
   const fetchMedicines = async () => {
     try {
-      const response = await fetch("http://localhost:7777/medicine");
+      const response = await fetch("https://medifind-production.up.railway.app/medicine");
       console.log(response);
       if (!response.ok) {
         throw new Error(`Server error: ${response.status} - ${response.statusText}`);

@@ -11,7 +11,7 @@ const MedicineCard = ({ image, name, expireDate,id,medicines,setMedicines,examin
   const handleAccept = async (id) => {
     // setExamine(true)
     try {
-        const response = await fetch(`http://localhost:7777/medicine/${id}`, {
+        const response = await fetch(`https://medifind-production.up.railway.app/medicine/${id}`, {
             method: "PATCH", // Change from POST to PATCH
             headers: {
                 "Content-Type": "application/json",
@@ -33,7 +33,7 @@ const MedicineCard = ({ image, name, expireDate,id,medicines,setMedicines,examin
   const handleReject = async (id) => {
     // setExamine(true)
     try {
-        const response = await fetch(`http://localhost:7777/medicine/${id}`, {
+        const response = await fetch(`https://medifind-production.up.railway.app/medicine/${id}`, {
             method: "PATCH", // Change from POST to PATCH
             headers: {
                 "Content-Type": "application/json",
