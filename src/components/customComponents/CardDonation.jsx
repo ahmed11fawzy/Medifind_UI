@@ -55,7 +55,7 @@ export const CardDonation = ({ image, name, quantity, pcs, expDate, onRemove,OnU
             </div>}
             <div className="d-flex gap-3">
               <AddBtn
-              onClick={onRemove}
+              onClick={onRemove()}
               style={{
                 backgroundColor: "#1E9694",
                 border: "none",
