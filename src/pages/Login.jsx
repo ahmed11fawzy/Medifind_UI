@@ -17,7 +17,7 @@ export function Login() {
   const mailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   const pwdRegex =
     "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
-
+  
   const navigate = useNavigate();
 
   const goToHome = () => navigate("/home");
@@ -46,7 +46,7 @@ export function Login() {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0; 
   };
 
   const handleSubmit = async (e) => {
@@ -57,9 +57,9 @@ export function Login() {
         const response = await fetch(
           "https://medifind-production.up.railway.app/login",
           {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
           }
         );
 
@@ -128,7 +128,7 @@ export function Login() {
               </p>
             </div>
 
-            <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-4">
                 <div className="position-relative">
                   <FaUser
@@ -140,12 +140,12 @@ export function Login() {
                       color: "#01b3bd",
                     }}
                   />
-                  <Form.Control
-                    type="email"
+            <Form.Control
+              type="email"
                     placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    isInvalid={!!errors.email}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              isInvalid={!!errors.email}
                     style={{
                       height: "50px",
                       paddingLeft: "45px",
@@ -158,7 +158,7 @@ export function Login() {
                 <Form.Control.Feedback type="invalid">
                   {errors.email}
                 </Form.Control.Feedback>
-              </Form.Group>
+          </Form.Group>
 
               <Form.Group className="mb-4">
                 <div className="position-relative">
@@ -171,12 +171,12 @@ export function Login() {
                       color: "#01b3bd",
                     }}
                   />
-                  <Form.Control
+            <Form.Control
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    isInvalid={!!errors.password}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              isInvalid={!!errors.password}
                     style={{
                       height: "50px",
                       paddingLeft: "45px",
@@ -202,7 +202,7 @@ export function Login() {
                 <Form.Control.Feedback type="invalid">
                   {errors.password}
                 </Form.Control.Feedback>
-              </Form.Group>
+          </Form.Group>
 
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <Form.Check
@@ -402,8 +402,8 @@ export function Login() {
                   <div style={{ color: "#eee", fontSize: "0.9rem" }}>
                     Support those in need
                   </div>
-                </div>
-              </div>
+      </div>
+    </div>
             </motion.div>
 
             {/* Bottom decoration */}
