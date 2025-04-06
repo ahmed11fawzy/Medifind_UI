@@ -1,45 +1,55 @@
 import { useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
 import { useDelete } from "../customHooks/useDelete";
 import { CardNeeds } from "../components/customComponents/CardNeeds";
+import "./CardPage.css";
 
 export const CardPage = () => {
   const [requests, setRequests] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [activeTab, setActiveTab] = useState("requests");
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const decodedToken = useDecoded();
   const req_Url = "https://medifind-production.up.railway.app/request";
-  const order_Url = "https://medifind-production.up.railway.app/orders"; // if needed
+  const order_Url = "https://medifind-production.up.railway.app/orders";
 
   // Initialize delete hooks for each endpoint at the top level.
   const requestDelete = useDelete(req_Url);
   const orderDelete = useDelete(order_Url);
   
-
   // Helper function to fetch requests (or orders) 
   const fetchRequests = async (url, setFunction) => {
     try {
+      setIsLoading(true);
       const response = await fetch(`${url}/${decodedToken.id}`);
-      console.log(response);
       if (!response.ok) {
         throw new Error(`Server error: ${response.status} - ${response.statusText}`);
       }
       const result = await response.json();
-      const data = result.data;
+      const data = result.data || [];
       setFunction(data);
-      console.log("Fetched data:", data);
+      console.log(`Fetched data from ${url}:`, data);
       return data;
     } catch (error) {
       console.error("Fetch error:", error);
+      setFunction([]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     if (decodedToken) {
-      fetchRequests(req_Url, setRequests);
-      fetchRequests(order_Url, setOrders);
+      // Fetch data for both tabs when component mounts
+      const fetchAllData = async () => {
+        await fetchRequests(req_Url, setRequests);
+        await fetchRequests(order_Url, setOrders);
+      };
+      
+      fetchAllData();
     }
   }, [decodedToken]);
 
@@ -64,58 +74,128 @@ export const CardPage = () => {
       state: { medicineName: name, medicine_id, request_id, requested: true },
     });
   };
-  const goToUpdateRequest = ( request_id,url) => {
+  
+  const goToUpdateRequest = (request_id, url) => {
     navigate(`/UpdateRequest/${request_id}`, {
-      state: { request_id, requested: true , url},
+      state: { request_id, requested: true, url },
     });
   };
 
+  // Handle tab change
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    // Ensure data is loaded for the selected tab
+    if (tab === "requests" && requests.length === 0) {
+      fetchRequests(req_Url, setRequests);
+    } else if (tab === "orders" && orders.length === 0) {
+      fetchRequests(order_Url, setOrders);
+    }
+  };
+
+  // Loading spinner component
+  const LoadingSpinner = () => (
+    <div className="loading-spinner">
+      <div className="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  );
+
   return (
-    <>
-      <Row>
-        {requests.map((item) => (
-          <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
-            <CardNeeds
-              requested={item.requested}
-              medicine_id={item.medicine?._id}
-              examined={item.examined}
-              status={item.status}
-              request_id={item._id}
-              prescription_img={item.prescription_img || ""}
-              image={item.medicine?.image_path || ""}
-              name={item.req_name ||  item.medicine?.name ||"No name"}
-              quantity={item.medicine?.concentration || ""}
-              onRemove={() => handleRemove(req_Url, item._id, setRequests)}
-              goToRequestMedicine={() =>
-                goToRequestMedicine(item.medicine.name, item.medicine._id, item._id)
-              }
-              goToUpdateRequest={()=>
-                goToUpdateRequest(item._id,req_Url)  
-              }
-            />
-          </Col>
-        ))}
-      </Row>
+    <Container className="card-page-container">
+      <div className="tab-control">
+        <div 
+          className={`tab-button ${activeTab === "requests" ? "active" : ""}`} 
+          onClick={() => handleTabChange("requests")}
+        >
+          <span>My Requests</span>
+          <div className="tab-indicator"></div>
+        </div>
+        <div 
+          className={`tab-button ${activeTab === "orders" ? "active" : ""}`} 
+          onClick={() => handleTabChange("orders")}
+        >
+          <span>My Orders</span>
+          <div className="tab-indicator"></div>
+        </div>
+      </div>
 
-      <Row>
-        {orders.map((item) => (
-          <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
-            <CardNeeds
-              examined={item.examined}
-              status={item.status}
-              request_id={item._id}
-              image={item.prescription_img || ""}
-              name={item.req_name || "No name"}
-              onRemove={() => handleRemove(order_Url, item._id, setOrders)}
-              requested={item.requested}
-              goToUpdateRequest={()=>
-                goToUpdateRequest(item._id,order_Url)  
-              }
+      <div className="tab-content">
+        {/* Requests Tab */}
+        <div className={`tab-pane ${activeTab === "requests" ? "active" : ""}`}>
+          
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : requests.length === 0 ? (
+            <div className="empty-state">
+              <div className="empty-icon">📋</div>
+              <h3>No Requests Found</h3>
+              <p>You haven&apos;t made any medicine requests yet.</p>
+            </div>
+          ) : (
+            <Row>
+              {requests.map((item) => (
+                <Col key={item._id} xs={12} md={6} lg={4} className="mb-4">
+                  <CardNeeds
+                    requested={item.requested}
+                    medicine_id={item.medicine?._id}
+                    examined={item.examined}
+                    status={item.status}
+                    request_id={item._id}
+                    prescription_img={item.prescription_img || ""}
+                    image={item.medicine?.image_path || ""}
+                    name={item.req_name || item.medicine?.name || "No name"}
+                    concentration={item.medicine?.concentration || ""}
+                    onRemove={() => handleRemove(req_Url, item._id, setRequests)}
+                    goToRequestMedicine={() => 
+                      goToRequestMedicine(
+                        item.medicine?.name, 
+                        item.medicine?._id, 
+                        item._id
+                      )
+                    }
+                    goToUpdateRequest={() => 
+                      goToUpdateRequest(item._id, req_Url)
+                    }
+                  />
+                </Col>
+              ))}
+            </Row>
+          )}
+        </div>
 
-            />
-          </Col>
-        ))}
-      </Row>
-    </>
+        {/* Orders Tab */}
+        <div className={`tab-pane ${activeTab === "orders" ? "active" : ""}`}>
+          
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : orders.length === 0 ? (
+            <div className="empty-state">
+              <div className="empty-icon">🛒</div>
+              <h3>No Orders Found</h3>
+              <p>You haven&apos;t placed any medicine orders yet.</p>
+            </div>
+          ) : (
+            <Row>
+              {orders.map((item) => (
+                <Col key={item._id} xs={12} md={6} lg={4} className="mb-4">
+                  <CardNeeds
+                    examined={item.examined}
+                    status={item.status}
+                    request_id={item._id}
+                    image={item.prescription_img || ""}
+                    name={item.req_name || "No name"}
+                    onRemove={() => handleRemove(order_Url, item._id, setOrders)}
+                    requested={item.requested}
+                    goToUpdateRequest={() => 
+                      goToUpdateRequest(item._id, order_Url)
+                    }
+                  />
+                </Col>
+              ))}
+            </Row>
+          )}
+        </div>
+      </div>
+    </Container>
   );
 };

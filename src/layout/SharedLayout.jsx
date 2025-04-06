@@ -5,7 +5,7 @@ export default function SharedLayout() {
   return (
     <>
       <NavBar />
-      <div className="container mt-5 ">
+      <div className="container mt-5 " style={{ minHeight: '70vh'}} >
 
         <Outlet />
 

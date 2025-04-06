@@ -1,141 +1,130 @@
-import React from "react";
 import { Card } from "react-bootstrap";
-import { AddBtn } from "./Addbtn";
+import { 
+  FaTrashAlt, 
+  FaEdit, 
+  FaCheckCircle, 
+  FaTimesCircle, 
+  FaHourglassHalf,
+  FaFlask,
+  FaCheck
+} from "react-icons/fa";
+import PropTypes from 'prop-types';
+import './CardNeeds.css';
+
 
 export const CardNeeds = ({
   image,
   prescription_img,
   name,
-  quantity,
+  concentration,
   onRemove,
-  request_id,
-  medicine_id,
   examined,
   status,
-  setRequested,
   requested,
   goToRequestMedicine,
   goToUpdateRequest,
-})=>{
+}) => {
+  const getStatusStyles = () => {
+    if (examined) {
+      return status ? 
+        { class: 'status-accepted', text: 'Accepted', icon: <FaCheckCircle className="status-icon" /> } : 
+        { class: 'status-rejected', text: 'Rejected', icon: <FaTimesCircle className="status-icon" /> };
+    }
+    return { class: 'status-pending', text: 'Pending', icon: <FaHourglassHalf className="status-icon" /> };
+  };
 
-  const bgColor = requested
-  ? (!examined ? "#d9dedc" : (status ? "#bef5be" : "#f9c8c1"))
-  : "#f4fcf9";
+  const statusInfo = getStatusStyles();
 
   return (
-    <Card
-      style={{
-        backgroundColor: bgColor,
-        borderRadius: "10px",
-        overflow: "hidden",
-        boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
-        transition: "transform 0.2s ease-in-out",
-        height: "200px",
-        width: "100%"
-      }}
-      className="mb-3"
-    >
-      <div className="row g-0 h-100">
-        <div className="col-4 p-0 h-100">
-          <img
-            src={image||prescription_img}
-            alt={name}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center",
-              display: "block"
-            }}
+    <div className="needs-card-container">
+      <Card className={`needs-card ${statusInfo.class}`}>
+        {/* Image with status badge overlay */}
+        <div className="needs-image-container">
+          <img 
+            src={image || prescription_img} 
+            alt={name} 
+            className="needs-image" 
           />
+          <div className="needs-image-overlay"></div>
+          
+          {/* Status indicator */}
+          <div className="status-indicator">
+            {statusInfo.icon}
+            <span className="status-text">{statusInfo.text}</span>
+          </div>
         </div>
-        <div className="col-8 h-100">
-          <Card.Body className="p-3 d-flex flex-column h-100">
-            <div>
-              <Card.Title
-                style={{
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  color: "#333",
-                  marginBottom: "8px"
-                }}
-              >
-                Name: {name}
-              </Card.Title>
-              <div className="d-flex align-items-center">
-                <span
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    color: "#000",
-                  }}
-                >
-                  {quantity}
-                </span>
+        
+        {/* Card content */}
+        <div className="needs-content">
+          <h3 className="needs-title">{name}</h3>
+          
+          <div className="needs-info-container">
+            <div className="needs-info-item">
+              <div className="needs-icon-wrapper">
+                <FaFlask className="needs-icon" />
+              </div>
+              <div className="needs-info-content">
+                <span className="needs-info-label">Concentration</span>
+                <span className="needs-info-value">{concentration}</span>
               </div>
             </div>
-
-            <div className="flex-grow-1 d-flex flex-column justify-content-center">
-              {/* Only display "Check out" button if not requested */}
-              {!requested && !examined && !status && (
-                <AddBtn
-                  onClick={goToRequestMedicine}
-                  className="ms-auto"
-                  style={{
-                    backgroundColor: "#52b431",
-                    border: "none",
-                    fontSize: "16px",
-                    width: "60%",
-                  }}
-                >
-                  Check out
-                </AddBtn>
-              )}
-              {requested && !status && !examined && (
-                <p className='text-muted mb-0' style={{ fontSize: "16px" }}>
-                  status: <b>waiting for approval</b>
-                </p>
-              )}
-              {requested && examined && status && (
-                <p className="text-success mb-0" style={{ fontSize: "16px" }}>
-                  status: <b>Accepted</b>
-                </p>
-              )}
-              {requested && examined && !status && (
-                <p className="text-danger mb-0" style={{ fontSize: "16px" }}>
-                  status: <b>Rejected</b>
-                </p>
-              )}
-            </div>
-
-            <div className="d-flex gap-3 mt-auto">
-              <AddBtn
-                onClick={onRemove}
-                style={{
-                  backgroundColor: "#ca1e0f",
-                  border: "none",
-                  width: "60%",
-                }}
+          </div>
+          
+          {/* Action buttons */}
+          <div className="needs-actions">
+            <button 
+              className="needs-action-btn btn-delete" 
+              onClick={onRemove}
+              aria-label="Delete"
+            >
+              <FaTrashAlt />
+            </button>
+            
+            {!requested && !examined && !status && (
+              <button 
+                className="needs-action-btn btn-checkout" 
+                onClick={goToRequestMedicine}
+                aria-label="Check out"
               >
-                Delete 
-              </AddBtn>
-              {!examined && (
-                <AddBtn
-                  onClick={goToUpdateRequest}
-                  style={{
-                    backgroundColor: "#1E9694",
-                    border: "none",
-                    width: "60%",
-                  }}
-                >
-                  Update 
-                </AddBtn>
-              )}
-            </div>
-          </Card.Body>
+                <FaCheck />
+              </button>
+            )}
+            
+            {!examined && (
+              <button 
+                className="needs-action-btn btn-update" 
+                onClick={goToUpdateRequest}
+                aria-label="Update"
+              >
+                <FaEdit />
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
+};
+
+// PropTypes for component validation
+CardNeeds.propTypes = {
+  image: PropTypes.string,
+  prescription_img: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  concentration: PropTypes.string.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  examined: PropTypes.bool,
+  status: PropTypes.bool,
+  requested: PropTypes.bool,
+  goToRequestMedicine: PropTypes.func,
+  goToUpdateRequest: PropTypes.func
+};
+
+CardNeeds.defaultProps = {
+  examined: false,
+  status: false,
+  requested: false,
+  goToRequestMedicine: () => {},
+  goToUpdateRequest: () => {}
 };
 

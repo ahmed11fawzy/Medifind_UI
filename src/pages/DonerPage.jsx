@@ -24,6 +24,8 @@ export const DonorPage = () => {
     decodedToken ? `${baseUrl}/${decodedToken.id}` : null
   );
 
+  
+
   useEffect(() => {
     if (decodedToken) {
       getRequest();
@@ -32,7 +34,7 @@ export const DonorPage = () => {
 
   const { isLoading: deleteLoading, serverError: deleteError, deleteRequest } =
     useDelete(decodedToken ? `${baseUrl}` : null);
-
+    console.log(data);
   // Create a function that returns a callback for handleRemove
   const handleRemove = (donation_id) => async () => {
     try {
@@ -64,13 +66,13 @@ export const DonorPage = () => {
       <Row>
         {data &&
           data.map((item) => (
-            <Col key={item._id} xs={12} md={6} lg={5} className="mb-3">
+            <Col key={item._id} xs={12} md={4} lg={4} className="mb-3">
               <CardDonation
                 image={item.image_path}
                 name={item.name}
                 quantity={item.concentration}
                 pcs={item.quantity}
-                expDate={item.exp_date}
+                expDate={item.expire_date}
                 examine={item.examine}
                 status={item.status}
                 OnUpdate={goToUpdateMedicine(
@@ -78,7 +80,7 @@ export const DonorPage = () => {
                   item.name,
                   item.image_path,
                   item.quantity,
-                  item.exp_date,
+                  item.expire_date,
                   item.concentration
                 )}
                 onRemove={handleRemove(item._id)}  // Pass the callback function
