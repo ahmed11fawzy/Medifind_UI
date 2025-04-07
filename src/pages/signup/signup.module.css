@@ -1,13 +1,18 @@
 /* Base styling */
 .signupContainer {
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  position: fixed;
   overflow: hidden;
-  padding: 2rem;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 /* Background styling */
@@ -43,6 +48,7 @@
   position: relative;
   width: 90%;
   max-width: 1200px;
+  height: 90vh;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
   border-radius: 24px;
@@ -55,7 +61,7 @@
 
 .cardContent {
   display: flex;
-  min-height: 600px;
+  height: 100%;
   position: relative;
   z-index: 2;
 }
@@ -63,9 +69,9 @@
 /* Left side with form */
 .formSection {
   width: 55%;
-  padding: 3rem;
   display: flex;
   flex-direction: column;
+  /* overflow-y: auto; */
 }
 
 .brandHeader {
@@ -137,6 +143,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow-y: auto;
 }
 
 .imageQuote {
@@ -250,6 +257,10 @@
 
 /* Responsive design */
 @media (max-width: 1024px) {
+  .mainCard {
+    height: 95vh;
+  }
+  
   .cardContent {
     flex-direction: column;
   }
@@ -257,15 +268,12 @@
   .formSection,
   .imageSection {
     width: 100%;
+    height: auto;
   }
   
   .imageSection {
     order: -1;
     padding: 2rem;
-  }
-  
-  .statsContainer {
-    gap: 1.5rem;
   }
   
   .imageQuote h3 {
@@ -278,12 +286,9 @@
 }
 
 @media (max-width: 768px) {
-  .signupContainer {
-    padding: 1rem;
-  }
-  
   .mainCard {
     width: 95%;
+    height: 98vh;
   }
   
   .formSection {

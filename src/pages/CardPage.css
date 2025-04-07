@@ -298,11 +298,11 @@
 .spinner {
   width: 60px;
   height: 60px;
-  border: 5px solid rgba(0, 112, 243, 0.1);
+  border: 5px solid rgba(30, 150, 148, 0.1); /* Light teal background */
   border-radius: 50%;
-  border-top-color: #0070f3;
-  border-left-color: #7928ca;
-  border-right-color: #00dfd8;
+  border-top-color: #2aa0e9; /* Main teal color */
+  border-left-color: #13c3a6; /* Dark background color */
+  border-right-color: #1E9694; /* Main teal color */
   animation: spin 1.5s linear infinite;
   margin-bottom: 1.5rem;
 }
@@ -317,15 +317,14 @@
 }
 
 .loading-spinner p {
-  color: #2c3e50;
+  color: #1E252B;
   font-size: 1.2rem;
   font-weight: 500;
   background: linear-gradient(
     135deg,
-    #00dfd8 0%,
-    #0070f3 50%,
-    #7928ca 70%,
-    #ff3d00 100%
+    #1E9694 0%,
+    #6194c2 50%,
+    #2aa0e9 100%
   );
   background-size: 300% auto;
   -webkit-background-clip: text;

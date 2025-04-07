@@ -49,10 +49,10 @@ export const CardNeeds = ({
           <div className="needs-image-overlay"></div>
           
           {/* Status indicator */}
-          <div className="status-indicator">
+          {requested && <div className="status-indicator">
             {statusInfo.icon}
             <span className="status-text">{statusInfo.text}</span>
-          </div>
+          </div>}
         </div>
         
         {/* Card content */}
