@@ -176,19 +176,16 @@ export const CardPage = () => {
             </div>
           ) : (
             <Row>
-              {orders.map((item) => (
-                <Col key={item._id} xs={12} md={6} lg={4} className="mb-4">
+              {orders.map((order) => (
+                <Col key={order._id} xs={12} md={6} lg={4} className="mb-4">
                   <CardNeeds
-                    examined={item.examined}
-                    status={item.status}
-                    request_id={item._id}
-                    image={item.prescription_img || ""}
-                    name={item.req_name || "No name"}
-                    onRemove={() => handleRemove(order_Url, item._id, setOrders)}
-                    requested={item.requested}
-                    goToUpdateRequest={() => 
-                      goToUpdateRequest(item._id, order_Url)
-                    }
+                    image={order.prescription_img || ""}
+                    name={order.req_name || "No name"}
+                    onRemove={() => handleRemove(order_Url, order._id, setOrders)}
+                    requested={order.requested}
+                    goToRequestMedicine={() => goToRequestMedicine(order.req_name, order.medicine._id, order._id)}
+                    goToUpdateRequest={() => goToUpdateRequest(order._id, order_Url)}
+                    isOrder={true}
                   />
                 </Col>
               ))}
