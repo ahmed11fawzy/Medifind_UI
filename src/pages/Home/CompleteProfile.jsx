@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useGet } from "../../customHooks/useGet";
 import { Loader } from "../../components/customComponents/Loader/Loader";
 import { FaUserCircle } from "react-icons/fa";
+import "../CardPage.css";
 
 export const CompleteProfile = () => {
   const navigate = useNavigate();
@@ -217,7 +218,12 @@ export const CompleteProfile = () => {
           </div>
         </Form>
       </div>
-    ) : <div>Loading...</div>
+    ) : (
+      <div className="loading-spinner">
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    )
   );
 };
 

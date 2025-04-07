@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
 import { useGet } from "../customHooks/useGet.js";
 import { useDelete } from "../customHooks/useDelete";
-import { Loader } from "../components/customComponents/Loader/Loader.jsx";
+import "./CardPage.css";
 
 export const DonorPage = () => {
   const navigate = useNavigate();
@@ -47,7 +47,12 @@ export const DonorPage = () => {
   };
 
   if (isLoading || deleteLoading) {
-    return <Loader />;
+    return (
+      <div className="loading-spinner">
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   if (data?.length === 0) {
