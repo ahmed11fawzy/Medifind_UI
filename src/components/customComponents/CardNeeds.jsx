@@ -23,6 +23,7 @@ export const CardNeeds = ({
   requested,
   goToRequestMedicine,
   goToUpdateRequest,
+  isOrder = false,
 }) => {
   const getStatusStyles = () => {
     if (examined) {
@@ -65,7 +66,7 @@ export const CardNeeds = ({
               </div>
               <div className="needs-info-content">
                 <span className="needs-info-label">Concentration</span>
-                <span className="needs-info-value">{concentration}</span>
+                <span className="needs-info-value">{isOrder ? "100mg" : concentration}</span>
               </div>
             </div>
           </div>
@@ -117,7 +118,8 @@ CardNeeds.propTypes = {
   status: PropTypes.bool,
   requested: PropTypes.bool,
   goToRequestMedicine: PropTypes.func,
-  goToUpdateRequest: PropTypes.func
+  goToUpdateRequest: PropTypes.func,
+  isOrder: PropTypes.bool
 };
 
 CardNeeds.defaultProps = {
@@ -125,6 +127,7 @@ CardNeeds.defaultProps = {
   status: false,
   requested: false,
   goToRequestMedicine: () => {},
-  goToUpdateRequest: () => {}
+  goToUpdateRequest: () => {},
+  isOrder: false
 };
 

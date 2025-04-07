@@ -52,7 +52,7 @@ export const NavBar = () => {
                 Request Medicine
               </NavLink>
               <NavLink to="/need" className={({ isActive }) => (isActive ? "active-link" : "")}>
-                Needs
+                Orders
               </NavLink>
               <NavLink to="/donate" className={({ isActive }) => (isActive ? "active-link" : "")}>
                 Donation
