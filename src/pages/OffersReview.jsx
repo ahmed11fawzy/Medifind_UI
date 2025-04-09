@@ -1,59 +1,73 @@
-import React, { useEffect } from "react";
-import { Container } from "react-bootstrap";
-import MedicineCard from "../components/customComponents/MedicineCard"; // Ensure correct path
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Container, Spinner } from "react-bootstrap";
+import MedicineCard from "../components/customComponents/MedicineCard"; 
 import image1 from "../assets/img1.jpg";
 import image2 from "../assets/img2.jpg";
 import image3 from "../assets/img3.jpg";
+import { FaUser } from 'react-icons/fa';
 
-export  const OffersReview = () => {
+export const OffersReview = () => {
+  const [medicines, setMedicines] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const[medicines,setMedicines]=useState([]);
-
-
-useEffect(() => {
-  const fetchMedicines = async () => {
-    try {
-      const response = await fetch("https://medifind-production.up.railway.app/medicine");
-      console.log(response);
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status} - ${response.statusText}`);
+  useEffect(() => {
+    const fetchMedicines = async () => {
+      try {
+        const response = await fetch("https://medifind-production.up.railway.app/medicine");
+        console.log(response);
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.status} - ${response.statusText}`);
+        }
+      
+        const result = await response.json();
+        const data = result.data;
+        setMedicines(data);
+        console.log("Fetched Medicines:", data);
+      } catch (error) {
+        console.error("Fetch error:", error);
+      } finally {
+        setIsLoading(false);
       }
-    
-      const result = await response.json();
-      const data = result.data;
-      setMedicines(data); 
-      console.log("Fetched Medicines:", data);
-    } catch (error) {
-      console.error("Fetch error:", error);
-    }
-  };
+    };
 
-  fetchMedicines();
-}, []);
+    fetchMedicines();
+  }, []);
 
+  if (isLoading) {
+    return (
+      <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "50vh" }}>
+        <Spinner animation="border" variant="info" />
+      </Container>
+    );
+  }
 
-  
   return (
     <>
       <Container className="my-4">
         {/* <h3 className="text-center mb-4">Offers Review</h3> */}
-        <div className="d-flex flex-column align-items-center gap-4">
-        {Array.isArray(medicines) && medicines.map((med, index) => (
-        <MedicineCard
-        medicines={medicines}
-        setMedicines={setMedicines}
-        examine={med.examine}
-        id={med._id}
-        key={index}
-        image={med.image_path ? med.image_path : image1} 
-        name={med.name}
-        expireDate={med.expire_date}
-      />
+        <div style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "20px",
+          justifyContent: "center",
+          alignItems: "start"
+        }}>
+          {Array.isArray(medicines) && medicines.map((med, index) => (
+            <MedicineCard
+              medicines={medicines}
+              setMedicines={setMedicines}
+              examine={med.examine}
+              id={med._id}
+              key={index}
+              image={med.image_path ? med.image_path : image1} 
+              name={med.name}
+              expireDate={med.expire_date}
+              user={med.user_id}
+              userIcon={FaUser}
+            />
           ))}
         </div>
       </Container>
     </>
   );
 };
-
