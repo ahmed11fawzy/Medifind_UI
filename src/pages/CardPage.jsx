@@ -61,7 +61,9 @@ export const CardPage = () => {
       } else if (url === order_Url) {
         await orderDelete.deleteRequest(del_id);
       }
-      await fetchRequests(url, setFunction);
+      
+      // Update state directly instead of refetching
+      setFunction(prevItems => prevItems.filter(item => item._id !== del_id));
       console.log("Item deleted successfully");
     } catch (error) {
       console.error("Failed to delete item:", error);
@@ -183,6 +185,8 @@ export const CardPage = () => {
                     name={order.req_name || "No name"}
                     onRemove={() => handleRemove(order_Url, order._id, setOrders)}
                     requested={order.requested}
+                    examined={order.examined}
+                    status={order.status}
                     goToRequestMedicine={() => goToRequestMedicine(order.req_name, order.medicine._id, order._id)}
                     goToUpdateRequest={() => goToUpdateRequest(order._id, order_Url)}
                     isOrder={true}

@@ -27,9 +27,12 @@ export const CardNeeds = ({
 }) => {
   const getStatusStyles = () => {
     if (examined) {
-      return status ? 
-        { class: 'status-accepted', text: 'Accepted', icon: <FaCheckCircle className="status-icon" /> } : 
-        { class: 'status-rejected', text: 'Rejected', icon: <FaTimesCircle className="status-icon" /> };
+      if (status) {
+        return isOrder 
+          ? { class: 'status-accepted', text: 'Waiting to be affordable', icon: <FaCheckCircle className="status-icon" /> }
+          : { class: 'status-accepted', text: 'Accepted', icon: <FaCheckCircle className="status-icon" /> };
+      }
+      return { class: 'status-rejected', text: 'Rejected', icon: <FaTimesCircle className="status-icon" /> };
     }
     return { class: 'status-pending', text: 'Pending', icon: <FaHourglassHalf className="status-icon" /> };
   };
@@ -48,11 +51,11 @@ export const CardNeeds = ({
           />
           <div className="needs-image-overlay"></div>
           
-          {/* Status indicator */}
-          {requested && <div className="status-indicator">
+          {/* Status indicator - Always show status for examined items */}
+          <div className="status-indicator">
             {statusInfo.icon}
             <span className="status-text">{statusInfo.text}</span>
-          </div>}
+          </div>
         </div>
         
         {/* Card content */}
@@ -130,4 +133,3 @@ CardNeeds.defaultProps = {
   goToUpdateRequest: () => {},
   isOrder: false
 };
-

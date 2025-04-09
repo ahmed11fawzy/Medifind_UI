@@ -1,12 +1,30 @@
 import {React,useState} from "react";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { AddBtn } from "./Addbtn";
 
-const MedicineCard = ({ image, name, expireDate, id, medicines, setMedicines, examine }) => {
+const MedicineCard = ({ 
+  image, 
+  name, 
+  expireDate, 
+  id, 
+  medicines, 
+  setMedicines, 
+  examine,
+  user,
+  userIcon: IconComponent
+}) => {
 
   // const[reviews,setReviews]=useState({});
   // const[examine,setExamine]=useState(false);
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
 
   const handleAccept = async (id) => {
     // setExamine(true)
@@ -57,64 +75,91 @@ const MedicineCard = ({ image, name, expireDate, id, medicines, setMedicines, ex
     examine ? null : (
       <Card 
         style={{ 
-          width: "90%", 
-          maxWidth: "600px", 
-          backgroundColor: "#D2F3F0", 
-          borderRadius: "10px",
+          width: "300px",
+          backgroundColor: "#ffffff",
+          borderRadius: "15px",
           overflow: "hidden",
-          height: "200px",
-          boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          marginRight: "30px"
+
         }}
         className="mb-3"
       >
-        <div className="row g-0 h-100">
-          <div className="col-4 p-0 h-100">
+        <div style={{ padding: "12px", display: "flex", alignItems: "center", gap: "10px" }}>
+          {user?.profileImage ? (
             <img 
-              src={image} 
-              alt={name} 
-              style={{ 
-                width: "100%",
-                height: "100%",
-                // objectFit: "cover",
-                // objectPosition: "center",
-                display: "block"
-              }} 
+              src={user.profileImage} 
+              alt={user.name} 
+              className="rounded-circle"
+              style={{
+                width: "40px",
+                height: "40px",
+                objectFit: "cover",
+                border: "2px solid #f0f0f0"
+              }}
             />
-          </div>
-          <div className="col-8 h-100">
-            <Card.Body className="p-3 d-flex flex-column h-100">
-              <div>
-                <p className="mb-2">
-                  <strong>Name:</strong> {name || "Unknown"}
-                </p>
-                <p className="mb-2">
-                  <strong>Expire date:</strong> {expireDate || "N/A"}
-                </p>
-              </div>
-              
-              <div className="d-flex gap-3 mt-auto">
-                <AddBtn 
-                  style={{ 
-                    backgroundColor: "#2AC728",
-                    width: "50%"
-                  }} 
-                  onClick={() => handleAccept(id)}
-                >
-                  Accept
-                </AddBtn>
-                <AddBtn 
-                  style={{ 
-                    backgroundColor: "#C7282A",
-                    width: "50%"
-                  }}  
-                  onClick={() => handleReject(id)}
-                >
-                  Reject
-                </AddBtn>
-              </div>
-            </Card.Body>
-          </div>
+          ) : (
+            <div 
+              className="rounded-circle bg-white d-flex align-items-center justify-content-center"
+              style={{ 
+                width: "40px", 
+                height: "40px",
+                border: "2px solid #f0f0f0"
+              }}
+            >
+              <IconComponent color="#9c9f9f" size={24} />
+            </div>
+          )}
+          <h6 className="mb-0" style={{ color: "#333" }}>{user?.name || "User"}</h6>
         </div>
+
+        <Card.Img 
+          src={image} 
+          alt={name}
+          style={{ 
+            width: "100%",
+            height: "200px",
+            objectFit: "cover"
+          }} 
+        />
+
+        <Card.Body className="p-3">
+          <div className="mb-3">
+            <p className="mb-2" style={{ fontSize: '16px', color: '#333' }}>
+              <strong>Name:</strong> {name || "Unknown"}
+            </p>
+            <p className="mb-2" style={{ fontSize: '14px', color: '#333' }}>
+              <strong>Expire date:</strong> {formatDate(expireDate)}
+            </p>
+          </div>
+          
+          <div className="d-flex gap-2">
+            <Button 
+              style={{ 
+                backgroundColor: "#00BCD4",
+                border: "none",
+                flex: 1,
+                padding: "8px",
+                borderRadius: "8px"
+              }} 
+              onClick={() => handleAccept(id)}
+            >
+              Accept
+            </Button>
+            <Button 
+              style={{ 
+                backgroundColor: "#FF5252",
+                border: "none",
+                flex: 1,
+                padding: "8px",
+                borderRadius: "8px"
+              }}  
+              onClick={() => handleReject(id)}
+            >
+              Reject
+            </Button>
+          </div>
+        </Card.Body>
       </Card>
     )
   );
