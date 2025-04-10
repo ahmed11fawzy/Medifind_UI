@@ -66,7 +66,7 @@ export const AddMedicine = () => {
     if (validateForm()) {
       try {
         if (img_path && decodedToken) {
-          const response = await fetch("https://medifind-production.up.railway.app/medicine", {
+          const response = await fetch("http://192.168.1.10:7777/medicine", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

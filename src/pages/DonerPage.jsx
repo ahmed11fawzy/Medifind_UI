@@ -19,7 +19,7 @@ export const DonorPage = () => {
   };
 
   const decodedToken = useDecoded();
-  const baseUrl = `https://medifind-production.up.railway.app/medicine`;
+  const baseUrl = `http://192.168.1.10:7777/medicine`;
   const { data, isLoading, serverError, getRequest } = useGet(
     decodedToken ? `${baseUrl}/${decodedToken.id}` : null
   );

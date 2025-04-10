@@ -12,7 +12,7 @@ export function SlideDown({Medicine}) {
   const IconComponent =  FaUser;
   const decodedToken = useDecoded();
   const navigate = useNavigate();
-  const { sendRequest, isLoading } = usePost('https://medifind-production.up.railway.app/request');
+  const { sendRequest, isLoading } = usePost('http://192.168.1.10:7777/request');
   const handleRequest = async () => {
     if (!decodedToken) return;
     
