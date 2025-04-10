@@ -66,7 +66,7 @@ export const AddMedicine = () => {
     if (validateForm()) {
       try {
         if (img_path && decodedToken) {
-          const response = await fetch("http://192.168.1.10:7777/medicine", {
+          const response = await fetch("http://localhost:7777/medicine", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

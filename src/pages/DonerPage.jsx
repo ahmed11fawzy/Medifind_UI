@@ -19,7 +19,7 @@ export const DonorPage = () => {
   };
 
   const decodedToken = useDecoded();
-  const baseUrl = `http://192.168.1.10:7777/medicine`;
+  const baseUrl = `http://localhost:7777/medicine`;
   const { data, isLoading, serverError, getRequest } = useGet(
     decodedToken ? `${baseUrl}/${decodedToken.id}` : null
   );

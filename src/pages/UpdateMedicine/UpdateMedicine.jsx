@@ -75,7 +75,7 @@ export default function UpdateMedicine() {
     if (validateForm()) {
       try {
         if (decodedToken) {  // Remove img_path check since it's optional
-          const response = await fetch(`http://192.168.1.10:7777/medicine/${_id}`, {
+          const response = await fetch(`http://localhost:7777/medicine/${_id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
