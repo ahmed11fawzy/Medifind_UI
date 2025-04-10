@@ -1,18 +1,17 @@
 import { motion } from "framer-motion";
-import { useScroll, useTransform } from "framer-motion";
-import styles  from "../Post/Post.module.css"
-import loge from "../../../assets/loge.jpeg";
-import { AddBtn } from "../Addbtn";
+import { useScroll } from "framer-motion";
+import styles from "../Post/Post.module.css";
 import { useNavigate } from "react-router-dom";
 import { usePost } from "../../../customHooks/usePost";
 import { useDecoded } from "../../../customHooks/useDecode";
-import { FaUser,  FaUserTie } from 'react-icons/fa';
+import { FaUser, FaCapsules, FaClock } from 'react-icons/fa';
 
 export function SlideDown({Medicine}) {
-  const IconComponent =  FaUser;
+  const IconComponent = FaUser;
   const decodedToken = useDecoded();
   const navigate = useNavigate();
-  const { sendRequest, isLoading } = usePost('http://192.168.1.10:7777/request');
+  const { sendRequest, isLoading } = usePost('http://localhost:7777/request');
+  
   const handleRequest = async () => {
     if (!decodedToken) return;
     
@@ -28,53 +27,88 @@ export function SlideDown({Medicine}) {
       console.error("Failed to send request:", error);
     }
   };
-  const { scrollYProgress } = useScroll();
-  // eslint-disable-next-line no-unused-vars
-  const y = useTransform(scrollYProgress, [0, 1], [-100, 0]);
   
+  const { scrollYProgress } = useScroll();
+  
+  const getExpiryDays = (expireDate) => {
+    const today = new Date();
+    const expiry = new Date(expireDate);
+    const diffTime = expiry - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
   return (
     <motion.div
-    initial={{
-        opacity: 0, y: -50 
-      }}
+      initial={{ opacity: 0, y: -20 }}
       whileInView={{
         opacity: 1,
-        y: 0, // Slide in to its original position
+        y: 0,
         transition: {
-          duration: 1 // Animation duration
+          duration: 0.4,
+          ease: "easeOut"
         }
       }}
       viewport={{ once: true }}
     >
-      {
-        
-        <>
-        <main className={`${styles.post} position-relative px-4 py-4 `}>
-          <header className="position-absolute top-0 start-50  translate-middle  ">
-             {Medicine.user_id.profileImage ? (
-              <img src={Medicine.user_id.profileImage} width={"50px"} height={"50px"} className=" rounded rounded-circle" alt="" />
+      <main className={styles.post}>
+        <div className={styles.imageContainer}>
+          <img 
+            src={Medicine.image_path || "https://via.placeholder.com/300x200?text=Medicine"} 
+            alt={Medicine.name}
+            className={styles.medicineImage}
+          />
+          <div className={styles.imageOverlay}></div>
+          
+          <div className={styles.quantityBadge}>
+            <FaCapsules />
+            <span>{Medicine.quantity}</span>
+          </div>
+
+          <div className={styles.medicineTitleOverlay}>
+            {Medicine.name}
+          </div>
+        </div>
+
+        <div className={styles.userInfo}>
+          <div className={styles.userImageContainer}>
+            {Medicine?.user_id?.profileImage ? (
+              <img 
+                src={Medicine?.user_id?.profileImage}
+                alt=""
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
             ) : (
-              <div className=" rounded rounded-circle shadow-lg bg-white d-flex align-items-center justify-content-center  " style={{ width: "50px", height: "50px" }}>
-                <IconComponent color="#9c9f9f" size={30} />
+              <div className="h-100 w-100 bg-white d-flex align-items-center justify-content-center">
+                <IconComponent color="#00B5B5" size={20} />
               </div>
             )}
-          </header>
-          <h4 className="mt-3 mb-4 text-center">{Medicine.user_id.name}</h4>
-          <p className="fw-bold" >Name: <span className=" fw-normal fs-6 ">{Medicine.name.toUpperCase()}</span> <span className="fw-light fs-6">{Medicine.concentration}</span></p>
-          <p ><span className="fw-bold" >Expire date :</span> {Medicine.expire_date.split("-").slice(0,2).join("-") } </p>
-            
-            <AddBtn 
-              style={{ width: "100px" }} 
-              onClick={handleRequest} 
-              className=" mt-2 d-block  ms-auto"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Processing...' : 'Pick'}
-            </AddBtn>
-          </main>
-        </>
-        
-      }
+          </div>
+          <div className={styles.userName}>{Medicine.user_id?.name}</div>
+        </div>
+
+        <div className={styles.contentContainer}>
+          <div className={styles.medicineInfo}>
+            <FaCapsules />
+            <span>{Medicine.concentration}</span>
+          </div>
+
+          <div className={styles.medicineInfo}>
+            <FaClock />
+            <div className="d-flex flex-column">
+              <span>{getExpiryDays(Medicine.expire_date)} days left</span>
+            </div>
+          </div>
+
+          <button 
+            className={styles.requestBtn}
+            onClick={handleRequest}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Processing...' : 'Request Medicine'}
+          </button>
+        </div>
+      </main>
     </motion.div>
   );
 }

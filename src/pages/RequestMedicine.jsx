@@ -79,8 +79,8 @@ export const RequestMedicine = () => {
 
       try {
         const url = request_id !== undefined
-          ? `http://192.168.1.10:7777/request/${request_id}`
-          : "http://192.168.1.10:7777/orders";
+          ? `http://localhost:7777/request/${request_id}`
+          : "http://localhost:7777/orders";
         const method = request_id !== undefined ? "PATCH" : "POST";
         
         const response = await fetch(url, {

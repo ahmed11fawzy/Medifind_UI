@@ -14,8 +14,8 @@ export const RequestsReview = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("requests");
-  const req_url = "http://192.168.1.10:7777/request";
-  const order_url = "http://192.168.1.10:7777/orders";
+  const req_url = "http://localhost:7777/request";
+  const order_url = "http://localhost:7777/orders";
 
   const fetchData = async (url) => {
     const response = await fetch(url);

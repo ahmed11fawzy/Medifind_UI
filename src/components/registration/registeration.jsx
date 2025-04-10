@@ -77,7 +77,7 @@ export function Registration() {
     }
 
     try {
-      const response = await fetch("http://192.168.1.10:7777/register", {
+      const response = await fetch("http://localhost:7777/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: user, email: mail, password: pwd }),
@@ -304,7 +304,7 @@ export function Registration() {
 //   }
 
 //   try {
-//     const response = await fetch("http://192.168.1.10:7777/register", {  // Add API endpoint here
+//     const response = await fetch("http://localhost:7777/register", {  // Add API endpoint here
 //       method: "POST",
 //       headers: { "Content-Type": "application/json" },
 //       body: JSON.stringify({
