@@ -55,7 +55,7 @@ export function Login() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "https://medifind-production.up.railway.app/login",
+          "http://192.168.1.10:7777/login",
           {
           method: "POST",
           headers: { "Content-Type": "application/json" },

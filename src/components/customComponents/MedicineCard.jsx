@@ -29,7 +29,7 @@ const MedicineCard = ({
   const handleAccept = async (id) => {
     // setExamine(true)
     try {
-        const response = await fetch(`https://medifind-production.up.railway.app/medicine/${id}`, {
+        const response = await fetch(`http://192.168.1.10:7777/medicine/${id}`, {
             method: "PATCH", // Change from POST to PATCH
             headers: {
                 "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const MedicineCard = ({
   const handleReject = async (id) => {
     // setExamine(true)
     try {
-        const response = await fetch(`https://medifind-production.up.railway.app/medicine/${id}`, {
+        const response = await fetch(`http://192.168.1.10:7777/medicine/${id}`, {
             method: "PATCH", // Change from POST to PATCH
             headers: {
                 "Content-Type": "application/json",

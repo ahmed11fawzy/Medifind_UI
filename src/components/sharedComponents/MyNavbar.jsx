@@ -9,7 +9,7 @@ import "../../styles/sidebar.css";
 
 export const NavBar = () => {
   const navigate = useNavigate();
-  const { data: users, isLoading, serverError } = useFetch("https://medifind-production.up.railway.app/users");
+  const { data: users, isLoading, serverError } = useFetch("http://192.168.1.10:7777/users");
   const decodedToken = useDecoded();
   const loggedInUserId = decodedToken?.id;
   const usersArray = Array.isArray(users) ? users : users?.users || [];

@@ -9,3 +9,59 @@
   word-spacing: 2px !important;
   font-family: "Inter", serif;
 }
+
+/* Pagination Styles */
+.paginationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.paginationBtn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--main-color), #4a9eff);
+  color: white;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.paginationBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #4a9eff, var(--main-color));
+}
+
+.paginationBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.paginationBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  background: #cccccc;
+}
+
+.pageIndicator {
+  background-color: white;
+  border-radius: 15px;
+  padding: 0.5rem 1.5rem;
+  font-weight: bold;
+  color: var(--main-color);
+  min-width: 60px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--main-color);
+  font-size: 1.1rem;
+}

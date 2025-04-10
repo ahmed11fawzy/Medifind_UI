@@ -79,8 +79,8 @@ export const RequestMedicine = () => {
 
       try {
         const url = request_id !== undefined
-          ? `https://medifind-production.up.railway.app/request/${request_id}`
-          : "https://medifind-production.up.railway.app/orders";
+          ? `http://192.168.1.10:7777/request/${request_id}`
+          : "http://192.168.1.10:7777/orders";
         const method = request_id !== undefined ? "PATCH" : "POST";
         
         const response = await fetch(url, {
