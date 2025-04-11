@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Modal, Button, Card } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
@@ -8,9 +10,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
 import { Loader } from "../components/customComponents/Loader/Loader";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; 
+import "react-toastify/dist/ReactToastify.css";
+import { BASE_URL } from "../config";
 
 export const RequestMedicine = () => {
+  const baseUrl = BASE_URL;
   const { state } = useLocation();
   const { medicineName, medicine_id, request_id } = state || {};
   const navigate = useNavigate();
@@ -79,8 +83,8 @@ export const RequestMedicine = () => {
 
       try {
         const url = request_id !== undefined
-          ? `http://localhost:7777/request/${request_id}`
-          : "http://localhost:7777/orders";
+          ? `${baseUrl}/request/${request_id}`
+          : `${baseUrl}/orders`;
         const method = request_id !== undefined ? "PATCH" : "POST";
         
         const response = await fetch(url, {

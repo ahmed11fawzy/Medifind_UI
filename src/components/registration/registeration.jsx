@@ -1,8 +1,12 @@
+/* eslint-disable no-undef */
 import { useEffect, useRef, useState } from "react";
 import { Container, Card, Form } from "react-bootstrap";
 import "../../styles/registerStyle.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AddBtn } from "../customComponents/Addbtn";
+import { BASE_URL } from "../../config";
+
+
 
 const nameRegex = /^[A-z][A-z0-9-_]{3,23}$/;
 const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
@@ -11,7 +15,7 @@ const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export function Registration() {
   const inputRef = useRef(null); // for focus on name
   const errorRef = useRef(null);
-
+  const baseUrl = BASE_URL;
   const [user, setUser] = useState("");
   const [validName, setvalidName] = useState(false);
   const [userFocus, setuserFocus] = useState(false);
@@ -77,7 +81,7 @@ export function Registration() {
     }
 
     try {
-      const response = await fetch("http://localhost:7777/register", {
+      const response = await fetch(`${baseUrl}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: user, email: mail, password: pwd }),
@@ -304,7 +308,7 @@ export function Registration() {
 //   }
 
 //   try {
-//     const response = await fetch("http://localhost:7777/register", {  // Add API endpoint here
+//     const response = await fetch("https://medifind-production.up.railway.app/register", {  // Add API endpoint here
 //       method: "POST",
 //       headers: { "Content-Type": "application/json" },
 //       body: JSON.stringify({

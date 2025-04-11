@@ -1,20 +1,26 @@
+/* eslint-disable no-undef */
 import { useState, useEffect } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
 import { useDelete } from "../customHooks/useDelete";
 import { CardNeeds } from "../components/customComponents/CardNeeds";
+import { BASE_URL } from "../config";
 import "./CardPage.css";
 
 export const CardPage = () => {
+
+  
+  const baseUrl = BASE_URL;
+  
   const [requests, setRequests] = useState([]);
   const [orders, setOrders] = useState([]);
   const [activeTab, setActiveTab] = useState("requests");
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const decodedToken = useDecoded();
-  const req_Url = "http://localhost:7777/request";
-  const order_Url = "http://localhost:7777/orders";
+  const req_Url = `${baseUrl}/request`;
+  const order_Url =`${baseUrl}/orders`;
 
   // Initialize delete hooks for each endpoint at the top level.
   const requestDelete = useDelete(req_Url);

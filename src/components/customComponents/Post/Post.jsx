@@ -1,12 +1,14 @@
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
 import styles from "./Post.module.css";
 import { useFetch } from "../../../customHooks/useFetch";
 import { SlideDown } from "../SlideDown/SlideDown";
 import { useEffect } from "react";
-
+import { BASE_URL } from "../../../config";
 export function Post({page, getTotalPage, searchQuery}) {
     const apiUrl = searchQuery 
-        ? `http://localhost:7777/search?query=${searchQuery}&page=${page}&limit=6`
-        : `http://localhost:7777/acceptedMedicine?page=${page}&limit=6`;
+        ? `${BASE_URL}/search?query=${searchQuery}&page=${page}&limit=6`
+        : `${BASE_URL}/acceptedMedicine?page=${page}&limit=6`;
 
     const { data, totalPage, isLoading, serverError } = useFetch(apiUrl);
     
@@ -23,7 +25,7 @@ export function Post({page, getTotalPage, searchQuery}) {
         }
     }, [data, totalPage, getTotalPage, searchQuery, page]);
 
-    if (isLoading) return <div className="text-center py-4">Loading...</div>;
+    if (isLoading) return <div className="spinner mx-auto"></div>;
     if (serverError) return <div className="text-center py-4 text-danger">Error loading medicines</div>;
     if (!data || data.length === 0) return <div className="text-center py-4">No medicines found</div>;
 
@@ -34,8 +36,8 @@ export function Post({page, getTotalPage, searchQuery}) {
 
     return (
         <div className="row gy-5">
-            {currentPageData.map((Medicine) => (
-                <div className="col-12 col-md-4" key={Medicine.id}>
+            {currentPageData.map((Medicine, index) => (
+                <div className="col-12 col-md-4" key={Medicine._id || Medicine.id || `medicine-${index}`}>
                     <div className={styles.post}>
                         <SlideDown Medicine={Medicine} />
                     </div>

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -9,8 +10,12 @@ import { AddBtn } from "../components/customComponents/Addbtn";
 import { Loader } from "../components/customComponents/Loader/Loader";
 import { useAddMedicineForm } from "../customHooks/AddMedicine";
 import { useDecoded } from "../customHooks/useDecode";
+import { BASE_URL } from "../config";
+
+
 
 export const AddMedicine = () => {
+  const baseUrl = BASE_URL;
   const navigate = useNavigate();
   const [img_path, setPath] = useState("");
   const [isUploading, setUploading] = useState(false);
@@ -66,7 +71,7 @@ export const AddMedicine = () => {
     if (validateForm()) {
       try {
         if (img_path && decodedToken) {
-          const response = await fetch("http://localhost:7777/medicine", {
+          const response = await fetch(`${baseUrl}/medicine`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

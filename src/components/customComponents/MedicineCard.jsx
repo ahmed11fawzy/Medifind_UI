@@ -1,7 +1,9 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import {React,useState} from "react";
 import { Card, Button } from "react-bootstrap";
 import { AddBtn } from "./Addbtn";
-
 const MedicineCard = ({ 
   image, 
   name, 
@@ -14,6 +16,7 @@ const MedicineCard = ({
   userIcon: IconComponent
 }) => {
 
+  const baseUrl = process.env.REACT_APP_BASE_URL;
   // const[reviews,setReviews]=useState({});
   // const[examine,setExamine]=useState(false);
 
@@ -29,7 +32,7 @@ const MedicineCard = ({
   const handleAccept = async (id) => {
     // setExamine(true)
     try {
-        const response = await fetch(`http://localhost:7777/medicine/${id}`, {
+        const response = await fetch(`${baseUrl}/medicine/${id}`, {
             method: "PATCH", // Change from POST to PATCH
             headers: {
                 "Content-Type": "application/json",
@@ -51,7 +54,7 @@ const MedicineCard = ({
   const handleReject = async (id) => {
     // setExamine(true)
     try {
-        const response = await fetch(`http://localhost:7777/medicine/${id}`, {
+        const response = await fetch(`${baseUrl}/medicine/${id}`, {
             method: "PATCH", // Change from POST to PATCH
             headers: {
                 "Content-Type": "application/json",

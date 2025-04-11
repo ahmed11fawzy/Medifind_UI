@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
 import { useScroll } from "framer-motion";
 import styles from "../Post/Post.module.css";
@@ -5,12 +8,13 @@ import { useNavigate } from "react-router-dom";
 import { usePost } from "../../../customHooks/usePost";
 import { useDecoded } from "../../../customHooks/useDecode";
 import { FaUser, FaCapsules, FaClock } from 'react-icons/fa';
+import { BASE_URL } from "../../../config";
 
 export function SlideDown({Medicine}) {
   const IconComponent = FaUser;
   const decodedToken = useDecoded();
   const navigate = useNavigate();
-  const { sendRequest, isLoading } = usePost('http://localhost:7777/request');
+  const { sendRequest, isLoading } = usePost(`${BASE_URL}/request`);
   
   const handleRequest = async () => {
     if (!decodedToken) return;
