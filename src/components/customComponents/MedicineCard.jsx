@@ -16,7 +16,7 @@ const MedicineCard = ({
   userIcon: IconComponent
 }) => {
 
-  const baseUrl = process.env.REACT_APP_BASE_URL;
+  const baseUrl = import.meta.env.VITE_BASE_URL;
   // const[reviews,setReviews]=useState({});
   // const[examine,setExamine]=useState(false);
 
