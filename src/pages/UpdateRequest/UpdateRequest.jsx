@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 import { useState } from "react";
-import { Container, Row, Col, Form, Modal, Button, Card } from "react-bootstrap";
+import { Container, Row, Col, Form, Card } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
 import { AddBtn } from "../../components/customComponents/Addbtn";
 import useMedicineForm from "../../customHooks/RequestMedicine";  
@@ -7,6 +9,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDecoded } from "../../customHooks/useDecode";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCheckCircle } from "react-icons/fa";
+import { BASE_URL } from "../../config";
+
 
 export const UpdateRequest = () => {
   // Provide default empty object if state is undefined
@@ -16,14 +20,13 @@ export const UpdateRequest = () => {
   const { request_id = id, url } = state; 
   const navigate = useNavigate();
   const decodedToken = useDecoded();
-
   // Check if essential data is available
   if (!request_id || !url) {
     return <div>Error: Missing required update information.</div>;
   }
   
-  const req_Url = "http://localhost:7777/request";
-  const order_Url = "http://localhost:7777/orders";
+  const req_Url = `${BASE_URL}/request`;
+  const order_Url = `${BASE_URL}/orders`;
   
   const {
     formData,
@@ -50,8 +53,8 @@ export const UpdateRequest = () => {
       try {
         const endpoint =
           url === req_Url
-            ? `http://localhost:7777/request/${request_id}`
-            : `http://localhost:7777/orders/${request_id}`;
+            ? `${baseUrl}/request/${request_id}`
+            : `${baseUrl}/orders/${request_id}`;
 
         const response = await fetch(endpoint, {
           method: "PATCH",

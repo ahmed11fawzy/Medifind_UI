@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 import { useState } from "react";
 import { Form, Container, Row, Col } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
@@ -12,8 +15,10 @@ import {
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import logo from "../assets/medi3.png";
-
+import { BASE_URL } from "../config";
+// Environment variables in React are accessed through process.env
 export function Login() {
+  const baseUrl = BASE_URL;
   const mailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   const pwdRegex =
     "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
@@ -55,7 +60,7 @@ export function Login() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "http://localhost:7777/login",
+          `${baseUrl}/login`,
           {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -245,7 +250,7 @@ export function Login() {
               </motion.div>
 
               <div className="text-center mt-4">
-                <span style={{ color: "#666" }}>Don't have an account? </span>
+                <span style={{ color: "#666" }}> Don't have an account? </span>
                 <Link
                   to="/"
                   style={{

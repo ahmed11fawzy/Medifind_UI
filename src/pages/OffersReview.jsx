@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable no-undef */
+import  { useEffect, useState } from "react";
 import { Container, Spinner } from "react-bootstrap";
 import MedicineCard from "../components/customComponents/MedicineCard"; 
+import { BASE_URL } from "../config";
 import image1 from "../assets/img1.jpg";
-import image2 from "../assets/img2.jpg";
-import image3 from "../assets/img3.jpg";
 import { FaUser } from 'react-icons/fa';
 
 export const OffersReview = () => {
   const [medicines, setMedicines] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const baseUrl = BASE_URL;
   useEffect(() => {
     const fetchMedicines = async () => {
       try {
-        const response = await fetch("http://localhost:7777/medicine");
+        const response = await fetch(`${baseUrl}/medicine`);
         console.log(response);
         if (!response.ok) {
           throw new Error(`Server error: ${response.status} - ${response.statusText}`);
@@ -31,7 +31,7 @@ export const OffersReview = () => {
     };
 
     fetchMedicines();
-  }, []);
+  }, [baseUrl]);
 
   if (isLoading) {
     return (

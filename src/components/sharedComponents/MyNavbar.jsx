@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 
 import { Navbar, Container, Nav, Spinner, Button } from "react-bootstrap";
 import { useNavigate, NavLink } from "react-router-dom";
@@ -6,20 +7,32 @@ import { useFetch } from "../../customHooks/useFetch";
 import { useDecoded } from "../../customHooks/useDecode";
 import "../../styles/navstyle.css";
 import "../../styles/sidebar.css";
+import { BASE_URL } from "../../config";
+import { useEffect } from "react";
 
 export const NavBar = () => {
+  const baseUrl = BASE_URL;
   const navigate = useNavigate();
-  const { data: users, isLoading, serverError } = useFetch("http://localhost:7777/users");
   const decodedToken = useDecoded();
   const loggedInUserId = decodedToken?.id;
-  const usersArray = Array.isArray(users) ? users : users?.users || [];
-  const loggedInUser = usersArray.find((user) => user._id === loggedInUserId);
-  const userInitial = loggedInUser?.name ? loggedInUser.name.charAt(0).toUpperCase() : "?";
-
+  console.log(loggedInUserId);
+  // Only fetch user data if we have a user ID
+  const { data: user, isLoading, serverError } = useFetch(loggedInUserId ? `${baseUrl}/user/${loggedInUserId}` : null);
+  
+  // Extract user data - handle both array and object responses
+  const userData = Array.isArray(user) && user.length > 0 ? user[0] : user;
+  console.log('User data:', userData);
+  
+  // Get the first character of the user's name if available
+  const userInitial = userData?.name ? userData.name.charAt(0).toUpperCase() : '?';
+  console.log('User initial:', userInitial);
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
   };
+  useEffect(() => {
+    
+  }, [userInitial]);
 
   return (
     <Navbar bg="light" expand="lg" className="shadow-sm">
@@ -79,7 +92,7 @@ export const NavBar = () => {
             className="user-icon ms-3 d-flex align-items-center justify-content-center"
             onClick={() => navigate("/profile")}
           >
-            {isLoading ? <Spinner animation="border" size="sm" /> : serverError ? "!" : userInitial}
+            {isLoading ? <Spinner animation="border" size="sm" /> : userData ? userInitial : '?'}
           </div>
 
           {/* Logout Button */}

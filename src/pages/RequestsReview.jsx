@@ -1,12 +1,12 @@
+/* eslint-disable no-undef */
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Modal, Button, Card, Spinner } from "react-bootstrap";
-import { FaPlus } from "react-icons/fa";
+import { Container,  Button, Card, Spinner } from "react-bootstrap";
+
 import { FaUser } from "react-icons/fa";
-import { AddBtn } from "../components/customComponents/Addbtn";
-import useMedicineForm from "../customHooks/RequestMedicine";  
-import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
-import "./RequestsReview.css";  
+import { BASE_URL } from "../config";
+
+
+import "./RequestsReview.css";
 
 export const RequestsReview = () => {
   const [requests, setRequests] = useState([]);
@@ -14,8 +14,9 @@ export const RequestsReview = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("requests");
-  const req_url = "http://localhost:7777/request";
-  const order_url = "http://localhost:7777/orders";
+
+  const req_url = `${BASE_URL}/request`;
+  const order_url = `${BASE_URL}/orders`;
 
   const fetchData = async (url) => {
     const response = await fetch(url);
@@ -46,7 +47,7 @@ export const RequestsReview = () => {
     };
 
     loadData();
-  }, []);
+  }, [req_url, order_url]);
 
   if (isLoading) {
     return (
