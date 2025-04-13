@@ -4,6 +4,7 @@
 import {React,useState} from "react";
 import { Card, Button } from "react-bootstrap";
 import { AddBtn } from "./Addbtn";
+import { BASE_URL } from "../../config";
 const MedicineCard = ({ 
   image, 
   name, 
@@ -16,7 +17,7 @@ const MedicineCard = ({
   userIcon: IconComponent
 }) => {
 
-  const baseUrl = import.meta.env.VITE_BASE_URL;
+  // const baseUrl = import.meta.env.VITE_BASE_URL;
   // const[reviews,setReviews]=useState({});
   // const[examine,setExamine]=useState(false);
 
@@ -32,7 +33,7 @@ const MedicineCard = ({
   const handleAccept = async (id) => {
     // setExamine(true)
     try {
-        const response = await fetch(`${baseUrl}/medicine/${id}`, {
+        const response = await fetch(`${BASE_URL}/medicine/${id}`, {
             method: "PATCH", // Change from POST to PATCH
             headers: {
                 "Content-Type": "application/json",
@@ -54,7 +55,7 @@ const MedicineCard = ({
   const handleReject = async (id) => {
     // setExamine(true)
     try {
-        const response = await fetch(`${baseUrl}/medicine/${id}`, {
+        const response = await fetch(`${BASE_URL}/medicine/${id}`, {
             method: "PATCH", // Change from POST to PATCH
             headers: {
                 "Content-Type": "application/json",
