@@ -27,3 +27,4 @@ dist-ssr
 .env
 *.env
 config.js
+.env.example
