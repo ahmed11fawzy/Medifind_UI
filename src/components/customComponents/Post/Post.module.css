@@ -67,6 +67,7 @@
   padding: 12px 15px;
   border-bottom: 1px solid #edf2f7;
   background: white;
+  position: relative;
 }
 
 .userImageContainer {
@@ -81,6 +82,7 @@
   font-size: 14px;
   font-weight: 500;
   color: #2d3748;
+  flex: 1;
 }
 
 .medicineInfo {
@@ -134,4 +136,10 @@
 .requestBtn:disabled {
   background: #cbd5e0;
   cursor: not-allowed;
+}
+
+.aiPrescriptionButton {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }

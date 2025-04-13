@@ -9,6 +9,7 @@ import { usePost } from "../../../customHooks/usePost";
 import { useDecoded } from "../../../customHooks/useDecode";
 import { FaUser, FaCapsules, FaClock } from 'react-icons/fa';
 import { BASE_URL } from "../../../config";
+import { AIPrescription } from "../AIPrescription/AIPrescription";
 
 export function SlideDown({Medicine}) {
   const IconComponent = FaUser;
@@ -89,6 +90,9 @@ export function SlideDown({Medicine}) {
             )}
           </div>
           <div className={styles.userName}>{Medicine.user_id?.name}</div>
+          <div className={styles.aiPrescriptionButton}>
+            <AIPrescription medicineName={Medicine.name} concentration={Medicine.concentration} />
+          </div>
         </div>
 
         <div className={styles.contentContainer}>
@@ -99,10 +103,9 @@ export function SlideDown({Medicine}) {
 
           <div className={styles.medicineInfo}>
             <FaClock />
-            <div className="d-flex flex-column">
-              <span>{getExpiryDays(Medicine.expire_date)} days left</span>
-            </div>
+            <span>{getExpiryDays(Medicine.expire_date)} days left</span>
           </div>
+
 
           <button 
             className={styles.requestBtn}

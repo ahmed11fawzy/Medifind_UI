@@ -97,7 +97,7 @@ export const NavBar = () => {
 
           {/* Logout Button */}
           <div className="logout">
-            <Button className="" onClick={handleLogout}>Logout</Button >
+            <button onClick={handleLogout}>Logout</button>
           </div>
         </Navbar.Collapse>
       </Container>
