@@ -87,7 +87,7 @@ export function Home() {
         </div>
       </div>
 
-      <section className="container mb-5">
+      <section className="container-lg  mb-5">
         <h3 className="my-5">
           Latest Donations{" "}
           <span style={{ color: "var(--main-color)" }}>

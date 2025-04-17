@@ -49,9 +49,9 @@ export const NavBar = () => {
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar.Collapse id="basic-navbar-nav" className=" mt-3 mt-lg-0" >
           {decodedToken?.role === 'user' && (
-            <Nav className="sidebar mx-auto">
+            <Nav className="sidebar mx-lg-auto  justify-lg-content-center align-items-lg-center align-items-start">   
               <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
                 Home
               </NavLink>
@@ -87,18 +87,21 @@ export const NavBar = () => {
             </Nav>
           )}
 
-          {/* User Icon */}
-          <div
-            className="user-icon ms-3 d-flex align-items-center justify-content-center"
-            onClick={() => navigate("/profile")}
-          >
-            {isLoading ? <Spinner animation="border" size="sm" /> : userData ? userInitial : '?'}
-          </div>
+          <div className="d-flex align-items-center   ms-lg-auto">
+              {/* User Icon */}
+              <div
+                className="user-icon  ms-lg-3 d-flex align-items-center justify-content-center "
+                onClick={() => navigate("/profile")}
+              >
+                {isLoading ? <Spinner animation="border" size="sm" /> : userData ? userInitial : '?'}
+              </div>
 
-          {/* Logout Button */}
-          <div className="logout">
-            <button onClick={handleLogout}>Logout</button>
+              {/* Logout Button */}
+              <div className="logout">
+                <button onClick={handleLogout}>Logout</button>
+              </div>
           </div>
+          
         </Navbar.Collapse>
       </Container>
     </Navbar>

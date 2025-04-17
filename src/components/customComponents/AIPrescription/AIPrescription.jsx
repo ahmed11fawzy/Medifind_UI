@@ -60,7 +60,7 @@ export function AIPrescription({ medicineName, concentration }) {
             "api-key": GITHUB_PAT,
           },
           body: JSON.stringify({
-            model: "gpt-4o",
+            model: "gpt-4.1",
             messages: [
               { role: "system", content: "You are a helpful medical assistant that generates simplified drug prescriptions. Keep responses concise and focus on basic dosage and usage information." },
               { role: "user", content: userMessage }
@@ -127,7 +127,7 @@ export function AIPrescription({ medicineName, concentration }) {
             <div className={styles.prescriptionBox}>
               <h4>AI Generated Prescription</h4>
               <div className={styles.prescriptionContent}>
-                {prescription.map((line, index) => (
+                {prescription?.map((line, index) => (
                   <div key={index} className={styles.prescriptionLine}>
                     <span className={styles.bulletPoint}>•</span>
                     <span>{line}</span>

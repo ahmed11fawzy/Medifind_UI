@@ -37,7 +37,7 @@ export function Post({page, getTotalPage, searchQuery}) {
     return (
         <div className="row gy-5">
             {currentPageData.map((Medicine, index) => (
-                <div className="col-12 col-md-4" key={Medicine._id || Medicine.id || `medicine-${index}`}>
+                <div className="col-12 col-md-6 col-lg-4 " key={Medicine._id || Medicine.id || `medicine-${index}`}>
                     <div className={styles.post}>
                         <SlideDown Medicine={Medicine} />
                     </div>

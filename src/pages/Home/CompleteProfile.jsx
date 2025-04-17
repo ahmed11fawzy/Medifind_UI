@@ -162,8 +162,8 @@ export const CompleteProfile = () => {
         </div>
         <hr />
         <Form onSubmit={handleSubmit}>
-          <Row className="mb-3">
-            <Col>
+          <Row className="mb-lg-3 ">
+            <Col className="col-12 col-md-6">
               <Form.Group>
                 <Form.Label>National ID:</Form.Label>
                 <Form.Control 
@@ -180,7 +180,7 @@ export const CompleteProfile = () => {
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
-            <Col>
+            <Col className="col-12 col-md-6" >
               <Form.Group>
                 <Form.Label>Phone Number:</Form.Label>
                 <Form.Control 
@@ -198,8 +198,8 @@ export const CompleteProfile = () => {
               </Form.Group>
             </Col>
           </Row>
-          <Row className="mb-3">
-            <Col>
+          <Row className="mb-3 "> 
+            <Col className="col-12 col-md-6">
               <Form.Group>
                 <Form.Label>City:</Form.Label>
                 <Form.Control as="select" name="city" value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })}>

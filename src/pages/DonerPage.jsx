@@ -74,7 +74,7 @@ export const DonorPage = () => {
       <Row>
         {data &&
           data.map((item) => (
-            <Col key={item._id} xs={12} md={4} lg={4} className="mb-3">
+            <Col key={item._id} xs={12} md={6} lg={4} className="mb-3">
               <CardDonation
                 image={item.image_path}
                 name={item.name}
