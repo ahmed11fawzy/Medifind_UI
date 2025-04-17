@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -11,6 +11,8 @@ import { Loader } from "../components/customComponents/Loader/Loader";
 import { useAddMedicineForm } from "../customHooks/AddMedicine";
 import { useDecoded } from "../customHooks/useDecode";
 import { BASE_URL } from "../config";
+import { useGet } from "../customHooks/useGet";
+import { useFetch } from "../customHooks/useFetch";
 
 
 
@@ -35,7 +37,14 @@ export const AddMedicine = () => {
   } = useAddMedicineForm();
 
   const decodedToken = useDecoded();
-
+  const { data:userData, isLoading, serverError } = useFetch( decodedToken ? `${baseUrl}/user/${decodedToken.id}` : '' );
+  
+  console.log("🚀 ~ AddMedicine ~ userData:", userData)
+ 
+    
+  
+  
+ 
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -70,7 +79,21 @@ export const AddMedicine = () => {
 
     if (validateForm()) {
       try {
-        if (img_path && decodedToken) {
+        if (img_path && decodedToken ) {
+
+          // Check if the user has a valid profile
+          if ( !userData.ssn) {
+            toast.error("Please complete your profile before adding medicine", {
+              position: "top-left",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+              navigate("/profile");
+          }
           const response = await fetch(`${baseUrl}/medicine`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

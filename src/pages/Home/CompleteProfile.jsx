@@ -120,9 +120,9 @@ export const CompleteProfile = () => {
     requestBody.location = `${formData.city}, ${formData.street}`;
     requestBody.profileImage = formData.profileImage;
     try {
-      const response = await axios.patch(`${baseUrl}/user/${decodedToken.id}`, requestBody);
+      const response = await axios.patch(`${BASE_URL}/user/${decodedToken.id}`, requestBody);
       console.log("Updated successfully:", response.data);
-      navigate("/home");
+      navigate(-1);
     } catch (error) {
       console.error("Error updating profile:", error);
     }

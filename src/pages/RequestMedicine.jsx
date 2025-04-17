@@ -12,6 +12,7 @@ import { Loader } from "../components/customComponents/Loader/Loader";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BASE_URL } from "../config";
+import { useFetch } from "../customHooks/useFetch";
 
 export const RequestMedicine = () => {
   const baseUrl = BASE_URL;
@@ -23,8 +24,9 @@ export const RequestMedicine = () => {
   const [isUploading, setUploading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   
+const { data:userData, isLoading, serverError } = useFetch( decodedToken ? `${baseUrl}/user/${decodedToken.id}` : '' );
 
-
+console.log("🚀 ~ RequestMedicine ~ userData:", userData)
 
   const {
     formData,
@@ -81,6 +83,24 @@ export const RequestMedicine = () => {
         examined: false,
       };
 
+      if(!userData.ssn){
+
+        
+        toast.error("Please complete your profile first", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,  
+          progress: undefined,
+        });
+        setTimeout(() => {
+        navigate('/profile');
+        }, 3000);
+      }
+      else {
+      
       try {
         const url = request_id !== undefined
           ? `${baseUrl}/request/${request_id}`
@@ -110,7 +130,7 @@ export const RequestMedicine = () => {
 
         setTimeout(() => {
           navigate('/need');
-        }, 2000);
+        }, 3000);
 
       } catch (error) {
         toast.error("Something went wrong", {
@@ -122,6 +142,7 @@ export const RequestMedicine = () => {
           draggable: true,
           progress: undefined,
         });
+      }
       }
     }
   };

@@ -55,9 +55,9 @@ export const NavBar = () => {
               <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
                 Home
               </NavLink>
-              <NavLink to="/profile" className={({ isActive }) => (isActive ? "active-link" : "")}>
+              {/* <NavLink to="/profile" className={({ isActive }) => (isActive ? "active-link" : "")}>
                 Profile
-              </NavLink>
+              </NavLink> */}
               <NavLink to="/AddMedicine" className={({ isActive }) => (isActive ? "active-link" : "")}>
                 Add Medicine
               </NavLink>
