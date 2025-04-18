@@ -39,7 +39,7 @@ export const AddMedicine = () => {
   const decodedToken = useDecoded();
   const { data:userData, isLoading, serverError } = useFetch( decodedToken ? `${baseUrl}/user/${decodedToken.id}` : '' );
   
-  console.log("🚀 ~ AddMedicine ~ userData:", userData)
+  
  
     
   
@@ -76,15 +76,62 @@ export const AddMedicine = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     if (validateForm()) {
       try {
         if (img_path && decodedToken ) {
 
           // Check if the user has a valid profile
-          if ( !userData.ssn) {
+          if ( userData && userData[0].ssn) {
+             const response = await fetch(`${baseUrl}/medicine`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  name: medicineName,
+                  quantity: Number(numPieces),
+                  concentration: concentration,
+                  expire_date: expireDate,
+                  examine: false,
+                  status: false,
+                  image_path: img_path,
+                  user_id: decodedToken.id,
+                }),
+              });
+
+              console.log("Response status:", response.status);
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Something went wrong!");
+              }
+
+              toast.success("Medicine added successfully", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+
+            // Clear the form fields
+            setMedicineName("");
+            setNumPieces("");
+            setExpireDate("");
+            setConcentration("");
+            setImage(null); // Clear the image state in the hook.
+            document.getElementById("imageInput").value = "";
+
+            // Navigate after a delay so that the toast can be seen.
+            setTimeout(() => {
+              console.log("Navigating to /donate");
+              navigate("/donate");
+            }, 2000);
+          }
+          else{ 
+             console.log("User profile is not completed.... Redirecting to profile page.");
             toast.error("Please complete your profile before adding medicine", {
-              position: "top-left",
+              position: "top-right",
               autoClose: 3000,
               hideProgressBar: false,
               closeOnClick: true,
@@ -92,55 +139,14 @@ export const AddMedicine = () => {
               draggable: true,
               progress: undefined,
             });
+            setTimeout(() => {
               navigate("/profile");
+            }, 3000);
           }
-          const response = await fetch(`${baseUrl}/medicine`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: medicineName,
-              quantity: Number(numPieces),
-              concentration: concentration,
-              expire_date: expireDate,
-              examine: false,
-              status: false,
-              image_path: img_path,
-              user_id: decodedToken.id,
-            }),
-          });
-
-          console.log("Response status:", response.status);
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Something went wrong!");
-          }
-
-          toast.success("Medicine added successfully", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-
-          // Clear the form fields
-          setMedicineName("");
-          setNumPieces("");
-          setExpireDate("");
-          setConcentration("");
-          setImage(null); // Clear the image state in the hook.
-          document.getElementById("imageInput").value = "";
-
-          // Navigate after a delay so that the toast can be seen.
-          setTimeout(() => {
-            console.log("Navigating to /donate");
-            navigate("/donate");
-          }, 2000);
         } else {
           throw new Error("Missing data");
         }
+      
       } catch (error) {
         toast.error("Something went wrong", {
           position: "top-right",
@@ -249,7 +255,15 @@ export const AddMedicine = () => {
             </div>
           </Form>
         </Card>
+        <div   className="  px-3 rounded text-gray " > 
+          <strong>Note:</strong> 
+            Please ensure to complete your profile before adding medicine.
+         
+
+        </div>
       </Container>
     </>
   );
 };
+
+

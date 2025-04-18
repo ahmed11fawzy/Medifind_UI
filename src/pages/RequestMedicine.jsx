@@ -83,7 +83,7 @@ console.log("🚀 ~ RequestMedicine ~ userData:", userData)
         examined: false,
       };
 
-      if(!userData.ssn){
+      if(!userData[0].ssn){
 
         
         toast.error("Please complete your profile first", {
@@ -152,7 +152,7 @@ console.log("🚀 ~ RequestMedicine ~ userData:", userData)
       <ToastContainer />
       <Container>
               {isUploading && <Loader />}
-        <Card className="shadow-sm" style={{ padding: "25px 20px", margin: "25px 0px" }}>
+        <Card className="shadow-sm" style={{ padding: "25px 20px", margin: "25px 0px 0px 0px" }}>
 
     
           <h3 className="text-center mb-4">Request Medicine</h3>
@@ -231,6 +231,12 @@ console.log("🚀 ~ RequestMedicine ~ userData:", userData)
             </Col>
           </Row>
         </Card>
+        <div className=" text-gray px-3 rounded "   > 
+          <strong>Note:</strong> 
+            Please ensure to complete your profile before adding medicine.
+         
+
+        </div>
       </Container>
       
       
