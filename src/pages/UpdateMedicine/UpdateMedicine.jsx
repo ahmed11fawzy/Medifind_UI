@@ -7,6 +7,10 @@ import { useAddMedicineForm } from '../../customHooks/AddMedicine';
 import { AddBtn } from '../../components/customComponents/Addbtn';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import "../CardPage.css";
+
+import { BASE_URL } from "../../config";
+
 export default function UpdateMedicine() {
   const navigate = useNavigate();
   const goToDonation = () => {
@@ -75,7 +79,7 @@ export default function UpdateMedicine() {
     if (validateForm()) {
       try {
         if (decodedToken) {  // Remove img_path check since it's optional
-          const response = await fetch(`https://medifind-production.up.railway.app/medicine/${_id}`, {
+          const response = await fetch(`${BASE_URL}/medicine/${_id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
