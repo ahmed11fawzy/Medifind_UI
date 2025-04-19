@@ -156,7 +156,7 @@ export const CompleteProfile = () => {
               <input type="text" name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="border-0 w-100" />
             </h5>
             <p className="text-muted">
-              <input type="email" name="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="border-0 w-75 text-muted" />
+              <input type="email" name="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="border-0 w-100 text-muted" />
             </p>
           </div>
         </div>

@@ -115,7 +115,7 @@ console.log("🚀 ~ RequestMedicine ~ userData:", userData)
 
         if (!response.ok) throw new Error("Something went wrong!");
 
-        toast.success("Medicine added successfully", {
+        toast.success("Request added successfully", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,

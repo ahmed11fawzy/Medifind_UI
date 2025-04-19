@@ -53,8 +53,8 @@ export const UpdateRequest = () => {
       try {
         const endpoint =
           url === req_Url
-            ? `${baseUrl}/request/${request_id}`
-            : `${baseUrl}/orders/${request_id}`;
+            ? `${BASE_URL}/request/${request_id}`
+            : `${BASE_URL}/orders/${request_id}`;
 
         const response = await fetch(endpoint, {
           method: "PATCH",
@@ -88,7 +88,7 @@ export const UpdateRequest = () => {
     <>
       <Container style={{ marginTop: "50px" }}>
         <Card className="shadow-sm" style={{ padding: "25px 20px", margin: "50px 0px" }}>
-          <h3 className="text-center mb-4">Request Medicine</h3>
+          <h3 className="text-center mb-4">Update Request</h3>
           <Row>
             <Col md={3} className="d-flex justify-content-center">
               <div
