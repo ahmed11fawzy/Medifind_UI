@@ -14,11 +14,15 @@ import { Loader } from "../../components/customComponents/Loader/Loader";
 
 
 export const UpdateRequest = () => {
+  
   // Provide default empty object if state is undefined
-  const { state = {} } = useLocation();
+  const { state  } = useLocation();
   const { id } = useParams();
   // Fallback: if request_id is not provided via state, try to use the id from the URL
-  const { request_id = id, url } = state; 
+  const { request_id , url ,name ,image } = state; 
+  console.log("Request ID:", request_id);
+  console.log("🚀 ~ UpdateRequest ~ image:", image)
+  console.log("URL:", url);
   const navigate = useNavigate();
   const decodedToken = useDecoded();
   // Check if essential data is available
@@ -133,11 +137,7 @@ export const UpdateRequest = () => {
               >
                 {formData.image ? (
                   <img
-                    src={
-                      typeof formData.image === "string"
-                        ? formData.image
-                        : URL.createObjectURL(formData.image)
-                    }
+                    src={image}
                     alt="Preview"
                     style={{
                       width: "100%",
@@ -171,7 +171,7 @@ export const UpdateRequest = () => {
                   <Form.Control
                     type="text"
                     name="name"
-                    value={formData.name}
+                    value={name}
                     onChange={handleChange}
                     style={{ backgroundColor: request_id ? "#f8f9fa" : "#fff" }}
                     isInvalid={!!errors.name}

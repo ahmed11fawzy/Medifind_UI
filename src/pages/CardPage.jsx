@@ -15,6 +15,7 @@ export const CardPage = () => {
   
   const [requests, setRequests] = useState([]);
   const [orders, setOrders] = useState([]);
+  console.log("🚀 ~ CardPage ~ orders:", orders)
   const [activeTab, setActiveTab] = useState("requests");
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -83,9 +84,9 @@ export const CardPage = () => {
     });
   };
   
-  const goToUpdateRequest = (request_id, url) => {
+  const goToUpdateRequest = (request_id, url , name,image ) => {
     navigate(`/UpdateRequest/${request_id}`, {
-      state: { request_id, requested: true, url },
+      state: { request_id, requested: true, url,name,image },
     });
   };
 
@@ -194,7 +195,7 @@ export const CardPage = () => {
                     examined={order.examined}
                     status={order.status}
                     goToRequestMedicine={() => goToRequestMedicine(order.req_name, order.medicine._id, order._id)}
-                    goToUpdateRequest={() => goToUpdateRequest(order._id, order_Url)}
+                    goToUpdateRequest={() => goToUpdateRequest(order._id, order_Url, order.req_name,order.prescription_img)}
                     isOrder={true}
                   />
                 </Col>

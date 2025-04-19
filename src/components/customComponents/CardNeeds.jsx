@@ -94,7 +94,7 @@ export const CardNeeds = ({
               </button>
             )}
             
-            {!examined && (
+            {!examined && requested && (
               <button 
                 className="needs-action-btn btn-update" 
                 onClick={goToUpdateRequest}
