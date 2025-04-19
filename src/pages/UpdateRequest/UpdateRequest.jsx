@@ -10,6 +10,7 @@ import { useDecoded } from "../../customHooks/useDecode";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCheckCircle } from "react-icons/fa";
 import { BASE_URL } from "../../config";
+import { Loader } from "../../components/customComponents/Loader/Loader";
 
 
 export const UpdateRequest = () => {
@@ -39,6 +40,7 @@ export const UpdateRequest = () => {
   } = useMedicineForm();  
 
   const [showModal, setShowModal] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,9 +77,9 @@ export const UpdateRequest = () => {
           description: "",
           image: null,
         });
-        setTimeout(() => {
+       
           navigate("/need");
-        }, 2000);
+        
       } catch (error) {
         console.error("Submit error:", error);
       }
@@ -86,6 +88,25 @@ export const UpdateRequest = () => {
 
   return (
     <>
+      {isUploading && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            // backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9999,
+
+          }}
+        >
+          <Loader />
+        </div>
+      )}
       <Container style={{ marginTop: "50px" }}>
         <Card className="shadow-sm" style={{ padding: "25px 20px", margin: "50px 0px" }}>
           <h3 className="text-center mb-4">Update Request</h3>
@@ -131,7 +152,12 @@ export const UpdateRequest = () => {
                   type="file"
                   id="fileInput"
                   accept="image/*"
-                  onChange={handleUpload}
+                  onChange={(e) => {
+                    setIsUploading(true);
+                    handleUpload(e).finally(() => {
+                      setIsUploading(false);
+                    });
+                  }}
                   hidden
                 />
               </div>
@@ -181,7 +207,7 @@ export const UpdateRequest = () => {
         </Card>
       </Container>
 
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {showModal && (
           <div
             style={{
@@ -293,7 +319,7 @@ export const UpdateRequest = () => {
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </>
   );
 };
